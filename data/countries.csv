@@ -1,0 +1,193 @@
+country,country_iso_alpha,capital,population,currency,gdp
+Afghanistan,AFG,Kabul,"43,844,111",Afghan Afghani,$64.08 Billion
+Albania,ALB,Tirana,"3,038,594",Albanian Lek,$33.90 Billion
+Algeria,DZA,Algiers,"47,435,312",Algerian Dinar,$247.626 Billion
+Andorra,AND,Andorra la Vella,"85,660",Euro,$3.33 Billion
+Angola,AGO,Luanda,"39,040,039",Angolan Kwanza,$189.00 Billion
+Antigua and Barbuda,ATG,St. John's,"93,581",East Caribbean Dollar,$2.17 Billion
+Argentina,ARG,Buenos Aires,"45,851,378",Argentine Peso,$646.075 Billion
+Armenia,ARM,Yerevan,"3,051,250",Armenian Dram,$26.30 Billion
+Australia,AUS,Canberra,"26,974,000",Australian Dollar,$1.728 Trillion
+Austria,AUT,Vienna,"9,130,429",Euro,$511.685 Billion
+Azerbaijan,AZE,Baku,"9,872,765",Azerbaijani Manat,$166.00 Billion
+Bahamas,BHS,Nassau,"327,316",Bahamian Dollar,$9.07 Billion
+Bahrain,BHR,Manama,"1,378,904",Bahraini Dinar,$66.37 Billion
+Bangladesh,BGD,Dhaka,"175,686,899",Bangladeshi Taka,$437.415 Billion
+Barbados,BRB,Bridgetown,"291,495",Barbadian Dollar,$4.80 Billion
+Belarus,BLR,Minsk,"9,570,376",Belarusian Ruble,$166.00 Billion
+Belgium,BEL,Brussels,"11,409,077",Euro,$644.783 Billion
+Belize,BLZ,Belmopan,"353,858",Belize Dollar,$3.09 Billion
+Benin,BEN,Porto-Novo,"10,741,458",West African CFA Franc,$24.31 Billion
+Bhutan,BTN,Thimphu,"750,125",Bhutanese Ngultrum,$6.43 Billion
+Bolivia,BOL,"La Paz (admin), Sucre (judicial)","10,969,649",Bolivian Boliviano,$78.66 Billion
+Bosnia and Herzegovina,BIH,Sarajevo,"3,861,912",Convertible Mark,$42.53 Billion
+Botswana,BWA,Gaborone,"2,209,208",Botswana Pula,$35.90 Billion
+Brazil,BRA,Brasília,"212,812,405",Brazilian Real,$2.13 Trillion
+Brunei,BRN,Bandar Seri Begawan,"436,620",Brunei Dollar,$33.73 Billion
+Bulgaria,BGR,Sofia,"6,927,358 (2023)",Bulgarian Lev,$101.42 Billion (2023)
+Burkina Faso,BFA,Ouagadougou,"24,074,600",West African CFA Franc,$22.21 Billion (2023)
+Burundi,BDI,Gitega,"13,238,623 (2023)",Burundian Franc,$3.00 Billion (2023)
+Cabo Verde,CPV,Praia,"598,683 (2023)",Cape Verdean Escudo,$2.43 Billion (2023)
+Cambodia,KHM,Phnom Penh,"17,336,307",Cambodian Riel,$30.93 Billion (2023)
+Cameroon,CMR,Yaoundé,"29,879,300",Central African CFA Franc,$43.68 Billion (2023)
+Canada,CAN,Ottawa,"40,126,723",Canadian Dollar,$2.23 Trillion
+Central African Republic,CAF,Bangui,"5,907,310 (2023)",Central African CFA Franc,$2.52 Billion (2023)
+Chad,TCD,N'Djamena,"18,675,547",Central African CFA Franc,$13.56 Billion (2023)
+Chile,CHL,Santiago,"20,206,953",Chilean Peso,$335.533 Billion
+China,CHN,Beijing,"1,416,096,094",Chinese Yuan,$19.23 Trillion
+Colombia,COL,Bogotá,"53,425,635",Colombian Peso,$363.494 Billion
+Comoros,COM,Moroni,"864,250 (2023)",Comorian Franc,$1.37 Billion (2023)
+Congo (Dem. Rep.),COD,Kinshasa,"112,832,473",Congolese Franc,$69.75 Billion (2023)
+Congo (Rep.),COG,Brazzaville,"6,106,666 (2023)",Central African CFA Franc,$16.92 Billion (2023)
+Costa Rica,CRI,San José,"5,231,234 (2023)",Costa Rican Colón,$79.79 Billion (2023)
+Croatia,HRV,Zagreb,"4,008,617 (2023)",Euro (formerly Croatian Kuna),$82.74 Billion (2023)
+Cuba,CUB,Havana,"11,256,372 (2023)",Cuban Peso,$123.23 Billion (2023)
+Cyprus,CYP,Nicosia,"1,260,000 (2023)",Euro,$32.84 Billion (2023)
+Czechia,CZE,Prague,"10,809,716",Czech Koruna,$343.208 Billion
+Côte d'Ivoire,CIV,"Yamoussoukro (official), Abidjan (de facto)","28,160,574 (2023)",West African CFA Franc,$79.80 Billion (2023)
+Denmark,DNK,Copenhagen,"5,948,136",Danish Krone,$407.092 Billion
+Djibouti,DJI,Djibouti City,"1,120,832 (2023)",Djiboutian Franc,$4.36 Billion (2023)
+Dominica,DMA,Roseau,"72,412 (2023)",East Caribbean Dollar,$0.66 Billion (2023)
+Dominican Republic,DOM,Santo Domingo,"11,332,972 (2023)",Dominican Peso,$120.30 Billion (2023)
+Ecuador,ECU,Quito,"18,190,484 (2023)",US Dollar,$121.32 Billion (2023)
+Egypt,EGY,Cairo,"118,365,995",Egyptian Pound,$396.002 Billion
+El Salvador,SLV,San Salvador,"6,364,000 (2023)","US Dollar, Salvadoran Colón",$33.56 Billion (2023)
+Equatorial Guinea,GNQ,Malabo,"1,716,778 (2023)",Central African CFA Franc,$12.01 Billion (2023)
+Eritrea,ERI,Asmara,"3,748,930 (2023)",Eritrean Nakfa,$2.14 Billion (2023)
+Estonia,EST,Tallinn,"1,357,985 (2023)",Euro,$40.89 Billion (2023)
+Eswatini,SWZ,"Mbabane (admin), Lobamba (royal/legislative)","1,226,938 (2023)",Swazi Lilangeni,$4.85 Billion (2023)
+Ethiopia,ETH,Addis Ababa,"135,472,051",Ethiopian Birr,$155.77 Billion (2023)
+Fiji,FJI,Suva,"936,368 (2023)",Fiji Dollar,$5.49 Billion (2023)
+Finland,FIN,Helsinki,"5,601,185",Euro,$295.532 Billion
+France,FRA,Paris,"66,650,804",Euro,$3.21 Trillion
+Gabon,GAB,Libreville,"2,436,569 (2023)",Central African CFA Franc,$22.61 Billion (2023)
+Gambia,GMB,Banjul,"2,773,124 (2023)",Gambian Dalasi,$2.69 Billion (2023)
+Georgia,GEO,Tbilisi,"3,728,260 (2023)",Georgian Lari,$30.07 Billion (2023)
+Germany,DEU,Berlin,"84,075,075",Euro,$4.74 Trillion
+Ghana,GHA,Accra,"35,064,300",Ghanaian Cedi,$74.77 Billion (2023)
+Greece,GRC,Athens,"10,242,908",Euro,$243.498 Billion
+Grenada,GRD,St. George's,"126,147 (2023)",East Caribbean Dollar,$1.28 Billion (2023)
+Guatemala,GTM,Guatemala City,"17,843,132",Guatemalan Quetzal,$104.91 Billion (2023)
+Guinea,GIN,Conakry,"14,190,612 (2023)",Guinean Franc,$21.57 Billion (2023)
+Guinea-Bissau,GNB,Bissau,"2,150,000 (2023)",West African CFA Franc,$2.03 Billion (2023)
+Guyana,GUY,Georgetown,"813,000 (2023)",Guyanese Dollar,$16.71 Billion (2023)
+Haiti,HTI,Port-au-Prince,"11,724,303 (2023)",Haitian Gourde,$16.48 Billion (2023)
+Honduras,HND,Tegucigalpa,"10,593,254 (2023)",Honduran Lempira,$36.70 Billion (2023)
+Hungary,HUN,Budapest,"9,686,463",Hungarian Forint,$212.389 Billion
+Iceland,ISL,Reykjavik,"376,000 (2023)",Icelandic Króna,$33.56 Billion (2023)
+India,IND,New Delhi,"1,463,865,525",Indian Rupee,$4.19 Trillion
+Indonesia,IDN,Jakarta,"285,721,236",Indonesian Rupiah,$1.371 Trillion
+Iran,IRN,Tehran,"92,417,681",Iranian Rial,$404.626 Billion
+Iraq,IRQ,Baghdad,"47,020,774",Iraqi Dinar,$250.843 Billion
+Ireland,IRL,Dublin,"5,196,630",Euro,$551.395 Billion
+Israel,ISR,Jerusalem,"9,256,314",Israeli New Shekel,$513.611 Billion
+Italy,ITA,Rome,"59,146,260",Euro,$2.42 Trillion
+Jamaica,JAM,Kingston,"2,827,000 (2023)",Jamaican Dollar,$18.59 Billion (2023)
+Japan,JPN,Tokyo,"123,103,479",Japanese Yen,$4.19 Trillion
+Jordan,JOR,Amman,"11,363,227 (2023)",Jordanian Dinar,$52.79 Billion (2023)
+Kazakhstan,KAZ,Astana,"20,330,104",Kazakhstani Tenge,$262.642 Billion
+Kenya,KEN,Nairobi,"57,532,493",Kenyan Shilling,$120.36 Billion (2023)
+Kiribati,KIR,South Tarawa,"133,000 (2023)",Australian Dollar,$0.27 Billion (2023)
+North Korea,PRK,Pyongyang,"26,571,000",North Korean Won,No reliable data available
+South Korea,KOR,Seoul,"51,667,029",South Korean Won,$1.713 Trillion
+Kuwait,KWT,Kuwait City,"4,310,000 (2023)",Kuwaiti Dinar,$175.76 Billion (2023)
+Kyrgyzstan,KGZ,Bishkek,"7,000,000 (2023)",Kyrgyzstani Som,$13.74 Billion (2023)
+Laos,LAO,Vientiane,"7,720,000 (2023)",Lao Kip,$15.72 Billion (2023)
+Latvia,LVA,Riga,"1,880,000 (2023)",Euro,$45.69 Billion (2023)
+Lebanon,LBN,Beirut,"5,350,000 (2023)",Lebanese Pound,$17.65 Billion (2023)
+Lesotho,LSO,Maseru,"2,330,000 (2023)",Lesotho Loti,$2.75 Billion (2023)
+Liberia,LBR,Monrovia,"5,490,000 (2023)",Liberian Dollar,$4.38 Billion (2023)
+Libya,LBY,Tripoli,"6,940,000 (2023)",Libyan Dinar,$43.90 Billion (2023)
+Liechtenstein,LIE,Vaduz,"39,000 (2023)",Swiss Franc,$7.3 Billion (2023)
+Lithuania,LTU,Vilnius,"2,860,000 (2023)",Euro,$80.20 Billion (2023)
+Luxembourg,LUX,Luxembourg City,"660,000 (2023)",Euro,$89.04 Billion (2023)
+Madagascar,MDG,Antananarivo,"32,740,700",Malagasy Ariary,$15.22 Billion (2023)
+Malawi,MWI,Lilongwe,"22,216,100",Malawian Kwacha,$14.15 Billion (2023)
+Malaysia,MYS,Kuala Lumpur,"35,977,800",Malaysian Ringgit,$399.705 Billion
+Maldives,MDV,Malé,"570,000 (2023)",Maldivian Rufiyaa,$7.67 Billion (2023)
+Mali,MLI,Bamako,"25,198,800",West African CFA Franc,$20.67 Billion (2023)
+Malta,MLT,Valletta,"530,000 (2023)",Euro,$20.91 Billion (2023)
+Mauritania,MRT,Nouakchott,"4,960,000 (2023)",Mauritanian Ouguiya,$10.07 Billion (2023)
+Mauritius,MUS,Port Louis,"1,290,000 (2023)",Mauritian Rupee,$15.00 Billion (2023)
+Mexico,MEX,Mexico City,"131,946,900",Mexican Peso,$1.789 Trillion
+Micronesia,FSM,Palikir,"106,000 (2023)",US Dollar,$0.46 Billion (2023)
+Moldova,MDA,Chișinău,"2,520,000 (2023)",Moldovan Leu,$15.65 Billion (2023)
+Monaco,MCO,Monaco,"39,000 (2023)",Euro,$8.3 Billion (2023)
+Mongolia,MNG,Ulaanbaatar,"3,490,000 (2023)",Mongolian Tögrög,$21.57 Billion (2023)
+Montenegro,MNE,Podgorica,"620,000 (2023)",Euro,$7.64 Billion (2023)
+Morocco,MAR,Rabat,"38,430,800",Moroccan Dirham,$147.38 Billion (2023)
+Mozambique,MOZ,Maputo,"35,631,700",Mozambican Metical,$22.09 Billion (2023)
+Myanmar,MMR,Naypyidaw,"54,850,648",Myanmar Kyat,$74.84 Billion (2023)
+Namibia,NAM,Windhoek,"2,630,000 (2023)",Namibian Dollar,$12.87 Billion (2023)
+Nauru,NRU,Yaren (de facto),"12,000 (2023)",Australian Dollar,$0.15 Billion (2023)
+Nepal,NPL,Kathmandu,"29,618,100",Nepalese Rupee,$41.38 Billion (2023)
+Netherlands,NLD,Amsterdam,"18,092,524",Euro,$1.154 Trillion
+New Zealand,NZL,Wellington,"5,172,836",New Zealand Dollar,$252.176 Billion
+Nicaragua,NIC,Managua,"7,000,000 (2023)",Nicaraguan Córdoba,$17.65 Billion (2023)
+Niger,NER,Niamey,"27,917,800",West African CFA Franc,$17.20 Billion (2023)
+Nigeria,NGA,Abuja,"237,527,782",Nigerian Naira,$363.846 Billion
+North Macedonia,MKD,Skopje,"2,050,000 (2023)",Macedonian Denar,$15.54 Billion (2023)
+Norway,NOR,Oslo,"5,519,167",Norwegian Krone,$485.311 Billion
+Oman,OMN,Muscat,"4,680,000 (2023)",Omani Rial,$108.97 Billion (2023)
+Pakistan,PAK,Islamabad,"255,219,554",Pakistani Rupee,$337.912 Billion
+Palau,PLW,Ngerulmud,"18,000 (2023)",US Dollar,$0.32 Billion (2023)
+Panama,PAN,Panama City,"4,460,000 (2023)","Panamanian Balboa, US Dollar",$82.26 Billion (2023)
+Papua New Guinea,PNG,Port Moresby,"10,142,000 (2023)",Papua New Guinean Kina,$31.06 Billion (2023)
+Paraguay,PRY,Asunción,"6,940,000 (2023)",Paraguayan Guaraní,$49.00 Billion (2023)
+Peru,PER,Lima,"34,576,700",Peruvian Sol,$267.603 Billion
+Philippines,PHL,Manila,"116,786,962",Philippine Peso,$437.146 Billion
+Poland,POL,Warsaw,"38,140,900",Polish Złoty,$809.201 Billion
+Portugal,PRT,Lisbon,"10,430,738",Euro,$289.114 Billion
+Qatar,QAT,Doha,"2,979,082",Qatari Riyal,$213.003 Billion
+Romania,ROU,Bucharest,"19,118,479",Romanian Leu,$350.776 Billion
+Russia,RUS,Moscow,"143,997,393",Russian Ruble,$2.021 Trillion
+Rwanda,RWA,Kigali,"13,970,000 (2023)",Rwandan Franc,$13.98 Billion (2023)
+Saint Kitts and Nevis,KNA,Basseterre,"47,606 (2023)",East Caribbean Dollar,$1.15 Billion (2023)
+Saint Lucia,LCA,Castries,"180,000 (2023)",East Caribbean Dollar,$2.49 Billion (2023)
+Saint Vincent and the Grenadines,VCT,Kingstown,"103,000 (2023)",East Caribbean Dollar,$1.04 Billion (2023)
+Samoa,WSM,Apia,"220,000 (2023)",Samoan Tala,$1.00 Billion (2023)
+San Marino,SMR,San Marino,"34,000 (2023)",Euro,$1.86 Billion (2023)
+Sao Tome and Principe,STP,São Tomé,"230,000 (2023)",São Tomé and Príncipe Dobra,$0.62 Billion (2023)
+Saudi Arabia,SAU,Riyadh,"34,566,300",Saudi Riyal,$1.068 Trillion
+Senegal,SEN,Dakar,"17,900,000 (2023)",West African CFA Franc,$30.01 Billion (2023)
+Serbia,SRB,Belgrade,"7,149,077 (2023)",Serbian Dinar,$74.45 Billion (2023)
+Sierra Leone,SLE,Freetown,"8,600,000 (2023)",Sierra Leonean Leone,$4.27 Billion (2023)
+Singapore,SGP,Singapore,"5,789,090",Singapore Dollar,$501.428 Billion
+Slovakia,SVK,Bratislava,"5,450,000 (2023)",Euro,$134.61 Billion (2023)
+Slovenia,SVN,Ljubljana,"2,110,000 (2023)",Euro,$69.75 Billion (2023)
+Solomon Islands,SLB,Honiara,"740,000 (2023)",Solomon Islands Dollar,$1.73 Billion (2023)
+Somalia,SOM,Mogadishu,"19,009,151",Somali Shilling,$13.11 Billion (2023)
+South Africa,ZAF,"Pretoria (exec), Cape Town (leg), Bloemfontein (jud)","64,747,319",South African Rand,$380.699 Billion
+South Sudan,SSD,Juba,"11,000,000 (2023)",South Sudanese Pound,$3.5 Billion (2023)
+Spain,ESP,Madrid,"47,889,958",Euro,$1.62 Trillion
+Sri Lanka,LKA,"Sri Jayawardenepura Kotte (leg), Colombo (exec/jud)","23,229,500",Sri Lankan Rupee,$78.02 Billion (2023)
+Sudan,SDN,Khartoum,"51,662,147",Sudanese Pound,$51.78 Billion (2023)
+Suriname,SUR,Paramaribo,"630,000 (2023)",Surinamese Dollar,$3.78 Billion (2023)
+Sweden,SWE,Stockholm,"10,551,494",Swedish Krona,$584.960 Billion
+Switzerland,CHE,Bern,"8,870,561",Swiss Franc,$884.940 Billion
+Syria,SYR,Damascus,"25,620,400",Syrian Pound,No reliable data available
+Taiwan,TWN,Taipei,"23,112,800",New Taiwan Dollar,$760.00 Billion (2023)
+Tajikistan,TJK,Dushanbe,"10,150,000 (2023)",Tajikistani Somoni,$12.30 Billion (2023)
+Tanzania,TZA,Dodoma,"70,545,865",Tanzanian Shilling,$84.02 Billion (2023)
+Thailand,THA,Bangkok,"71,619,863",Thai Baht,$514.969 Billion
+Timor-Leste,TLS,Dili,"1,370,000 (2023)",US Dollar,$3.24 Billion (2023)
+Togo,TGO,Lomé,"9,200,000 (2023)",West African CFA Franc,$9.37 Billion (2023)
+Tonga,TON,Nukuʻalofa,"108,000 (2023)",Tongan Paʻanga,$0.62 Billion (2023)
+Trinidad and Tobago,TTO,Port of Spain,"1,540,000 (2023)",Trinidad and Tobago Dollar,$28.32 Billion (2023)
+Tunisia,TUN,Tunis,"12,160,000 (2023)",Tunisian Dinar,$49.33 Billion (2023)
+Turkey,TUR,Ankara,"87,685,426",Turkish Lira,$1.118 Trillion
+Turkmenistan,TKM,Ashgabat,"6,520,000 (2023)",Turkmenistan Manat,$81.71 Billion (2023)
+Tuvalu,TUV,Funafuti,"11,000 (2023)",Australian Dollar,$0.06 Billion (2023)
+Uganda,UGA,Kampala,"51,384,894",Ugandan Shilling,$52.79 Billion (2023)
+Ukraine,UKR,Kyiv,"38,980,400",Ukrainian Hryvnia,$175.76 Billion (2023)
+United Arab Emirates,ARE,Abu Dhabi,"10,642,081",UAE Dirham,$514.130 Billion
+United Kingdom,GBR,London,"69,551,332",British Pound,$3.84 Trillion
+United States,USA,Washington D.C.,"347,275,807",US Dollar,$30.51 Trillion
+Uruguay,URY,Montevideo,"3,420,000 (2023)",Uruguayan Peso,$78.07 Billion (2023)
+Uzbekistan,UZB,Tashkent,"37,053,400",Uzbekistani Som,$91.31 Billion (2023)
+Vanuatu,VUT,Port Vila,"330,000 (2023)",Vanuatu Vatu,$1.13 Billion (2023)
+Venezuela,VEN,Caracas,"28,516,900",Venezuelan Bolívar,No reliable data available
+Vietnam,VNM,Hanoi,"101,598,527",Vietnamese Đồng,$429.717 Billion
+Yemen,YEM,"Sana'a (de jure), Aden (de facto)","41,773,878",Yemeni Rial,$21.05 Billion (2023)
+Zambia,ZMB,Lusaka,"20,560,000 (2023)",Zambian Kwacha,$35.34 Billion (2023)
+Zimbabwe,ZWE,Harare,"16,600,000 (2023)",Zimbabwe Dollar (multi-currency system),$31.81 Billion (2023)
