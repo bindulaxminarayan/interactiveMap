@@ -186,14 +186,20 @@ def create_data_table(sort_order='none'):
         df_display = df_display.sort_values('gdp_numeric', ascending=False)
         title = "Countries by GDP (High to Low)"
     else:
-        title = "Countries (No Sorting)"
+        title = "Countries with GDP and Currency(No Sorting)"
     
     # Select and format columns for display
     df_display = df_display[['country', 'gdp', 'capital', 'currency']].head(10)
     
+    # Create appropriate subtitle based on sorting
+    if sort_order == 'none':
+        subtitle = "10 Countries by GDP:"
+    else:
+        subtitle = "Top 10 countries:"
+    
     return html.Div([
         html.H4(title, style={'textAlign': 'center', 'marginBottom': '10px'}),
-        html.P("Top 10 countries:", style={'textAlign': 'center', 'fontSize': '12px', 'marginBottom': '10px'}),
+        html.P(subtitle, style={'textAlign': 'center', 'fontSize': '12px', 'marginBottom': '10px'}),
         html.Table([
             html.Thead([
                 html.Tr([
