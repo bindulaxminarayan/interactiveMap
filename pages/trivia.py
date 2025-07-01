@@ -159,6 +159,19 @@ def get_trivia_layout():
                 # Hidden storage for current question
                 dcc.Store(id='current-question-store', data={'index': 0, 'score': 0}),
                 
+                # Hidden restart buttons that callbacks need to reference
+                html.Div([
+                    html.Button("Restart Currency", id="restart-currency-quiz-result", style={'display': 'none'}),
+                    html.Button("Restart Capital", id="restart-capital-quiz-result", style={'display': 'none'}),
+                    html.Button("Next Question", id='next-btn', style={'display': 'none'}),
+                    html.Button("Quit Quiz", id='quit-quiz-btn', style={'display': 'none'}),
+                    html.Button("Back to Selection", id="back-to-selection", style={'display': 'none'}),
+                    html.Button("", id='answer-btn-0', style={'display': 'none'}),
+                    html.Button("", id='answer-btn-1', style={'display': 'none'}),
+                    html.Button("", id='answer-btn-2', style={'display': 'none'}),
+                    html.Button("", id='answer-btn-3', style={'display': 'none'}),
+                ], style={'display': 'none'}),
+                
                 # Hidden trigger for button clicks
                 html.Div(id='hidden-trigger', style={'display': 'none'}),
                 
@@ -334,7 +347,7 @@ def create_question_layout(question_data, question_index, total_questions, selec
 def register_trivia_callbacks(app):
     """Register callbacks for the trivia page."""
     
-    # Callback for starting quizzes - handles side panel hiding and progress bar
+    # Callback for starting quizzes from side panel
     @app.callback(
         Output('question-container', 'children'),
         Output('current-question-store', 'data'),
@@ -352,11 +365,71 @@ def register_trivia_callbacks(app):
             raise dash.exceptions.PreventUpdate
         
         triggered_id = ctx.triggered[0]['prop_id'].split('.')[0]
+        triggered_value = ctx.triggered[0]['value']
         
-        if triggered_id == 'start-currency-quiz' and currency_clicks:
+        # Only process if button was actually clicked (n_clicks > 0)
+        if not triggered_value or triggered_value == 0:
+            raise dash.exceptions.PreventUpdate
+        
+        if triggered_id == 'start-currency-quiz':
             questions = get_quiz_questions('currency', df, 10)
             quiz_type = 'currency'
-        elif triggered_id == 'start-capital-quiz' and capital_clicks:
+        elif triggered_id == 'start-capital-quiz':
+            questions = get_quiz_questions('capital', df, 10)
+            quiz_type = 'capital'
+        else:
+            raise dash.exceptions.PreventUpdate
+        
+        question_data = questions[0]
+        new_data = {
+            'index': 0, 
+            'score': 0, 
+            'questions': questions,
+            'answered': False,
+            'quiz_type': quiz_type
+        }
+        
+        # Hide side panel during quiz
+        side_panel_style = {'display': 'none'}
+        
+        # Show progress bar
+        progress_bar = create_progress_bar(0, len(questions))
+        progress_style = {'display': 'block'}
+        
+        return (create_question_layout(question_data, 0, len(questions)), 
+                new_data, 
+                side_panel_style, 
+                progress_bar, 
+                progress_style)
+    
+    # Separate callback for restart buttons from results screen
+    @app.callback(
+        Output('question-container', 'children', allow_duplicate=True),
+        Output('current-question-store', 'data', allow_duplicate=True),
+        Output('side-panel', 'style', allow_duplicate=True),
+        Output('progress-container', 'children', allow_duplicate=True),
+        Output('progress-container', 'style', allow_duplicate=True),
+        [Input('restart-currency-quiz-result', 'n_clicks'),
+         Input('restart-capital-quiz-result', 'n_clicks')],
+        State('current-question-store', 'data'),
+        prevent_initial_call=True
+    )
+    def restart_quiz_from_results(restart_currency_clicks, restart_capital_clicks, current_data):
+        ctx = callback_context
+        if not ctx.triggered:
+            raise dash.exceptions.PreventUpdate
+        
+        triggered_id = ctx.triggered[0]['prop_id'].split('.')[0]
+        triggered_value = ctx.triggered[0]['value']
+        
+        # Only process if button was actually clicked (n_clicks > 0)
+        if not triggered_value or triggered_value == 0:
+            raise dash.exceptions.PreventUpdate
+        
+        if triggered_id == 'restart-currency-quiz-result':
+            questions = get_quiz_questions('currency', df, 10)
+            quiz_type = 'currency'
+        elif triggered_id == 'restart-capital-quiz-result':
             questions = get_quiz_questions('capital', df, 10)
             quiz_type = 'capital'
         else:
@@ -485,7 +558,7 @@ def register_trivia_callbacks(app):
                     ], style={'backgroundColor': '#f8f9fa', 'padding': '30px', 'borderRadius': '10px', 'margin': '20px 0'}),
                     html.Div([
                         html.Button(f"Start New {quiz_type.title()} Quiz", 
-                                   id=f"start-{quiz_type}-quiz", 
+                                   id=f"restart-{quiz_type}-quiz-result", 
                                    style={'padding': '15px 30px', 'fontSize': '16px', 
                                           'backgroundColor': '#28a745', 'color': 'white', 
                                           'border': 'none', 'borderRadius': '5px', 'cursor': 'pointer',
@@ -549,7 +622,7 @@ def register_trivia_callbacks(app):
                     ], style={'backgroundColor': '#f8f9fa', 'padding': '30px', 'borderRadius': '10px', 'margin': '20px 0'}),
                     html.Div([
                         html.Button(f"Start New {quiz_type.title()} Quiz", 
-                                   id=f"start-{quiz_type}-quiz", 
+                                   id=f"restart-{quiz_type}-quiz-result", 
                                    style={'padding': '15px 30px', 'fontSize': '16px', 
                                           'backgroundColor': '#28a745', 'color': 'white', 
                                           'border': 'none', 'borderRadius': '5px', 'cursor': 'pointer',
