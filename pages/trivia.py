@@ -7,90 +7,248 @@ import dash.exceptions
 import random
 import json
 from utils.data_processing import load_countries_data
+from utils.quiz_generators import get_quiz_questions
 
 # Load the data for trivia questions
 df = load_countries_data()
 
-def generate_quiz_questions(num_questions=10):
-    """Generate random country-currency questions."""
-    # Filter out countries with missing or invalid currency data
-    valid_countries = df[
-        (df['currency'].notna()) & 
-        (df['currency'] != '') & 
-        (df['currency'] != 'No reliable data available')
-    ].copy()
-    
-    if len(valid_countries) < num_questions:
-        num_questions = len(valid_countries)
-    
-    # Select random countries for questions
-    selected_countries = valid_countries.sample(n=num_questions)
-    questions = []
-    
-    for _, country_row in selected_countries.iterrows():
-        correct_country = country_row['country']
-        correct_currency = country_row['currency']
+def create_side_panel():
+    """Create the side panel with quiz categories."""
+    return html.Div([
+        html.H3("Quiz Categories", style={
+            'textAlign': 'center', 
+            'marginBottom': '20px',
+            'color': '#333',
+            'borderBottom': '2px solid #007bff',
+            'paddingBottom': '10px'
+        }),
         
-        # Generate 3 wrong currency options
-        other_currencies = valid_countries[
-            (valid_countries['country'] != correct_country) & 
-            (valid_countries['currency'] != correct_currency)
-        ]['currency'].unique()
+        # Currencies Section
+        html.Div([
+            html.H4("💰 Currencies", style={
+                'backgroundColor': '#f8f9fa',
+                'padding': '15px',
+                'margin': '0 0 10px 0',
+                'borderRadius': '8px',
+                'cursor': 'pointer',
+                'border': '2px solid #007bff',
+                'color': '#007bff',
+                'fontWeight': 'bold'
+            }),
+            html.Div([
+                html.P("Test your knowledge of world currencies!", 
+                       style={'margin': '10px 0', 'fontSize': '14px', 'color': '#666'}),
+                html.Button("Start Currency Quiz", 
+                           id="start-currency-quiz", 
+                           style={
+                               'width': '100%',
+                               'padding': '10px',
+                               'backgroundColor': '#28a745',
+                               'color': 'white',
+                               'border': 'none',
+                               'borderRadius': '5px',
+                               'cursor': 'pointer',
+                               'fontSize': '14px',
+                               'fontWeight': 'bold'
+                           })
+            ], style={'padding': '0 15px 15px 15px'})
+        ], style={'marginBottom': '15px'}),
         
-        if len(other_currencies) >= 3:
-            wrong_currencies = random.sample(list(other_currencies), 3)
-        else:
-            # If not enough unique currencies, use what we have and pad with generic ones
-            wrong_currencies = list(other_currencies)
-            generic_currencies = ['Dollar', 'Euro', 'Pound', 'Franc', 'Peso', 'Real', 'Rupiah']
-            for currency in generic_currencies:
-                if len(wrong_currencies) < 3 and currency != correct_currency:
-                    wrong_currencies.append(currency)
-                if len(wrong_currencies) >= 3:
-                    break
+        # Capitals Section
+        html.Div([
+            html.H4("🏛️ Capital Cities", style={
+                'backgroundColor': '#f8f9fa',
+                'padding': '15px',
+                'margin': '0 0 10px 0',
+                'borderRadius': '8px',
+                'cursor': 'pointer',
+                'border': '2px solid #007bff',
+                'color': '#007bff',
+                'fontWeight': 'bold'
+            }),
+            html.Div([
+                html.P("Match countries with their capitals!", 
+                       style={'margin': '10px 0', 'fontSize': '14px', 'color': '#666'}),
+                html.Button("Start Capital Quiz", 
+                           id="start-capital-quiz", 
+                           style={
+                               'width': '100%',
+                               'padding': '10px',
+                               'backgroundColor': '#28a745',
+                               'color': 'white',
+                               'border': 'none',
+                               'borderRadius': '5px',
+                               'cursor': 'pointer',
+                               'fontSize': '14px',
+                               'fontWeight': 'bold'
+                           })
+            ], style={'padding': '0 15px 15px 15px'})
+        ], style={'marginBottom': '15px'}),
         
-        # Create options list with correct answer at random position
-        options = wrong_currencies[:3] + [correct_currency]
-        random.shuffle(options)
-        correct_index = options.index(correct_currency)
+        # Future Quiz Categories (Coming Soon)
+        html.Div([
+            html.H4("🗺️ Locate Countries", style={
+                'backgroundColor': '#f8f9fa',
+                'padding': '15px',
+                'margin': '0 0 10px 0',
+                'borderRadius': '8px',
+                'border': '2px solid #dee2e6',
+                'color': '#6c757d',
+                'fontWeight': 'bold',
+                'opacity': '0.7'
+            }),
+            html.Div([
+                html.P("Find countries on the map!", 
+                       style={'margin': '10px 0', 'fontSize': '14px', 'color': '#999'}),
+                html.Button("Coming Soon", 
+                           disabled=True,
+                           style={
+                               'width': '100%',
+                               'padding': '10px',
+                               'backgroundColor': '#6c757d',
+                               'color': 'white',
+                               'border': 'none',
+                               'borderRadius': '5px',
+                               'cursor': 'not-allowed',
+                               'fontSize': '14px',
+                               'opacity': '0.6'
+                           })
+            ], style={'padding': '0 15px 15px 15px'})
+        ])
         
-        question = {
-            "question": f"What is the currency of {correct_country}?",
-            "options": options,
-            "correct": correct_index,
-            "explanation": f"The currency of {correct_country} is {correct_currency}."
-        }
-        questions.append(question)
-    
-    return questions
+    ], style={
+        'width': '280px',
+        'padding': '20px',
+        'backgroundColor': '#ffffff',
+        'borderRadius': '10px',
+        'border': '1px solid #dee2e6',
+        'boxShadow': '0 2px 4px rgba(0,0,0,0.1)',
+        'height': 'fit-content'
+    })
 
 def get_trivia_layout():
-    """Get the layout for the trivia page."""
+    """Get the layout for the trivia page with side panel."""
     return html.Div([
         html.H1("Country Trivia", style={'textAlign': 'center', 'marginBottom': '30px'}),
-        html.P("Test your knowledge about countries around the world!", 
-               style={'textAlign': 'center', 'marginBottom': '30px', 'fontSize': '18px'}),
         
-        # Question container
-        html.Div(id="question-container", children=[
+        # Main content area with side panel and quiz area
+        html.Div([
+            # Side Panel (conditionally displayed)
             html.Div([
-                html.Button("Start Quiz", id="start-quiz-btn", 
-                           style={'padding': '15px 30px', 'fontSize': '18px', 
-                                  'backgroundColor': '#007bff', 'color': 'white', 
-                                  'border': 'none', 'borderRadius': '5px', 'cursor': 'pointer'})
-            ], style={'textAlign': 'center'})
-        ]),
-        
-        # Hidden storage for current question
-        dcc.Store(id='current-question-store', data={'index': 0, 'score': 0}),
-        
-        # Hidden trigger for button clicks
-        html.Div(id='hidden-trigger', style={'display': 'none'}),
-        
-        # Results area
-        html.Div(id="results-area", style={'marginTop': '30px'}),
-        
-    ], style={'maxWidth': '800px', 'margin': '0 auto', 'padding': '20px'})
+                create_side_panel()
+            ], id="side-panel", style={
+                'width': '300px',
+                'marginRight': '30px',
+                'flexShrink': '0'
+            }),
+            
+            # Quiz Content Area
+            html.Div([
+                # Progress bar container (initially hidden)
+                html.Div(id="progress-container", children=[], style={'display': 'none'}),
+                
+                html.Div(id="question-container", children=[
+                    html.Div([
+                        html.H2("Welcome to Country Trivia! 🌍", 
+                               style={'textAlign': 'center', 'color': '#007bff', 'marginBottom': '20px'}),
+                        html.P("Select a quiz category from the panel on the left to get started!", 
+                               style={'textAlign': 'center', 'fontSize': '18px', 'color': '#666'})
+                    ], style={'textAlign': 'center', 'padding': '60px 20px'})
+                ]),
+                
+                # Hidden storage for current question
+                dcc.Store(id='current-question-store', data={'index': 0, 'score': 0}),
+                
+                # Hidden trigger for button clicks
+                html.Div(id='hidden-trigger', style={'display': 'none'}),
+                
+                # Results area
+                html.Div(id="results-area", style={'marginTop': '30px'}),
+                
+            ], style={
+                'flex': '1',
+                'backgroundColor': '#ffffff',
+                'borderRadius': '10px',
+                'border': '1px solid #dee2e6',
+                'boxShadow': '0 2px 4px rgba(0,0,0,0.1)',
+                'minHeight': '500px'
+            })
+            
+        ], id="main-content", style={
+            'display': 'flex',
+            'maxWidth': '1200px',
+            'margin': '0 auto',
+            'padding': '20px'
+        })
+    ])
+
+def create_progress_bar(current_question, total_questions, show_next_button=False):
+    """Create a progress bar showing quiz progress."""
+    progress_percentage = ((current_question + 1) / total_questions) * 100
+    remaining_questions = total_questions - (current_question + 1)
+    
+    return html.Div([
+        html.Div([
+            html.Div([
+                html.Span(f"Question {current_question + 1} of {total_questions}", 
+                         style={'fontWeight': 'bold', 'color': '#007bff'}),
+                html.Span(f"{remaining_questions} questions remaining", 
+                         style={'color': '#6c757d', 'fontSize': '14px'})
+            ], style={'display': 'flex', 'justifyContent': 'space-between', 'marginBottom': '10px'}),
+            
+            # Progress bar container
+            html.Div([
+                html.Div(
+                    style={
+                        'width': f'{progress_percentage}%',
+                        'height': '10px',
+                        'backgroundColor': '#28a745',
+                        'borderRadius': '5px',
+                        'transition': 'width 0.3s ease'
+                    }
+                )
+            ], style={
+                'width': '100%',
+                'height': '10px',
+                'backgroundColor': '#e9ecef',
+                'borderRadius': '5px',
+                'overflow': 'hidden'
+            }),
+            
+            # Buttons container
+            html.Div([
+                html.Button("Next Question", id='next-btn', 
+                           style={
+                               'padding': '8px 16px', 
+                               'fontSize': '14px',
+                               'backgroundColor': '#28a745', 
+                               'color': 'white',
+                               'border': 'none', 
+                               'borderRadius': '5px', 
+                               'cursor': 'pointer',
+                               'marginTop': '10px',
+                               'marginRight': '10px'
+                           } if show_next_button else {'display': 'none'}),
+                html.Button("Quit Quiz", id='quit-quiz-btn', 
+                           style={
+                               'padding': '8px 16px', 
+                               'fontSize': '14px',
+                               'backgroundColor': '#dc3545', 
+                               'color': 'white',
+                               'border': 'none', 
+                               'borderRadius': '5px', 
+                               'cursor': 'pointer',
+                               'marginTop': '10px'
+                           })
+            ], style={'textAlign': 'right'})
+        ])
+    ], style={
+        'padding': '20px',
+        'backgroundColor': '#f8f9fa',
+        'borderRadius': '8px',
+        'marginBottom': '20px',
+        'border': '1px solid #dee2e6'
+    })
 
 def create_question_layout(question_data, question_index, total_questions, selected_answer=None, is_answered=False):
     """Create layout for a single question."""
@@ -165,52 +323,72 @@ def create_question_layout(question_data, question_index, total_questions, selec
         answer_buttons.append(button)
     
     return html.Div([
-        html.H3(f"Question {question_index + 1} of {total_questions}", 
-                style={'textAlign': 'center', 'color': '#007bff'}),
         html.H4(question_data['question'], 
                 style={'marginBottom': '20px', 'textAlign': 'center'}),
         
         html.Div(answer_buttons),
         
-        html.Div(id="question-feedback", style={'marginTop': '20px'}),
-        
-        html.Div([
-            html.Button("Next Question", id='next-btn', 
-                       style={'padding': '10px 20px', 'fontSize': '16px',
-                              'backgroundColor': '#28a745', 'color': 'white',
-                              'border': 'none', 'borderRadius': '5px', 
-                              'cursor': 'pointer', 'display': 'block' if is_answered else 'none'})
-        ], style={'textAlign': 'center', 'marginTop': '20px'})
+        html.Div(id="question-feedback", style={'marginTop': '20px'})
     ])
 
 def register_trivia_callbacks(app):
     """Register callbacks for the trivia page."""
     
-    # Callback for starting the quiz
+    # Callback for starting quizzes - handles side panel hiding and progress bar
     @app.callback(
         Output('question-container', 'children'),
         Output('current-question-store', 'data'),
-        Input('start-quiz-btn', 'n_clicks'),
+        Output('side-panel', 'style'),
+        Output('progress-container', 'children'),
+        Output('progress-container', 'style'),
+        [Input('start-currency-quiz', 'n_clicks'),
+         Input('start-capital-quiz', 'n_clicks')],
         State('current-question-store', 'data'),
         prevent_initial_call=True
     )
-    def start_quiz(n_clicks, current_data):
-        if n_clicks:
-            questions = generate_quiz_questions(10)
-            question_data = questions[0]
-            new_data = {
-                'index': 0, 
-                'score': 0, 
-                'questions': questions,
-                'answered': False
-            }
-            return create_question_layout(question_data, 0, len(questions)), new_data
-        raise dash.exceptions.PreventUpdate
+    def start_quiz(currency_clicks, capital_clicks, current_data):
+        ctx = callback_context
+        if not ctx.triggered:
+            raise dash.exceptions.PreventUpdate
+        
+        triggered_id = ctx.triggered[0]['prop_id'].split('.')[0]
+        
+        if triggered_id == 'start-currency-quiz' and currency_clicks:
+            questions = get_quiz_questions('currency', df, 10)
+            quiz_type = 'currency'
+        elif triggered_id == 'start-capital-quiz' and capital_clicks:
+            questions = get_quiz_questions('capital', df, 10)
+            quiz_type = 'capital'
+        else:
+            raise dash.exceptions.PreventUpdate
+        
+        question_data = questions[0]
+        new_data = {
+            'index': 0, 
+            'score': 0, 
+            'questions': questions,
+            'answered': False,
+            'quiz_type': quiz_type
+        }
+        
+        # Hide side panel during quiz
+        side_panel_style = {'display': 'none'}
+        
+        # Show progress bar
+        progress_bar = create_progress_bar(0, len(questions))
+        progress_style = {'display': 'block'}
+        
+        return (create_question_layout(question_data, 0, len(questions)), 
+                new_data, 
+                side_panel_style, 
+                progress_bar, 
+                progress_style)
     
     # Single callback to handle all quiz interactions with fixed IDs
     @app.callback(
         Output('question-container', 'children', allow_duplicate=True),
         Output('current-question-store', 'data', allow_duplicate=True),
+        Output('progress-container', 'children', allow_duplicate=True),
         [Input('answer-btn-0', 'n_clicks'),
          Input('answer-btn-1', 'n_clicks'),
          Input('answer-btn-2', 'n_clicks'),
@@ -265,14 +443,67 @@ def register_trivia_callbacks(app):
             # Create layout with visual feedback
             layout = create_question_layout(question_data, current_index, len(questions), 
                                           selected_answer=clicked_index, is_answered=True)
-            layout.children[3] = feedback
+            layout.children[2] = feedback  # Put feedback in the correct div
             
             # Update data
             updated_data = current_data.copy()
             updated_data['score'] = new_score
             updated_data['answered'] = True
             
-            return layout, updated_data
+            # Check if this is the last question
+            is_last_question = current_index >= len(questions) - 1
+            
+            if is_last_question:
+                # Quiz completed - show results immediately
+                score = new_score
+                total = len(questions)
+                percentage = round((score / total) * 100, 1)
+                quiz_type = current_data.get('quiz_type', 'quiz')
+                
+                if percentage >= 80:
+                    performance_msg = "Excellent work! 🏆"
+                    color = '#28a745'
+                elif percentage >= 60:
+                    performance_msg = "Good job! 👍"
+                    color = '#17a2b8'
+                elif percentage >= 40:
+                    performance_msg = "Not bad! Keep learning! 📚"
+                    color = '#ffc107'
+                else:
+                    performance_msg = "Keep practicing! 💪"
+                    color = '#fd7e14'
+                
+                completion_screen = html.Div([
+                    html.H2("Quiz Completed! 🎉", style={'textAlign': 'center', 'color': '#28a745'}),
+                    html.Div([
+                        html.H3(f"Your Score: {score} out of {total}", 
+                               style={'textAlign': 'center', 'fontSize': '24px', 'margin': '20px 0'}),
+                        html.H4(f"{percentage}%", 
+                               style={'textAlign': 'center', 'fontSize': '36px', 'color': color, 'margin': '10px 0'}),
+                        html.P(performance_msg, 
+                              style={'textAlign': 'center', 'fontSize': '20px', 'color': color, 'margin': '20px 0'})
+                    ], style={'backgroundColor': '#f8f9fa', 'padding': '30px', 'borderRadius': '10px', 'margin': '20px 0'}),
+                    html.Div([
+                        html.Button(f"Start New {quiz_type.title()} Quiz", 
+                                   id=f"start-{quiz_type}-quiz", 
+                                   style={'padding': '15px 30px', 'fontSize': '16px', 
+                                          'backgroundColor': '#28a745', 'color': 'white', 
+                                          'border': 'none', 'borderRadius': '5px', 'cursor': 'pointer',
+                                          'marginRight': '10px'}),
+                        html.Button("Back to Quiz Selection", id="back-to-selection", 
+                                   style={'padding': '15px 30px', 'fontSize': '16px', 
+                                          'backgroundColor': '#007bff', 'color': 'white', 
+                                          'border': 'none', 'borderRadius': '5px', 'cursor': 'pointer'})
+                    ], style={'textAlign': 'center'})
+                ], style={'textAlign': 'center', 'padding': '40px'})
+                
+                completion_data = {'index': 0, 'score': 0, 'questions': [], 'answered': False}
+                
+                return completion_screen, completion_data, []
+            else:
+                # Not the last question - show next button
+                progress_bar = create_progress_bar(current_index, len(questions), show_next_button=True)
+                return layout, updated_data, progress_bar
         
         # Handle next button click
         elif triggered_id == 'next-btn':
@@ -291,6 +522,7 @@ def register_trivia_callbacks(app):
                 score = current_data['score']
                 total = len(questions)
                 percentage = round((score / total) * 100, 1)
+                quiz_type = current_data.get('quiz_type', 'quiz')
                 
                 if percentage >= 80:
                     performance_msg = "Excellent work! 🏆"
@@ -305,7 +537,7 @@ def register_trivia_callbacks(app):
                     performance_msg = "Keep practicing! 💪"
                     color = '#fd7e14'
                 
-                return html.Div([
+                completion_screen = html.Div([
                     html.H2("Quiz Completed! 🎉", style={'textAlign': 'center', 'color': '#28a745'}),
                     html.Div([
                         html.H3(f"Your Score: {score} out of {total}", 
@@ -315,17 +547,103 @@ def register_trivia_callbacks(app):
                         html.P(performance_msg, 
                               style={'textAlign': 'center', 'fontSize': '20px', 'color': color, 'margin': '20px 0'})
                     ], style={'backgroundColor': '#f8f9fa', 'padding': '30px', 'borderRadius': '10px', 'margin': '20px 0'}),
-                    html.Button("Start New Quiz", id="start-quiz-btn", 
-                               style={'padding': '15px 30px', 'fontSize': '18px', 
-                                      'backgroundColor': '#007bff', 'color': 'white', 
-                                      'border': 'none', 'borderRadius': '5px', 'cursor': 'pointer'})
-                ], style={'textAlign': 'center'}), {'index': 0, 'score': 0, 'questions': [], 'answered': False}
+                    html.Div([
+                        html.Button(f"Start New {quiz_type.title()} Quiz", 
+                                   id=f"start-{quiz_type}-quiz", 
+                                   style={'padding': '15px 30px', 'fontSize': '16px', 
+                                          'backgroundColor': '#28a745', 'color': 'white', 
+                                          'border': 'none', 'borderRadius': '5px', 'cursor': 'pointer',
+                                          'marginRight': '10px'}),
+                        html.Button("Back to Quiz Selection", id="back-to-selection", 
+                                   style={'padding': '15px 30px', 'fontSize': '16px', 
+                                          'backgroundColor': '#007bff', 'color': 'white', 
+                                          'border': 'none', 'borderRadius': '5px', 'cursor': 'pointer'})
+                    ], style={'textAlign': 'center'})
+                ], style={'textAlign': 'center', 'padding': '40px'})
+                
+                completion_data = {'index': 0, 'score': 0, 'questions': [], 'answered': False}
+                side_panel_style = {'display': 'none'}  # Keep hidden during completion screen
+                progress_style = {'display': 'none'}    # Hide progress bar on completion
+                
+                return completion_screen, completion_data, []
             else:
                 # Next question
                 question_data = questions[next_index]
                 updated_data = current_data.copy()
                 updated_data['index'] = next_index
                 updated_data['answered'] = False
-                return create_question_layout(question_data, next_index, len(questions)), updated_data
+                
+                # Update progress bar
+                progress_bar = create_progress_bar(next_index, len(questions))
+                side_panel_style = {'display': 'none'}  # Keep hidden during quiz
+                progress_style = {'display': 'block'}   # Keep visible during quiz
+                
+                return (create_question_layout(question_data, next_index, len(questions)), 
+                        updated_data, 
+                        progress_bar)
         
+        raise dash.exceptions.PreventUpdate
+    
+    # Callback specifically for quit quiz button
+    @app.callback(
+        Output('question-container', 'children', allow_duplicate=True),
+        Output('current-question-store', 'data', allow_duplicate=True),
+        Output('side-panel', 'style', allow_duplicate=True),
+        Output('progress-container', 'style', allow_duplicate=True),
+        Output('progress-container', 'children', allow_duplicate=True),
+        Input('quit-quiz-btn', 'n_clicks'),
+        prevent_initial_call=True
+    )
+    def quit_quiz(quit_clicks):
+        if quit_clicks:
+            # Show side panel and hide progress bar
+            side_panel_style = {
+                'width': '300px',
+                'marginRight': '30px',
+                'flexShrink': '0'
+            }
+            progress_style = {'display': 'none'}
+            
+            welcome_content = html.Div([
+                html.H2("Welcome to Country Trivia! 🌍", 
+                       style={'textAlign': 'center', 'color': '#007bff', 'marginBottom': '20px'}),
+                html.P("Select a quiz category from the panel on the left to get started!", 
+                       style={'textAlign': 'center', 'fontSize': '18px', 'color': '#666'})
+            ], style={'textAlign': 'center', 'padding': '60px 20px'})
+            
+            reset_data = {'index': 0, 'score': 0, 'questions': [], 'answered': False}
+            
+            return welcome_content, reset_data, side_panel_style, progress_style, []
+        raise dash.exceptions.PreventUpdate
+
+    # Callback for "Back to Quiz Selection" button on completion screen
+    @app.callback(
+        Output('question-container', 'children', allow_duplicate=True),
+        Output('current-question-store', 'data', allow_duplicate=True),
+        Output('side-panel', 'style', allow_duplicate=True),
+        Output('progress-container', 'style', allow_duplicate=True),
+        Output('progress-container', 'children', allow_duplicate=True),
+        Input('back-to-selection', 'n_clicks'),
+        prevent_initial_call=True
+    )
+    def back_to_selection(back_clicks):
+        if back_clicks:
+            # Show side panel and hide progress bar
+            side_panel_style = {
+                'width': '300px',
+                'marginRight': '30px',
+                'flexShrink': '0'
+            }
+            progress_style = {'display': 'none'}
+            
+            welcome_content = html.Div([
+                html.H2("Welcome to Country Trivia! 🌍", 
+                       style={'textAlign': 'center', 'color': '#007bff', 'marginBottom': '20px'}),
+                html.P("Select a quiz category from the panel on the left to get started!", 
+                       style={'textAlign': 'center', 'fontSize': '18px', 'color': '#666'})
+            ], style={'textAlign': 'center', 'padding': '60px 20px'})
+            
+            reset_data = {'index': 0, 'score': 0, 'questions': [], 'answered': False}
+            
+            return welcome_content, reset_data, side_panel_style, progress_style, []
         raise dash.exceptions.PreventUpdate
