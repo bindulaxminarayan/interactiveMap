@@ -58,8 +58,7 @@ def create_map(sort_order='none'):
         "capital": True,
         "currency": True,
         "gdp": True,
-        "country_iso_alpha": True,
-        "population": False,
+        "country_iso_alpha": True
     }
     
     # Display gdp rank if sorted
