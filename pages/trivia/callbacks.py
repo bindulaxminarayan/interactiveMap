@@ -146,11 +146,12 @@ def register_trivia_callbacks(app):
          Input('answer-btn-1', 'n_clicks'),
          Input('answer-btn-2', 'n_clicks'),
          Input('answer-btn-3', 'n_clicks'),
-         Input('next-btn', 'n_clicks')],
+         Input('next-btn', 'n_clicks'),
+         Input('view-results-btn', 'n_clicks')],
         State('current-question-store', 'data'),
         prevent_initial_call=True
     )
-    def handle_quiz_interactions(btn0, btn1, btn2, btn3, next_btn, current_data):
+    def handle_quiz_interactions(btn0, btn1, btn2, btn3, next_btn, view_results_btn, current_data):
         ctx = callback_context
         if not ctx.triggered or not current_data or 'questions' not in current_data:
             raise dash.exceptions.PreventUpdate
@@ -200,11 +201,9 @@ def register_trivia_callbacks(app):
             is_last_question = current_index >= len(questions) - 1
             
             if is_last_question:
-                # Quiz completed - show results immediately
-                quiz_type = current_data.get('quiz_type', 'quiz')
-                completion_screen = create_completion_screen(new_score, len(questions), quiz_type)
-                completion_data = {'index': 0, 'score': 0, 'questions': [], 'answered': False}
-                return completion_screen, completion_data, []
+                # Last question - show "View Results" button instead of immediately showing results
+                progress_bar = create_progress_bar(current_index, len(questions), show_view_results_button=True, show_quit_quiz_button=False)
+                return layout, updated_data, progress_bar
             else:
                 # Not the last question - show next button
                 progress_bar = create_progress_bar(current_index, len(questions), show_next_button=True)
@@ -241,6 +240,21 @@ def register_trivia_callbacks(app):
                 return (create_question_layout(question_data, next_index, len(questions)), 
                         updated_data, 
                         progress_bar)
+        
+        # Handle view results button click
+        elif triggered_id == 'view-results-btn':
+            if not current_data.get('answered', False):
+                raise dash.exceptions.PreventUpdate
+            
+            # Only process if button was actually clicked (n_clicks > 0)
+            if not triggered_value or triggered_value == 0:
+                raise dash.exceptions.PreventUpdate
+            
+            # Show results screen
+            quiz_type = current_data.get('quiz_type', 'quiz')
+            completion_screen = create_completion_screen(current_data['score'], len(current_data['questions']), quiz_type)
+            completion_data = {'index': 0, 'score': 0, 'questions': [], 'answered': False}
+            return completion_screen, completion_data, []
         
         raise dash.exceptions.PreventUpdate
     
