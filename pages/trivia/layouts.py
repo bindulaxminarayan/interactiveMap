@@ -33,6 +33,14 @@ def create_side_panel():
             button_text="Start Capital Quiz",
             button_id="start-capital-quiz"
         ),
+
+        create_quiz_category_section(
+            title="Country Continent",
+            emoji="🌐",
+            description="Match counties with their continents",
+            button_text="Start Continent Quiz",
+            button_id="start-continent-quiz"
+        ),
         
         # Future Quiz Categories (Coming Soon)
         create_quiz_category_section(
