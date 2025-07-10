@@ -59,7 +59,8 @@ def register_trivia_callbacks(app):
             'score': 0, 
             'questions': questions,
             'answered': False,
-            'quiz_type': quiz_type
+            'quiz_type': quiz_type,
+            'user_answers': {}
         }
         
         # Hide quiz selection and show quiz content
@@ -94,11 +95,12 @@ def register_trivia_callbacks(app):
         Output('progress-container', 'children', allow_duplicate=True),
         Output('progress-container', 'style', allow_duplicate=True),
         [Input('restart-currency-quiz-result', 'n_clicks'),
-         Input('restart-capital-quiz-result', 'n_clicks')],
+         Input('restart-capital-quiz-result', 'n_clicks'),
+         Input('restart-continent-quiz-result', 'n_clicks')],
         State('current-question-store', 'data'),
         prevent_initial_call=True
     )
-    def restart_quiz_from_results(restart_currency_clicks, restart_capital_clicks, current_data):
+    def restart_quiz_from_results(restart_currency_clicks, restart_capital_clicks, restart_continent_clicks, current_data):
         ctx = callback_context
         if not ctx.triggered:
             raise dash.exceptions.PreventUpdate
@@ -116,6 +118,9 @@ def register_trivia_callbacks(app):
         elif triggered_id == 'restart-capital-quiz-result':
             questions = get_quiz_questions('capital', df, 10)
             quiz_type = 'capital'
+        elif triggered_id == 'restart-continent-quiz-result':
+            questions = get_quiz_questions('continent', df, 10)
+            quiz_type = 'continent'
         else:
             raise dash.exceptions.PreventUpdate
         
@@ -125,7 +130,8 @@ def register_trivia_callbacks(app):
             'score': 0, 
             'questions': questions,
             'answered': False,
-            'quiz_type': quiz_type
+            'quiz_type': quiz_type,
+            'user_answers': {}
         }
         
         # Show progress bar
@@ -197,6 +203,11 @@ def register_trivia_callbacks(app):
             updated_data['score'] = new_score
             updated_data['answered'] = True
             
+            # Store user answer
+            if 'user_answers' not in updated_data:
+                updated_data['user_answers'] = {}
+            updated_data['user_answers'][current_index] = clicked_index
+            
             # Check if this is the last question
             is_last_question = current_index >= len(questions) - 1
             
@@ -224,8 +235,15 @@ def register_trivia_callbacks(app):
             if next_index >= len(questions):
                 # Quiz completed
                 quiz_type = current_data.get('quiz_type', 'quiz')
-                completion_screen = create_completion_screen(current_data['score'], len(questions), quiz_type)
-                completion_data = {'index': 0, 'score': 0, 'questions': [], 'answered': False}
+                user_answers = current_data.get('user_answers', {})
+                completion_screen = create_completion_screen(
+                    current_data['score'], 
+                    len(questions), 
+                    quiz_type, 
+                    questions, 
+                    user_answers
+                )
+                completion_data = {'index': 0, 'score': 0, 'questions': [], 'answered': False, 'user_answers': {}}
                 return completion_screen, completion_data, []
             else:
                 # Next question
@@ -250,10 +268,18 @@ def register_trivia_callbacks(app):
             if not triggered_value or triggered_value == 0:
                 raise dash.exceptions.PreventUpdate
             
-            # Show results screen
+            # Show results screen with review section
             quiz_type = current_data.get('quiz_type', 'quiz')
-            completion_screen = create_completion_screen(current_data['score'], len(current_data['questions']), quiz_type)
-            completion_data = {'index': 0, 'score': 0, 'questions': [], 'answered': False}
+            questions = current_data.get('questions', [])
+            user_answers = current_data.get('user_answers', {})
+            completion_screen = create_completion_screen(
+                current_data['score'], 
+                len(questions), 
+                quiz_type, 
+                questions, 
+                user_answers
+            )
+            completion_data = {'index': 0, 'score': 0, 'questions': [], 'answered': False, 'user_answers': {}}
             return completion_screen, completion_data, []
         
         raise dash.exceptions.PreventUpdate
@@ -297,6 +323,6 @@ def _return_to_quiz_selection():
     quiz_content_style = {'display': 'none'}
     progress_style = {'display': 'none'}
     
-    reset_data = {'index': 0, 'score': 0, 'questions': [], 'answered': False}
+    reset_data = {'index': 0, 'score': 0, 'questions': [], 'answered': False, 'user_answers': {}}
     
     return [], reset_data, quiz_selection_style, quiz_content_style, progress_style, []

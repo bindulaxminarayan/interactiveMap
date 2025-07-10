@@ -179,11 +179,109 @@ def get_performance_data(score, total):
     else:
         return percentage, "Keep practicing! 💪", '#fd7e14'
 
-def create_completion_screen(score, total, quiz_type):
-    """Create the quiz completion screen."""
-    percentage, performance_msg, color = get_performance_data(score, total)
+def create_review_answers_section(questions, user_answers):
+    """Create a review section showing all questions with correct and chosen answers."""
+    if not questions or not user_answers:
+        return html.Div()
+    
+    review_items = []
+    
+    for i, question_data in enumerate(questions):
+        user_answer_index = user_answers.get(i, -1)
+        correct_index = question_data['correct']
+        
+        # Get answer texts
+        user_answer_text = question_data['options'][user_answer_index] if user_answer_index >= 0 else "No answer"
+        correct_answer_text = question_data['options'][correct_index]
+        
+        # Determine if answer was correct
+        is_correct = user_answer_index == correct_index
+        
+        # Create question review item
+        question_review = html.Div([
+            html.H5(f"Question {i + 1}: {question_data['question']}", 
+                   style={'marginBottom': '10px', 'color': '#333', 'fontWeight': 'bold'}),
+            
+            # Show all options with highlighting
+            html.Div([
+                html.Div([
+                    html.Span(f"{chr(65 + j)}. {option}", style={
+                        'display': 'block',
+                        'padding': '8px 12px',
+                        'margin': '3px 0',
+                        'borderRadius': '5px',
+                        'backgroundColor': (
+                            '#28a745' if j == correct_index else  # Correct answer - green
+                            '#dc3545' if j == user_answer_index and j != correct_index else  # Wrong user answer - red
+                            '#f8f9fa'  # Other options - light gray
+                        ),
+                        'color': 'white' if (j == correct_index or (j == user_answer_index and j != correct_index)) else 'black',
+                        'fontWeight': 'bold' if (j == correct_index or j == user_answer_index) else 'normal',
+                        'border': '1px solid #dee2e6'
+                    })
+                    for j, option in enumerate(question_data['options'])
+                ])
+            ], style={'marginBottom': '10px'}),
+            
+            # Summary
+            html.Div([
+                html.Div([
+                    html.Strong("Your answer: ", style={'color': '#666'}),
+                    html.Span(user_answer_text, style={
+                        'color': '#28a745' if is_correct else '#dc3545',
+                        'fontWeight': 'bold'
+                    }),
+                    html.Span(" ✓" if is_correct else " ✗", style={
+                        'color': '#28a745' if is_correct else '#dc3545',
+                        'fontSize': '18px',
+                        'marginLeft': '5px'
+                    })
+                ], style={'marginBottom': '5px'}),
+                
+                html.Div([
+                    html.Strong("Correct answer: ", style={'color': '#666'}),
+                    html.Span(correct_answer_text, style={'color': '#28a745', 'fontWeight': 'bold'})
+                ], style={'marginBottom': '10px'}),
+                
+                html.Div([
+                    html.Strong("Explanation: ", style={'color': '#666'}),
+                    html.Span(question_data.get('explanation', 'No explanation available.'))
+                ], style={'color': '#555', 'fontStyle': 'italic'})
+            ])
+            
+        ], style={
+            'backgroundColor': '#ffffff',
+            'border': '1px solid #dee2e6',
+            'borderRadius': '8px',
+            'padding': '20px',
+            'marginBottom': '20px',
+            'boxShadow': '0 2px 4px rgba(0,0,0,0.1)'
+        })
+        
+        review_items.append(question_review)
     
     return html.Div([
+        html.H3("Review Answers", style={
+            'textAlign': 'center', 
+            'marginBottom': '30px',
+            'color': '#333',
+            'borderBottom': '2px solid #007bff',
+            'paddingBottom': '10px'
+        }),
+        html.Div(review_items)
+    ], style={
+        'marginTop': '30px',
+        'padding': '20px',
+        'backgroundColor': '#f8f9fa',
+        'borderRadius': '10px',
+        'border': '1px solid #dee2e6'
+    })
+
+def create_completion_screen(score, total, quiz_type, questions=None, user_answers=None):
+    """Create the quiz completion screen with optional review section."""
+    percentage, performance_msg, color = get_performance_data(score, total)
+    
+    completion_content = [
         html.H2("Quiz Completed! 🎉", style={'textAlign': 'center', 'color': '#28a745'}),
         create_score_display(score, total, percentage, performance_msg, color),
         html.Div([
@@ -199,4 +297,10 @@ def create_completion_screen(score, total, quiz_type):
                 "secondary"
             )
         ], style={'textAlign': 'center'})
-    ], style={'textAlign': 'center', 'padding': '40px'})
+    ]
+    
+    # Add review section if questions and user answers are provided
+    if questions and user_answers:
+        completion_content.append(create_review_answers_section(questions, user_answers))
+    
+    return html.Div(completion_content, style={'textAlign': 'center', 'padding': '40px'})

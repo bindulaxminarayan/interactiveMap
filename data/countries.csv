@@ -53,7 +53,7 @@ Cyprus,CYP,Nicosia,Euro,$34.00 Billion,Europe
 Czech Republic,CZE,Prague,Koruna,$310.00 Billion,Europe
 Côte d'Ivoire,CIV,Yamoussoukro,West African CFA franc,$90.00 Billion,Africa
 Denmark,DNK,Copenhagen,Krone,$437.00 Billion,Europe
-Djibouti,DJI,Djibouti City,Djiboutian Franc,$4.01 Billion,Africa
+Djibouti,DJI,Djibouti City,Franc,$4.01 Billion,Africa
 Dominica,DMA,Roseau,East Caribbean Dollar,$0.67 Billion,North America
 Dominican Republic,DOM,Santo Domingo,Peso,$129.00 Billion,North America
 East Timor,TLS,Dili,US Dollar,$2.77 Billion,Asia
@@ -64,7 +64,7 @@ Equatorial Guinea,GNQ,Malabo,Central African CFA franc,$12.00 Billion,Africa
 Eritrea,ERI,Asmara,Nakfa,$2.10 Billion,Africa
 Estonia,EST,Tallinn,Euro,$42.00 Billion,Europe
 Eswatini,SWZ,Mbabane (administrative),Lilangeni,$5.00 Billion,Africa
-Ethiopia,ETH,Addis Ababa,Ethiopian Birr,$100.00 Billion,Africa
+Ethiopia,ETH,Addis Ababa,Birr,$100.00 Billion,Africa
 Falkland Islands,FLK,Stanley,Pound,$0.30 Billion,South America
 Faroe Islands,FRO,Tórshavn,Danish Krone,$3.00 Billion,Europe
 Fiji,FJI,Suva,Dollar,$6.30 Billion,Oceania
@@ -91,7 +91,7 @@ Guyana,GUY,Georgetown,Dollar,$35.00 Billion,South America
 Haiti,HTI,Port-au-Prince,Gourde,$16.00 Billion,North America
 Honduras,HND,Tegucigalpa,Lempira,$39.00 Billion,North America
 Hong Kong,HKG,Hong Kong,Dollar,$380.00 Billion,Asia
-Hungary,HUN,Budapest,Hungarian Forint,$230.00 Billion,Europe
+Hungary,HUN,Budapest,Forint,$230.00 Billion,Europe
 Iceland,ISL,Reykjavík,Króna,$33.00 Billion,Europe
 India,IND,New Delhi,Rupee,$4.19 Trillion,Asia
 Indonesia,IDN,Jakarta,Rupiah,$1.47 Trillion,Asia
@@ -170,7 +170,7 @@ Portugal,PRT,Lisbon,Euro,$340.00 Billion,Europe
 Puerto Rico,PRI,San Juan,US Dollar,$120.00 Billion,North America
 Qatar,QAT,Doha,Riyal,$220.00 Billion,Asia
 Réunion,REU,Saint-Denis,Euro,$0.00,Africa
-Romania,ROU,Bucharest,Romanian Leu,$320.00 Billion,Europe
+Romania,ROU,Bucharest,Leu,$320.00 Billion,Europe
 Russia,RUS,Moscow,Russian Ruble,$1.86 Trillion,Transcontinental(Asia and Europe)
 Rwanda,RWA,Kigali,Rwandan Franc,$16.00 Billion,Africa
 Saint Helena,SHN,Jamestown,Pound,$0.06 Billion,Africa
@@ -195,11 +195,11 @@ Somalia,SOM,Mogadishu,Shilling,$14.00 Billion,Africa
 South Africa,ZAF,Pretoria,Rand,$400.00 Billion,Africa
 South Sudan,SSD,Juba,Pound,$4.00 Billion,Africa
 Spain,ESP,Madrid,Euro,$1.72 Trillion,Europe
-Sri Lanka,LKA,Colombo,Sri Lankan Rupee,$80.00 Billion,Asia
+Sri Lanka,LKA,Colombo,Rupee,$80.00 Billion,Asia
 Sudan,SDN,Khartoum,Pound,$50.00 Billion,Africa
 Suriname,SUR,Paramaribo,Dollar,$4.00 Billion,South America
 Sweden,SWE,Stockholm,Swedish Krona,$600.00 Billion,Europe
-Switzerland,CHE,Bern,Swiss Franc,$920.00 Billion,Europe
+Switzerland,CHE,Bern,Franc,$920.00 Billion,Europe
 Syria,SYR,Damascus,Pound,$50.00 Billion,Asia
 Taiwan,TWN,Taipei,Dollar,$850.00 Billion,Asia
 Tajikistan,TJK,Dushanbe,Somoni,$15.00 Billion,Asia
@@ -225,7 +225,7 @@ Uruguay,URY,Montevideo,Uruguayan Peso,$80.00 Billion,South America
 Uzbekistan,UZB,Tashkent,Som,$100.00 Billion,Asia
 Vanuatu,VUT,Port Vila,Vanuatu Vatu,$1.20 Billion,Oceania
 Venezuela,VEN,Caracas,Bolívar,$100.00 Billion,South America
-Vietnam,VNM,Hanoi,Vietnamese Dong,$470.00 Billion,Asia
+Vietnam,VNM,Hanoi,Dong,$470.00 Billion,Asia
 Wallis and Futuna,WLF,Mata-Utu,CFP Franc,$0.06 Billion,Oceania
 West Bank,PSE,Ramallah,Israeli New Shekel,$0.00,Asia
 Western Sahara,ESH,Laayoune,Moroccan Dirham,$0.00,Africa

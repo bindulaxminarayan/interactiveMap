@@ -115,6 +115,7 @@ def create_hidden_elements():
     return html.Div([
         html.Button("Restart Currency", id="restart-currency-quiz-result", style={'display': 'none'}),
         html.Button("Restart Capital", id="restart-capital-quiz-result", style={'display': 'none'}),
+        html.Button("Restart Continent", id="restart-continent-quiz-result", style={'display': 'none'}),
         html.Button("Next Question", id='next-btn', style={'display': 'none'}),
         html.Button("View Results", id='view-results-btn', style={'display': 'none'}),
         html.Button("Quit Quiz", id='quit-quiz-btn', style={'display': 'none'}),
