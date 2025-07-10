@@ -4,14 +4,14 @@ Explore page containing the interactive GDP world map.
 
 import pandas as pd
 import plotly.express as px
-from dash import html, dcc, Input, Output
+from dash import html, dcc, Input, Output, State, ctx, ALL
 from utils.data_processing import load_countries_data
 
 # Load the data
 df = load_countries_data()
 
-def create_map(sort_order='none'):
-    """Create choropleth map with optional GDP sorting."""
+def create_map(sort_order='none', selected_country=None):
+    """Create choropleth map with optional GDP sorting and country highlighting."""
     df_sorted = df.copy()
     
     # Filter out countries with zero or no GDP data for better ranking
@@ -63,6 +63,10 @@ def create_map(sort_order='none'):
     # Display gdp rank if sorted
     if sort_order != 'none':
         hover_data_dict["gdp_rank"] = True
+        hover_data_dict["display_value"] = False
+    else:
+        # Explicitly exclude gdp_numeric from hover when not sorted
+        hover_data_dict["gdp_numeric"] = False
     
     fig = px.choropleth(
         df_sorted,
@@ -97,14 +101,92 @@ def create_map(sort_order='none'):
         max_gdp = df_sorted['gdp_numeric'].max()
         fig.update_coloraxes(cmin=min_gdp, cmax=max_gdp)
     
+    # Add highlighting for selected country
+    if selected_country:
+        # Find the country's ISO code
+        country_row = df[df['country'] == selected_country]
+        if not country_row.empty:
+            iso_code = country_row.iloc[0]['country_iso_alpha']
+            # Choose color based on sort order
+            if sort_order == 'ascending':
+                highlight_color = '#22AA22'  # Green for low to high
+            elif sort_order == 'descending':
+                highlight_color = '#4444FF'  # Blue for high to low
+            else:
+                highlight_color = '#FF4444'  # Red for no sorting (default)
+            
+            # Add a highlighted trace for the selected country
+            fig.add_trace(
+                px.choropleth(
+                    country_row,
+                    locations="country_iso_alpha",
+                    color_discrete_sequence=[highlight_color]
+                ).data[0]
+            )
+            # Update the highlighted trace properties
+            fig.data[-1].update(
+                name=f"Selected: {selected_country}",
+                showlegend=True,
+                marker_line_color='#000000',
+                marker_line_width=3
+            )
+            
+            # Add zoom and center functionality for better visibility of small countries
+            # Define regional centers and zoom levels for better country visibility
+            country_coords = {
+                'Albania': {'lat': 41.1533, 'lon': 20.1683, 'zoom': 6},
+                'Andorra': {'lat': 42.5063, 'lon': 1.5218, 'zoom': 8},
+                'Malta': {'lat': 35.9375, 'lon': 14.3754, 'zoom': 9},
+                'Monaco': {'lat': 43.7384, 'lon': 7.4246, 'zoom': 10},
+                'San Marino': {'lat': 43.9424, 'lon': 12.4578, 'zoom': 9},
+                'Liechtenstein': {'lat': 47.166, 'lon': 9.5554, 'zoom': 9},
+                'Luxembourg': {'lat': 49.8153, 'lon': 6.1296, 'zoom': 8},
+                'Cyprus': {'lat': 35.1264, 'lon': 33.4299, 'zoom': 7},
+                'Iceland': {'lat': 64.9631, 'lon': -19.0208, 'zoom': 5},
+                'Singapore': {'lat': 1.3521, 'lon': 103.8198, 'zoom': 10},
+                'Brunei': {'lat': 4.5353, 'lon': 114.7277, 'zoom': 8},
+                'Bahrain': {'lat': 26.0667, 'lon': 50.5577, 'zoom': 9},
+                'Qatar': {'lat': 25.3548, 'lon': 51.1839, 'zoom': 8},
+                'Kuwait': {'lat': 29.3117, 'lon': 47.4818, 'zoom': 8},
+                'Maldives': {'lat': 3.2028, 'lon': 73.2207, 'zoom': 6},
+                'Seychelles': {'lat': -4.6796, 'lon': 55.492, 'zoom': 8},
+                'Mauritius': {'lat': -20.348404, 'lon': 57.552152, 'zoom': 9},
+            }
+            
+            if selected_country in country_coords:
+                coords = country_coords[selected_country]
+                fig.update_geos(
+                    center_lat=coords['lat'],
+                    center_lon=coords['lon'],
+                    projection_scale=coords['zoom']
+                )
+            else:
+                # For larger countries, use default view but slightly zoomed
+                fig.update_geos(
+                    projection_scale=1.2
+                )
+    
     fig.update_layout(
-        margin={"r":0, "t":40, "l":0, "b":0},
-        geo=dict(showframe=False, showcoastlines=False, projection_type='equirectangular')
+        margin={"r":0, "t":60, "l":0, "b":0},  # Increased top margin for legend space
+        geo=dict(
+            showframe=False, 
+            showcoastlines=False, 
+            projection_type='equirectangular'
+        ),
+        legend=dict(
+            x=0.02,  # Position legend on the left side
+            y=0.98,  # Position near the top
+            bgcolor="rgba(255,255,255,0.8)",  # Semi-transparent white background
+            bordercolor="Black",
+            borderwidth=1
+        ),
+        height=600,  # Increased height for better visibility of small countries
+        width=1200
     )
     return fig
 
-def create_data_table(sort_order='none'):
-    """Create a data table showing sorted countries."""
+def create_data_table(sort_order='none', selected_country=None):
+    """Create a data table showing sorted countries with clickable rows."""
     df_display = df.copy()
     
     if sort_order == 'ascending':
@@ -117,30 +199,53 @@ def create_data_table(sort_order='none'):
         title = "Countries (No Sorting)"
     
     # Select and format columns for display
-    df_display = df_display[['country', 'gdp', 'capital', 'currency']].head(20)
+    df_display = df_display[['country', 'gdp', 'capital', 'currency', 'continent']].head(20)
     
     return html.Div([
+        html.H4("Click on a country to highlight it on the map", 
+                style={'textAlign': 'center', 'marginBottom': '10px', 'color': '#666'}),
         html.Table([
             html.Thead([
                 html.Tr([
-                    html.Th("Country", style={'padding': '8px', 'backgroundColor': '#f1f1f1'}),
-                    html.Th("GDP", style={'padding': '8px', 'backgroundColor': '#f1f1f1'}),
-                    html.Th("Capital", style={'padding': '8px', 'backgroundColor': '#f1f1f1'})
+                    html.Th("Country", style={'padding': '8px', 'backgroundColor': '#f1f1f1', 'textAlign': 'left', 'minWidth': '120px'}),
+                    html.Th("GDP", style={'padding': '8px', 'backgroundColor': '#f1f1f1', 'textAlign': 'center', 'minWidth': '100px'}),
+                    html.Th("Capital", style={'padding': '8px', 'backgroundColor': '#f1f1f1', 'textAlign': 'left', 'minWidth': '100px'}),
+                    html.Th("Currency", style={'padding': '8px', 'backgroundColor': '#f1f1f1', 'textAlign': 'left', 'minWidth': '80px'}),
+                    html.Th("Continent", style={'padding': '8px', 'backgroundColor': '#f1f1f1', 'textAlign': 'left', 'minWidth': '100px'})
                 ])
             ]),
             html.Tbody([
                 html.Tr([
-                    html.Td(row['country'], style={'padding': '5px'}),
-                    html.Td(row['gdp'], style={'padding': '5px'}),
-                    html.Td(row['capital'], style={'padding': '5px'})
-                ]) for _, row in df_display.iterrows()
+                    html.Td(row['country'], style={'padding': '8px', 'textAlign': 'left', 'verticalAlign': 'middle'}),
+                    html.Td(row['gdp'], style={'padding': '8px', 'textAlign': 'center', 'verticalAlign': 'middle'}),
+                    html.Td(row['capital'], style={'padding': '8px', 'textAlign': 'left', 'verticalAlign': 'middle'}),
+                    html.Td(row['currency'], style={'padding': '8px', 'textAlign': 'left', 'verticalAlign': 'middle'}),
+                    html.Td(row['continent'], style={'padding': '8px', 'textAlign': 'left', 'verticalAlign': 'middle'})
+                ], 
+                id={'type': 'country-row', 'index': i},
+                style={
+                    'cursor': 'pointer',
+                    'backgroundColor': '#ffebee' if selected_country == row['country'] else 'white',
+                    'border': '2px solid #ff4444' if selected_country == row['country'] else '1px solid #ddd',
+                    'transition': 'background-color 0.2s ease'
+                },
+                className='country-row'
+                ) for i, (_, row) in enumerate(df_display.iterrows())
             ])
-        ], style={'margin': 'auto', 'border': '1px solid #ddd', 'borderCollapse': 'collapse'})
+        ], style={
+            'margin': 'auto', 
+            'border': '1px solid #ddd', 
+            'borderCollapse': 'collapse',
+            'width': '100%',
+            'tableLayout': 'fixed'
+        })
     ])
 
 def get_explore_layout():
     """Get the layout for the explore page."""
     return html.Div([
+        # Store component to track selected country
+        dcc.Store(id='selected-country-store', data=None),
         
         # GDP sorting controls using flexbox for horizontal alignment
         html.Div([
@@ -182,16 +287,54 @@ def get_explore_layout():
 
 def register_explore_callbacks(app):
     """Register callbacks for the explore page."""
+    
+    # Callback for handling country row clicks
+    @app.callback(
+        Output('selected-country-store', 'data'),
+        Input({'type': 'country-row', 'index': ALL}, 'n_clicks'),
+        State('gdp-sort-dropdown', 'value'),
+        prevent_initial_call=True
+    )
+    def update_selected_country(n_clicks_list, sort_order):
+        # Check which button triggered the callback
+        ctx_triggered = ctx.triggered
+        if not ctx_triggered:
+            return None
+        
+        # Extract the index from the component_id
+        button_id = ctx_triggered[0]['prop_id'].split('.')[0]
+        if button_id == '':
+            return None
+            
+        import json
+        component_id = json.loads(button_id)
+        clicked_idx = component_id['index']
+            
+        # Get the country data based on current sorting
+        df_display = df.copy()
+        if sort_order == 'ascending':
+            df_display = df_display.sort_values('gdp_numeric', ascending=True)
+        elif sort_order == 'descending':
+            df_display = df_display.sort_values('gdp_numeric', ascending=False)
+        
+        df_display = df_display.head(20)
+        
+        # Get the clicked country name
+        country_name = df_display.iloc[clicked_idx]['country']
+        return country_name
+
     @app.callback(
         Output('world-map', 'figure'),
-        Input('gdp-sort-dropdown', 'value')
+        [Input('gdp-sort-dropdown', 'value'),
+         Input('selected-country-store', 'data')]
     )
-    def update_map(sort_order):
-        return create_map(sort_order)
+    def update_map(sort_order, selected_country):
+        return create_map(sort_order, selected_country)
 
     @app.callback(
         Output('data-table', 'children'),
-        Input('gdp-sort-dropdown', 'value')
+        [Input('gdp-sort-dropdown', 'value'),
+         Input('selected-country-store', 'data')]
     )
-    def update_table(sort_order):
-        return create_data_table(sort_order)
+    def update_table(sort_order, selected_country):
+        return create_data_table(sort_order, selected_country)
