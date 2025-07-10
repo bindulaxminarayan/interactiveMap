@@ -117,6 +117,52 @@ def generate_capital_questions(df: pd.DataFrame, num_questions: int = 10) -> Lis
     
     return questions
 
+def generate_continent_questions(df: pd.DataFrame, num_questions: int =10) -> List[Dict[str, Any]]:
+    """Generate random country-continent questions."""
+    # Filter out countries with missing or invalid currency data
+    valid_countries = df[(df['currency'].notna()) & (df['currency'] != '')].copy()
+    
+    if len(valid_countries) < num_questions:
+        num_questions = len(valid_countries)
+    
+    # Select random countries for questions
+    selected_countries = valid_countries.sample(n=num_questions)
+    questions = []
+    
+    for _, country_row in selected_countries.iterrows():
+        correct_country = country_row['country']
+        correct_continent = country_row['continent']
+        currency = country_row['currency']
+        gdp = country_row['gdp']
+        
+        # Generate 3 wrong continent options
+        other_continents = valid_countries[
+            (valid_countries['country'] != correct_country) & 
+            (valid_countries['continent'] != correct_continent)
+        ]['continent'].unique()
+        
+        if len(other_continents) >= 3:
+            wrong_continents = random.sample(list(other_continents), 3)
+        else:
+            # If not enough unique currencies, use what we have and pad with generic ones
+            wrong_continents = list(other_continents)
+        
+        # Create options list with correct answer at random position
+        options = wrong_continents[:3] + [correct_continent]
+        random.shuffle(options)
+        correct_index = options.index(correct_continent)
+        
+        question = {
+            "question": f"What is the continent of {correct_country}?",
+            "options": options,
+            "correct": correct_index,
+            "explanation": f"The continent of {correct_country} is {correct_continent}. Currency: {currency}, GDP: {gdp}",
+            "type": "currency"
+        }
+        questions.append(question)
+    
+    return questions
+
 def generate_location_questions(df: pd.DataFrame, num_questions: int = 10) -> List[Dict[str, Any]]:
     """
     Generate location-based questions (placeholder for future implementation).
@@ -142,6 +188,7 @@ def generate_location_questions(df: pd.DataFrame, num_questions: int = 10) -> Li
 QUIZ_GENERATORS = {
     'currency': generate_currency_questions,
     'capital': generate_capital_questions,
+    'continent': generate_continent_questions,
     'location': generate_location_questions,
 }
 
@@ -150,7 +197,7 @@ def get_quiz_questions(quiz_type: str, df: pd.DataFrame, num_questions: int = 10
     Get questions for a specific quiz type.
     
     Args:
-        quiz_type: Type of quiz ('currency', 'capital', 'location')
+        quiz_type: Type of quiz ('currency', 'capital','continent', 'location')
         df: DataFrame containing country data
         num_questions: Number of questions to generate
     
