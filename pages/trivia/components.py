@@ -95,12 +95,3 @@ def create_feedback_message(is_correct, correct_answer, explanation):
                    style={'fontWeight': 'bold', 'color': '#28a745'}),
             html.P(explanation, style={'fontStyle': 'italic'}),
         ])
-
-def create_welcome_content():
-    """Create the welcome content for the trivia page."""
-    return html.Div([
-        html.H2("Welcome to Country Trivia! 🌍", 
-               style={'textAlign': 'center', 'color': '#007bff', 'marginBottom': '20px'}),
-        html.P("Select a quiz category from the panel on the left to get started!", 
-               style={'textAlign': 'center', 'fontSize': '18px', 'color': '#666'})
-    ], style={'textAlign': 'center', 'padding': '60px 20px'})

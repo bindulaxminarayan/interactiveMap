@@ -7,7 +7,7 @@ import dash.exceptions
 from utils.data_processing import load_countries_data
 from utils.quiz_generators import get_quiz_questions
 from .quiz_components import create_progress_bar, create_question_layout, create_completion_screen
-from .components import create_welcome_content, create_feedback_message
+from .components import create_feedback_message
 
 # Load the data for trivia questions
 df = load_countries_data()
@@ -15,11 +15,12 @@ df = load_countries_data()
 def register_trivia_callbacks(app):
     """Register all callbacks for the trivia page."""
     
-    # Callback for starting quizzes from side panel
+    # Callback for starting quizzes from quiz cards
     @app.callback(
         Output('question-container', 'children'),
         Output('current-question-store', 'data'),
-        Output('side-panel', 'style'),
+        Output('quiz-selection-area', 'style'),
+        Output('quiz-content-area', 'style'),
         Output('progress-container', 'children'),
         Output('progress-container', 'style'),
         [Input('start-currency-quiz', 'n_clicks'),
@@ -61,8 +62,19 @@ def register_trivia_callbacks(app):
             'quiz_type': quiz_type
         }
         
-        # Hide side panel during quiz
-        side_panel_style = {'display': 'none'}
+        # Hide quiz selection and show quiz content
+        quiz_selection_style = {'display': 'none'}
+        quiz_content_style = {
+            'display': 'block',
+            'backgroundColor': '#ffffff',
+            'borderRadius': '15px',
+            'border': '1px solid #dee2e6',
+            'boxShadow': '0 4px 6px rgba(0,0,0,0.1)',
+            'padding': '30px',
+            'margin': '20px auto',
+            'maxWidth': '800px',
+            'minHeight': '500px'
+        }
         
         # Show progress bar
         progress_bar = create_progress_bar(0, len(questions))
@@ -70,7 +82,8 @@ def register_trivia_callbacks(app):
         
         return (create_question_layout(question_data, 0, len(questions)), 
                 new_data, 
-                side_panel_style, 
+                quiz_selection_style,
+                quiz_content_style,
                 progress_bar, 
                 progress_style)
     
@@ -78,7 +91,6 @@ def register_trivia_callbacks(app):
     @app.callback(
         Output('question-container', 'children', allow_duplicate=True),
         Output('current-question-store', 'data', allow_duplicate=True),
-        Output('side-panel', 'style', allow_duplicate=True),
         Output('progress-container', 'children', allow_duplicate=True),
         Output('progress-container', 'style', allow_duplicate=True),
         [Input('restart-currency-quiz-result', 'n_clicks'),
@@ -116,16 +128,12 @@ def register_trivia_callbacks(app):
             'quiz_type': quiz_type
         }
         
-        # Hide side panel during quiz
-        side_panel_style = {'display': 'none'}
-        
         # Show progress bar
         progress_bar = create_progress_bar(0, len(questions))
         progress_style = {'display': 'block'}
         
         return (create_question_layout(question_data, 0, len(questions)), 
                 new_data, 
-                side_panel_style, 
                 progress_bar, 
                 progress_style)
     
@@ -240,7 +248,8 @@ def register_trivia_callbacks(app):
     @app.callback(
         Output('question-container', 'children', allow_duplicate=True),
         Output('current-question-store', 'data', allow_duplicate=True),
-        Output('side-panel', 'style', allow_duplicate=True),
+        Output('quiz-selection-area', 'style', allow_duplicate=True),
+        Output('quiz-content-area', 'style', allow_duplicate=True),
         Output('progress-container', 'style', allow_duplicate=True),
         Output('progress-container', 'children', allow_duplicate=True),
         Input('quit-quiz-btn', 'n_clicks'),
@@ -248,14 +257,15 @@ def register_trivia_callbacks(app):
     )
     def quit_quiz(quit_clicks):
         if quit_clicks:
-            return _return_to_welcome()
+            return _return_to_quiz_selection()
         raise dash.exceptions.PreventUpdate
 
     # Callback for "Back to Quiz Selection" button on completion screen
     @app.callback(
         Output('question-container', 'children', allow_duplicate=True),
         Output('current-question-store', 'data', allow_duplicate=True),
-        Output('side-panel', 'style', allow_duplicate=True),
+        Output('quiz-selection-area', 'style', allow_duplicate=True),
+        Output('quiz-content-area', 'style', allow_duplicate=True),
         Output('progress-container', 'style', allow_duplicate=True),
         Output('progress-container', 'children', allow_duplicate=True),
         Input('back-to-selection', 'n_clicks'),
@@ -263,20 +273,16 @@ def register_trivia_callbacks(app):
     )
     def back_to_selection(back_clicks):
         if back_clicks:
-            return _return_to_welcome()
+            return _return_to_quiz_selection()
         raise dash.exceptions.PreventUpdate
 
-def _return_to_welcome():
-    """Helper function to return to the welcome screen."""
-    # Show side panel and hide progress bar
-    side_panel_style = {
-        'width': '300px',
-        'marginRight': '30px',
-        'flexShrink': '0'
-    }
+def _return_to_quiz_selection():
+    """Helper function to return to the quiz selection screen."""
+    # Show quiz selection and hide quiz content
+    quiz_selection_style = {'display': 'block'}
+    quiz_content_style = {'display': 'none'}
     progress_style = {'display': 'none'}
     
-    welcome_content = create_welcome_content()
     reset_data = {'index': 0, 'score': 0, 'questions': [], 'answered': False}
     
-    return welcome_content, reset_data, side_panel_style, progress_style, []
+    return [], reset_data, quiz_selection_style, quiz_content_style, progress_style, []
