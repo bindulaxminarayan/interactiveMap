@@ -33,11 +33,10 @@ def create_map(sort_order='none'):
         color_scale = px.colors.sequential.Reds
         
     elif sort_order == 'descending':
-        # For High to Low: Use inverted ranks (so high GDP = low rank = bright, low GDP = high rank = dark)
+        # For High to Low: Use actual GDP values (same as ascending for consistency)
         df_with_gdp = df_with_gdp.sort_values('gdp_numeric', ascending=False)
-        # Assign inverted ranks - highest GDP gets lowest rank number
-        max_countries = len(df_with_gdp)
-        df_with_gdp['display_value'] = max_countries - pd.Series(range(len(df_with_gdp)))  # Invert the ranking
+        # Use actual GDP values for coloring (same as ascending for consistency)
+        df_with_gdp['display_value'] = df_with_gdp['gdp_numeric']
         df_with_gdp['gdp_rank'] = range(1, len(df_with_gdp) + 1)
         # Countries with no GDP get value 0
         df_no_gdp['display_value'] = 0
@@ -79,19 +78,20 @@ def create_map(sort_order='none'):
     # Update color bar title and range
     if sort_order == 'ascending':
         # For Low to High: Using actual GDP values
-        fig.update_coloraxes(colorbar_title="GDP (Billions)")
+        fig.update_coloraxes(colorbar_title="GDP in Billions")
         min_val = df_sorted[df_sorted['display_value'] > 0]['display_value'].min()
         max_val = df_sorted['display_value'].max()
         fig.update_coloraxes(cmin=min_val, cmax=max_val)
         fig.update_traces(zmin=min_val, zmax=max_val)
     elif sort_order == 'descending':
-        # For High to Low: Using inverted ranking (high GDP = high value = bright color)
-        fig.update_coloraxes(colorbar_title="GDP Ranking (Billions)")
+        # For High to Low: Using actual GDP values (same as ascending for consistency)
+        fig.update_coloraxes(colorbar_title="GDP in Billions")
+        min_val = df_sorted[df_sorted['display_value'] > 0]['display_value'].min()
         max_val = df_sorted['display_value'].max()
-        fig.update_coloraxes(cmin=1, cmax=max_val)
-        fig.update_traces(zmin=1, zmax=max_val)
+        fig.update_coloraxes(cmin=min_val, cmax=max_val)
+        fig.update_traces(zmin=min_val, zmax=max_val)
     else:
-        fig.update_coloraxes(colorbar_title="GDP (Billions)")
+        fig.update_coloraxes(colorbar_title="GDP in Billions")
         # For non-sorted view, ensure proper range for GDP values
         min_gdp = df_sorted['gdp_numeric'].min()
         max_gdp = df_sorted['gdp_numeric'].max()
@@ -125,14 +125,14 @@ def create_data_table(sort_order='none'):
                 html.Tr([
                     html.Th("Country", style={'padding': '8px', 'backgroundColor': '#f1f1f1'}),
                     html.Th("GDP", style={'padding': '8px', 'backgroundColor': '#f1f1f1'}),
-                    html.Th("Capital", style={'padding': '8px', 'backgroundColor': '#f1f1f1'}),
+                    html.Th("Capital", style={'padding': '8px', 'backgroundColor': '#f1f1f1'})
                 ])
             ]),
             html.Tbody([
                 html.Tr([
                     html.Td(row['country'], style={'padding': '5px'}),
                     html.Td(row['gdp'], style={'padding': '5px'}),
-                    html.Td(row['capital'], style={'padding': '5px'}),
+                    html.Td(row['capital'], style={'padding': '5px'})
                 ]) for _, row in df_display.iterrows()
             ])
         ], style={'margin': 'auto', 'border': '1px solid #ddd', 'borderCollapse': 'collapse'})
