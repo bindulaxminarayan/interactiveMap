@@ -112,6 +112,6 @@ app.index_string = '''
 # Run the app
 if __name__ == '__main__':
     logging.info("--- Starting Dash server... ---")
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=8050)
 else:
     logging.error(f"--- SCRIPT WAS IMPORTED, NOT RUN DIRECTLY. (__name__ is '{__name__}') ---")

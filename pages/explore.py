@@ -185,8 +185,8 @@ def create_map(sort_order='none', selected_country=None):
     )
     return fig
 
-def create_data_table(sort_order='none', selected_country=None):
-    """Create a data table showing sorted countries with clickable rows."""
+def create_data_table(sort_order='none', selected_country=None, search_term='', table_sort_column='', table_sort_direction='asc'):
+    """Create a data table showing sorted countries with clickable rows, search, and column sorting."""
     df_display = df.copy()
     
     if sort_order == 'ascending':
@@ -198,54 +198,98 @@ def create_data_table(sort_order='none', selected_country=None):
     else:
         title = "Countries (No Sorting)"
     
-    # Select and format columns for display
-    df_display = df_display[['country', 'gdp', 'capital', 'currency', 'continent']].head(20)
+    # Select and format columns for display - show ALL countries
+    df_display = df_display[['country', 'gdp', 'capital', 'currency', 'continent']]
+    
+    # Apply search filter
+    if search_term:
+        search_mask = (
+            df_display['country'].str.contains(search_term, case=False, na=False) |
+            df_display['capital'].str.contains(search_term, case=False, na=False) |
+            df_display['currency'].str.contains(search_term, case=False, na=False) |
+            df_display['continent'].str.contains(search_term, case=False, na=False)
+        )
+        df_display = df_display[search_mask]
+    
+    # Apply table column sorting (independent of GDP sorting)
+    if table_sort_column:
+        if table_sort_column == 'gdp':
+            # For GDP column, sort by the numeric value
+            ascending = table_sort_direction == 'asc'
+            df_display = df_display.sort_values('gdp', key=lambda x: pd.to_numeric(x.str.replace(r'[\$,]', '', regex=True), errors='coerce'), ascending=ascending)
+        else:
+            ascending = table_sort_direction == 'asc'
+            df_display = df_display.sort_values(table_sort_column, ascending=ascending)
+    
+    # Create sortable column headers
+    def create_sortable_header(column_name, display_name):
+        arrow = ""
+        if table_sort_column == column_name:
+            arrow = " ↑" if table_sort_direction == 'asc' else " ↓"
+        
+        return html.Th([
+            html.Div([
+                display_name + arrow
+            ], 
+            id={'type': 'sort-header', 'column': column_name},
+            style={'cursor': 'pointer', 'userSelect': 'none'})
+        ], style={'padding': '8px', 'backgroundColor': '#f1f1f1', 'textAlign': 'left', 'minWidth': '100px'})
     
     return html.Div([
-        html.H4("Click on a country to highlight it on the map", 
-                style={'textAlign': 'center', 'marginBottom': '10px', 'color': '#666'}),
-        html.Table([
-            html.Thead([
-                html.Tr([
-                    html.Th("Country", style={'padding': '8px', 'backgroundColor': '#f1f1f1', 'textAlign': 'left', 'minWidth': '120px'}),
-                    html.Th("GDP", style={'padding': '8px', 'backgroundColor': '#f1f1f1', 'textAlign': 'center', 'minWidth': '100px'}),
-                    html.Th("Capital", style={'padding': '8px', 'backgroundColor': '#f1f1f1', 'textAlign': 'left', 'minWidth': '100px'}),
-                    html.Th("Currency", style={'padding': '8px', 'backgroundColor': '#f1f1f1', 'textAlign': 'left', 'minWidth': '80px'}),
-                    html.Th("Continent", style={'padding': '8px', 'backgroundColor': '#f1f1f1', 'textAlign': 'left', 'minWidth': '100px'})
+        # Country count display
+        html.Div([
+            f"Showing {len(df_display)} countries"
+        ], style={'marginBottom': '10px', 'color': '#666', 'fontSize': '14px'}),
+        
+        # Scrollable table container
+        html.Div([
+            html.Table([
+                html.Thead([
+                    html.Tr([
+                        create_sortable_header('country', 'Country'),
+                        create_sortable_header('gdp', 'GDP'),
+                        create_sortable_header('capital', 'Capital'),
+                        create_sortable_header('currency', 'Currency'),
+                        create_sortable_header('continent', 'Continent')
+                    ])
+                ]),
+                html.Tbody([
+                    html.Tr([
+                        html.Td(row['country'], style={'padding': '6px', 'textAlign': 'left', 'verticalAlign': 'middle', 'fontSize': '12px'}),
+                        html.Td(row['gdp'], style={'padding': '6px', 'textAlign': 'center', 'verticalAlign': 'middle', 'fontSize': '12px'}),
+                        html.Td(row['capital'], style={'padding': '6px', 'textAlign': 'left', 'verticalAlign': 'middle', 'fontSize': '12px'}),
+                        html.Td(row['currency'], style={'padding': '6px', 'textAlign': 'left', 'verticalAlign': 'middle', 'fontSize': '12px'}),
+                        html.Td(row['continent'], style={'padding': '6px', 'textAlign': 'left', 'verticalAlign': 'middle', 'fontSize': '12px'})
+                    ], 
+                    id={'type': 'country-row', 'index': i},
+                    style={
+                        'cursor': 'pointer',
+                        'backgroundColor': '#ffebee' if selected_country == row['country'] else 'white',
+                        'border': '2px solid #ff4444' if selected_country == row['country'] else '1px solid #ddd',
+                        'transition': 'background-color 0.2s ease'
+                    },
+                    className='country-row'
+                    ) for i, (_, row) in enumerate(df_display.iterrows())
                 ])
-            ]),
-            html.Tbody([
-                html.Tr([
-                    html.Td(row['country'], style={'padding': '8px', 'textAlign': 'left', 'verticalAlign': 'middle'}),
-                    html.Td(row['gdp'], style={'padding': '8px', 'textAlign': 'center', 'verticalAlign': 'middle'}),
-                    html.Td(row['capital'], style={'padding': '8px', 'textAlign': 'left', 'verticalAlign': 'middle'}),
-                    html.Td(row['currency'], style={'padding': '8px', 'textAlign': 'left', 'verticalAlign': 'middle'}),
-                    html.Td(row['continent'], style={'padding': '8px', 'textAlign': 'left', 'verticalAlign': 'middle'})
-                ], 
-                id={'type': 'country-row', 'index': i},
-                style={
-                    'cursor': 'pointer',
-                    'backgroundColor': '#ffebee' if selected_country == row['country'] else 'white',
-                    'border': '2px solid #ff4444' if selected_country == row['country'] else '1px solid #ddd',
-                    'transition': 'background-color 0.2s ease'
-                },
-                className='country-row'
-                ) for i, (_, row) in enumerate(df_display.iterrows())
-            ])
+            ], style={
+                'border': '1px solid #ddd', 
+                'borderCollapse': 'collapse',
+                'width': '100%',
+                'tableLayout': 'fixed'
+            })
         ], style={
-            'margin': 'auto', 
-            'border': '1px solid #ddd', 
-            'borderCollapse': 'collapse',
-            'width': '100%',
-            'tableLayout': 'fixed'
+            'maxHeight': '500px',
+            'overflowY': 'auto',
+            'border': '1px solid #ddd'
         })
     ])
 
 def get_explore_layout():
     """Get the layout for the explore page."""
     return html.Div([
-        # Store component to track selected country
+        # Store components to track state
         dcc.Store(id='selected-country-store', data=None),
+        dcc.Store(id='table-sort-store', data={'column': '', 'direction': 'asc'}),
         
         # GDP sorting controls using flexbox for horizontal alignment
         html.Div([
@@ -280,6 +324,21 @@ def get_explore_layout():
             
             # Data table on the right
             html.Div([
+                # Search input moved here so it exists in the layout
+                html.Div([
+                    html.H4("Click on a country to highlight it on the map", 
+                            style={'textAlign': 'center', 'marginBottom': '10px', 'color': '#666'}),
+                    html.Div([
+                        html.Label("Search Countries: ", style={'marginRight': '10px', 'fontWeight': 'bold'}),
+                        dcc.Input(
+                            id='country-search-input',
+                            type='text',
+                            placeholder='Search by country, capital, currency, or continent...',
+                            value='',
+                            style={'width': '300px', 'padding': '5px', 'marginBottom': '10px'}
+                        )
+                    ], style={'marginBottom': '15px'})
+                ]),
                 html.Div(id="data-table")
             ], style={'width': '30%', 'display': 'inline-block', 'verticalAlign': 'top', 'padding': '20px'})
         ])
@@ -288,14 +347,52 @@ def get_explore_layout():
 def register_explore_callbacks(app):
     """Register callbacks for the explore page."""
     
+    # Callback for handling table column header clicks for sorting
+    @app.callback(
+        Output('table-sort-store', 'data'),
+        Input({'type': 'sort-header', 'column': ALL}, 'n_clicks'),
+        State('table-sort-store', 'data'),
+        prevent_initial_call=True
+    )
+    def update_table_sort(n_clicks_list, current_sort):
+        # Check which header was clicked
+        ctx_triggered = ctx.triggered
+        if not ctx_triggered or not ctx_triggered[0]['value']:
+            return current_sort
+        
+        # Extract the column from the component_id
+        button_id = ctx_triggered[0]['prop_id'].split('.')[0]
+        if button_id == '' or button_id == '{}':
+            return current_sort
+            
+        try:
+            import json
+            component_id = json.loads(button_id)
+            # Ensure this is actually a sort-header click
+            if component_id.get('type') != 'sort-header':
+                return current_sort
+            clicked_column = component_id['column']
+        except (json.JSONDecodeError, KeyError):
+            return current_sort
+        
+        # Toggle sort direction if same column, otherwise set to ascending
+        if current_sort['column'] == clicked_column:
+            new_direction = 'desc' if current_sort['direction'] == 'asc' else 'asc'
+        else:
+            new_direction = 'asc'
+        
+        return {'column': clicked_column, 'direction': new_direction}
+    
     # Callback for handling country row clicks
     @app.callback(
         Output('selected-country-store', 'data'),
         Input({'type': 'country-row', 'index': ALL}, 'n_clicks'),
-        State('gdp-sort-dropdown', 'value'),
+        [State('gdp-sort-dropdown', 'value'),
+         State('country-search-input', 'value'),
+         State('table-sort-store', 'data')],
         prevent_initial_call=True
     )
-    def update_selected_country(n_clicks_list, sort_order):
+    def update_selected_country(n_clicks_list, sort_order, search_term, table_sort):
         # Check which button triggered the callback
         ctx_triggered = ctx.triggered
         if not ctx_triggered:
@@ -309,19 +406,43 @@ def register_explore_callbacks(app):
         import json
         component_id = json.loads(button_id)
         clicked_idx = component_id['index']
-            
-        # Get the country data based on current sorting
+        
+        # Recreate the filtered and sorted dataframe to get the correct country
         df_display = df.copy()
+        
+        # Apply GDP sorting first
         if sort_order == 'ascending':
             df_display = df_display.sort_values('gdp_numeric', ascending=True)
         elif sort_order == 'descending':
             df_display = df_display.sort_values('gdp_numeric', ascending=False)
         
-        df_display = df_display.head(20)
+        # Select columns
+        df_display = df_display[['country', 'gdp', 'capital', 'currency', 'continent']]
+        
+        # Apply search filter
+        if search_term:
+            search_mask = (
+                df_display['country'].str.contains(search_term, case=False, na=False) |
+                df_display['capital'].str.contains(search_term, case=False, na=False) |
+                df_display['currency'].str.contains(search_term, case=False, na=False) |
+                df_display['continent'].str.contains(search_term, case=False, na=False)
+            )
+            df_display = df_display[search_mask]
+        
+        # Apply table column sorting
+        if table_sort['column']:
+            if table_sort['column'] == 'gdp':
+                ascending = table_sort['direction'] == 'asc'
+                df_display = df_display.sort_values('gdp', key=lambda x: pd.to_numeric(x.str.replace(r'[\$,]', '', regex=True), errors='coerce'), ascending=ascending)
+            else:
+                ascending = table_sort['direction'] == 'asc'
+                df_display = df_display.sort_values(table_sort['column'], ascending=ascending)
         
         # Get the clicked country name
-        country_name = df_display.iloc[clicked_idx]['country']
-        return country_name
+        if clicked_idx < len(df_display):
+            country_name = df_display.iloc[clicked_idx]['country']
+            return country_name
+        return None
 
     @app.callback(
         Output('world-map', 'figure'),
@@ -334,7 +455,12 @@ def register_explore_callbacks(app):
     @app.callback(
         Output('data-table', 'children'),
         [Input('gdp-sort-dropdown', 'value'),
-         Input('selected-country-store', 'data')]
+         Input('selected-country-store', 'data'),
+         Input('country-search-input', 'value'),
+         Input('table-sort-store', 'data')]
     )
-    def update_table(sort_order, selected_country):
-        return create_data_table(sort_order, selected_country)
+    def update_table(sort_order, selected_country, search_term, table_sort):
+        search_term = search_term or ''
+        table_sort_column = table_sort.get('column', '') if table_sort else ''
+        table_sort_direction = table_sort.get('direction', 'asc') if table_sort else 'asc'
+        return create_data_table(sort_order, selected_country, search_term, table_sort_column, table_sort_direction)
