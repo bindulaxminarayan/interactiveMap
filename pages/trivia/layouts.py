@@ -63,7 +63,7 @@ def create_quiz_cards_grid():
             create_quiz_card(
                 title="Currencies",
                 emoji="💰",
-                description="Test your knowledge of world currencies!",
+                description="Match countries with their currencies!",
                 button_text="Start Currency Quiz",
                 button_id="start-currency-quiz"
             ),
@@ -86,7 +86,7 @@ def create_quiz_cards_grid():
             create_quiz_card(
                 title="Country Continent",
                 emoji="🌐",
-                description="Match countries with their continents",
+                description="Match countries with their continents!",
                 button_text="Start Continent Quiz",
                 button_id="start-continent-quiz"
             ),
@@ -116,6 +116,7 @@ def create_hidden_elements():
         html.Button("Restart Currency", id="restart-currency-quiz-result", style={'display': 'none'}),
         html.Button("Restart Capital", id="restart-capital-quiz-result", style={'display': 'none'}),
         html.Button("Next Question", id='next-btn', style={'display': 'none'}),
+        html.Button("View Results", id='view-results-btn', style={'display': 'none'}),
         html.Button("Quit Quiz", id='quit-quiz-btn', style={'display': 'none'}),
         html.Button("Back to Selection", id="back-to-selection", style={'display': 'none'}),
         html.Button("", id='answer-btn-0', style={'display': 'none'}),

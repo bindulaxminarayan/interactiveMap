@@ -5,7 +5,7 @@ Quiz-specific UI components for the trivia module.
 from dash import html
 from .components import create_quiz_button, create_score_display
 
-def create_progress_bar(current_question, total_questions, show_next_button=False):
+def create_progress_bar(current_question, total_questions, show_next_button=False, show_view_results_button=False, show_quit_quiz_button=True):
     """Create a progress bar showing quiz progress."""
     progress_percentage = ((current_question + 1) / total_questions) * 100
     remaining_questions = total_questions - (current_question + 1)
@@ -52,6 +52,18 @@ def create_progress_bar(current_question, total_questions, show_next_button=Fals
                                'marginTop': '10px',
                                'marginRight': '10px'
                            } if show_next_button else {'display': 'none'}),
+                html.Button("View Results", id='view-results-btn', 
+                           style={
+                               'padding': '8px 16px', 
+                               'fontSize': '14px',
+                               'backgroundColor': '#007bff', 
+                               'color': 'white',
+                               'border': 'none', 
+                               'borderRadius': '5px', 
+                               'cursor': 'pointer',
+                               'marginTop': '10px',
+                               'marginRight': '10px'
+                           } if show_view_results_button else {'display': 'none'}),
                 html.Button("Quit Quiz", id='quit-quiz-btn', 
                            style={
                                'padding': '8px 16px', 
@@ -62,7 +74,7 @@ def create_progress_bar(current_question, total_questions, show_next_button=Fals
                                'borderRadius': '5px', 
                                'cursor': 'pointer',
                                'marginTop': '10px'
-                           })
+                           }if show_quit_quiz_button else {'display': 'none'})
             ], style={'textAlign': 'right'})
         ])
     ], style={

@@ -119,8 +119,8 @@ def generate_capital_questions(df: pd.DataFrame, num_questions: int = 10) -> Lis
 
 def generate_continent_questions(df: pd.DataFrame, num_questions: int =10) -> List[Dict[str, Any]]:
     """Generate random country-continent questions."""
-    # Filter out countries with missing or invalid currency data
-    valid_countries = df[(df['currency'].notna()) & (df['currency'] != '')].copy()
+    # Filter out countries with missing or invalid continent data
+    valid_countries = df[(df['continent'].notna()) & (df['continent'] != '')].copy()
     
     if len(valid_countries) < num_questions:
         num_questions = len(valid_countries)
@@ -144,11 +144,20 @@ def generate_continent_questions(df: pd.DataFrame, num_questions: int =10) -> Li
         if len(other_continents) >= 3:
             wrong_continents = random.sample(list(other_continents), 3)
         else:
-            # If not enough unique currencies, use what we have and pad with generic ones
+            # If not enough unique continents, use what we have and pad with standard continents
             wrong_continents = list(other_continents)
+            standard_continents = ['Africa', 'Asia', 'Europe', 'North America', 'South America', 'Oceania', 'Australia', 'Transcontinental(Asia and Europe)']
+            for continent in standard_continents:
+                if len(wrong_continents) < 3 and continent != correct_continent and continent not in wrong_continents:
+                    wrong_continents.append(continent)
+                if len(wrong_continents) >= 3:
+                    break
+        
+        # Ensure we have exactly 3 unique wrong options
+        wrong_continents = wrong_continents[:3]
         
         # Create options list with correct answer at random position
-        options = wrong_continents[:3] + [correct_continent]
+        options = wrong_continents + [correct_continent]
         random.shuffle(options)
         correct_index = options.index(correct_continent)
         
@@ -157,7 +166,7 @@ def generate_continent_questions(df: pd.DataFrame, num_questions: int =10) -> Li
             "options": options,
             "correct": correct_index,
             "explanation": f"The continent of {correct_country} is {correct_continent}. Currency: {currency}, GDP: {gdp}",
-            "type": "currency"
+            "type": "continent"
         }
         questions.append(question)
     
