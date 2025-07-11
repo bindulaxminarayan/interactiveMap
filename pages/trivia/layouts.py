@@ -60,6 +60,13 @@ def create_quiz_cards_grid():
     return html.Div([
         # First row
         html.Div([
+              create_quiz_card(
+                title="General country quiz",
+                emoji="🏛️",
+                description="Match countries, capital, currencies!",
+                button_text="Start Country Quiz",
+                button_id="start-country-quiz"
+            ),
             create_quiz_card(
                 title="Currencies",
                 emoji="💰",
