@@ -125,7 +125,6 @@ def generate_continent_questions(df: pd.DataFrame, num_questions: int =10) -> Li
     """Generate random country-continent questions."""
     # Filter out countries with missing or invalid continent data
     valid_countries = df[(df['continent'].notna()) & (df['continent'] != '')].copy()
-    
     if len(valid_countries) < num_questions:
         num_questions = len(valid_countries)
     
@@ -142,7 +141,6 @@ def generate_continent_questions(df: pd.DataFrame, num_questions: int =10) -> Li
     for sc in standard_continents_to_add:
         if sc not in all_possible_continents:
             all_possible_continents.append(sc)
-
     for _, country_row in selected_countries.iterrows():
         correct_country = country_row['country']
         correct_continent = country_row['continent']
@@ -193,6 +191,26 @@ def generate_continent_questions(df: pd.DataFrame, num_questions: int =10) -> Li
     
     return questions
 
+def generate_country_questions(df: pd.DataFrame, num_questions: int =10) -> List[Dict[str, Any]]:
+    """Generate random country-continent questions."""
+    print(num_questions)
+    x1 = random.randint(0, num_questions)
+    x2 = random.randint(0, num_questions - x1)
+    x3 = num_questions-x1-x2
+    questions = []
+    if(x1 > 0):
+        continent_questions = generate_continent_questions(df, x1)
+        questions.extend(continent_questions)
+    if(x2 > 0):
+        capital_questions = generate_capital_questions(df,x2)
+        questions.extend(capital_questions)
+    if(x3 > 0):
+        currency_questions = generate_currency_questions(df,x3)
+        questions.extend(currency_questions)
+        random.shuffle(questions)
+        
+    return questions
+
 def generate_location_questions(df: pd.DataFrame, num_questions: int = 10) -> List[Dict[str, Any]]:
     """
     Generate location-based questions (placeholder for future implementation).
@@ -220,6 +238,7 @@ QUIZ_GENERATORS = {
     'capital': generate_capital_questions,
     'continent': generate_continent_questions,
     'location': generate_location_questions,
+    'country' : generate_country_questions
 }
 
 def get_quiz_questions(quiz_type: str, df: pd.DataFrame, num_questions: int = 10) -> List[Dict[str, Any]]:

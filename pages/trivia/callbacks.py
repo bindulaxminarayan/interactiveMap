@@ -23,13 +23,14 @@ def register_trivia_callbacks(app):
         Output('quiz-content-area', 'style'),
         Output('progress-container', 'children'),
         Output('progress-container', 'style'),
-        [Input('start-currency-quiz', 'n_clicks'),
+        [Input('start-country-quiz', 'n_clicks'),
+         Input('start-currency-quiz', 'n_clicks'),
          Input('start-capital-quiz', 'n_clicks'),
          Input('start-continent-quiz','n_clicks')],
         State('current-question-store', 'data'),
         prevent_initial_call=True
     )
-    def start_quiz(currency_clicks, capital_clicks, continent_clicks, current_data):
+    def start_quiz(country_clicks, currency_clicks, capital_clicks, continent_clicks, current_data):
         ctx = callback_context
         if not ctx.triggered:
             raise dash.exceptions.PreventUpdate
@@ -50,6 +51,9 @@ def register_trivia_callbacks(app):
         elif triggered_id == 'start-continent-quiz':
             questions = get_quiz_questions('continent', df, 10)
             quiz_type = 'continent'
+        elif triggered_id == 'start-country-quiz':
+            questions = get_quiz_questions('country', df, 10)
+            quiz_type = 'country'
         else:
             raise dash.exceptions.PreventUpdate
         
