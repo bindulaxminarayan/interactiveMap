@@ -103,8 +103,8 @@ def create_map(sort_order='none', selected_country=None):
     
     # Add highlighting for selected country
     if selected_country:
-        # Find the country's ISO code
-        country_row = df[df['country'] == selected_country]
+        # Find the country from the sorted dataframe to ensure it has all necessary columns
+        country_row = df_sorted[df_sorted['country'] == selected_country]
         if not country_row.empty:
             iso_code = country_row.iloc[0]['country_iso_alpha']
             # Choose color based on sort order
@@ -115,14 +115,17 @@ def create_map(sort_order='none', selected_country=None):
             else:
                 highlight_color = '#FF4444'  # Red for no sorting (default)
             
-            # Add a highlighted trace for the selected country
-            fig.add_trace(
-                px.choropleth(
-                    country_row,
-                    locations="country_iso_alpha",
-                    color_discrete_sequence=[highlight_color]
-                ).data[0]
+            # Add a highlighted trace for the selected country with full hover data
+            highlight_fig = px.choropleth(
+                country_row,
+                locations="country_iso_alpha",
+                color_discrete_sequence=[highlight_color],
+                 hover_name="country",
+                 hover_data=hover_data_dict
             )
+            
+            fig.add_trace(highlight_fig.data[0])
+            
             # Update the highlighted trace properties
             fig.data[-1].update(
                 name=f"Selected: {selected_country}",
