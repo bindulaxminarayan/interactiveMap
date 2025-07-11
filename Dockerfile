@@ -18,7 +18,7 @@ COPY . /app
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-dev
 
-FROM base
+FROM python:3.13-slim
 COPY --from=builder /app /app
 WORKDIR /app
 ENV PATH="/app/.venv/bin:$PATH"
