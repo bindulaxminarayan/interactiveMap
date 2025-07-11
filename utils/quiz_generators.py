@@ -193,22 +193,20 @@ def generate_continent_questions(df: pd.DataFrame, num_questions: int =10) -> Li
 
 def generate_country_questions(df: pd.DataFrame, num_questions: int =10) -> List[Dict[str, Any]]:
     """Generate random country-continent questions."""
-    print(num_questions)
-    x1 = random.randint(0, num_questions)
-    x2 = random.randint(0, num_questions - x1)
-    x3 = num_questions-x1-x2
+     # Divide as evenly as possible
+    base = num_questions // 3
+    remainder = num_questions % 3
+    counts = [base] * 3
+    # Randomly assign the remainder
+    for i in random.sample(range(3), remainder):
+        counts[i] += 1
+    q_funcs = [generate_continent_questions, generate_capital_questions, generate_currency_questions]
     questions = []
-    if(x1 > 0):
-        continent_questions = generate_continent_questions(df, x1)
-        questions.extend(continent_questions)
-    if(x2 > 0):
-        capital_questions = generate_capital_questions(df,x2)
-        questions.extend(capital_questions)
-    if(x3 > 0):
-        currency_questions = generate_currency_questions(df,x3)
-        questions.extend(currency_questions)
-        random.shuffle(questions)
-        
+    for func, count in zip(q_funcs, counts):
+        if count > 0:
+            questions.extend(func(df, count))
+    random.shuffle(questions)
+    
     return questions
 
 def generate_location_questions(df: pd.DataFrame, num_questions: int = 10) -> List[Dict[str, Any]]:
