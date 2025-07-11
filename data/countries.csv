@@ -157,7 +157,7 @@ North Macedonia,MKD,Skopje,Macedonian Denar,$18.00 Billion,Europe
 Northern Mariana Islands,MNP,Saipan,US Dollar,$0.60 Billion,Oceania
 Norway,NOR,Oslo,Norwegian Krone,$590.00 Billion,Europe
 Oman,OMN,Muscat,Rial,$108.00 Billion,Asia
-Pakistan,PAK,Islamabad,Pakistani Rupee,$380.00 Billion,Asia
+Pakistan,PAK,Islamabad,Rupee,$380.00 Billion,Asia
 Palau,PLW,Ngerulmud,US Dollar,$0.30 Billion,Oceania
 Panama,PAN,Panama City,Balboa,$92.00 Billion,North America
 Papua New Guinea,PNG,Port Moresby,Papua New Guinean Kina,$33.00 Billion,Oceania
@@ -171,8 +171,8 @@ Puerto Rico,PRI,San Juan,US Dollar,$120.00 Billion,North America
 Qatar,QAT,Doha,Riyal,$220.00 Billion,Asia
 Réunion,REU,Saint-Denis,Euro,$0.00,Africa
 Romania,ROU,Bucharest,Leu,$320.00 Billion,Europe
-Russia,RUS,Moscow,Russian Ruble,$1.86 Trillion,Transcontinental(Asia and Europe)
-Rwanda,RWA,Kigali,Rwandan Franc,$16.00 Billion,Africa
+Russia,RUS,Moscow,Ruble,$1.86 Trillion,Transcontinental(Asia and Europe)
+Rwanda,RWA,Kigali,Franc,$16.00 Billion,Africa
 Saint Helena,SHN,Jamestown,Pound,$0.06 Billion,Africa
 Saint Kitts and Nevis,KNA,Basseterre,East Caribbean Dollar,$1.20 Billion,North America
 Saint Lucia,LCA,Castries,East Caribbean Dollar,$2.50 Billion,North America
@@ -216,7 +216,7 @@ Turkmenistan,TKM,Ashgabat,Manat,$80.00 Billion,Asia
 Tuvalu,TUV,Funafuti,Australian Dollar,$0.07 Billion,Oceania
 Turks and Caicos Islands,TCA,Cockburn Town,US Dollar,$1.10 Billion,North America
 Uganda,UGA,Kampala,Shilling,$60.00 Billion,Africa
-Ukraine,UKR,Kyiv,Ukrainian Hryvnia,$170.00 Billion,Europe
+Ukraine,UKR,Kyiv,Hryvnia,$170.00 Billion,Europe
 United Arab Emirates,ARE,Abu Dhabi,Dirham,$550.00 Billion,Asia
 United Kingdom,GBR,London,Pound Sterling,$3.84 Trillion,Europe
 United States,USA,Washington D.C.,Dollar,$30.51 Trillion,North America

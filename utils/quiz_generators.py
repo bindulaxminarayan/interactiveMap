@@ -21,6 +21,8 @@ def generate_currency_questions(df: pd.DataFrame, num_questions: int = 10) -> Li
     for _, country_row in selected_countries.iterrows():
         correct_country = country_row['country']
         correct_currency = country_row['currency']
+        capital = country_row['capital']
+        gdp = country_row['gdp']
         
         # Generate 3 wrong currency options
         other_currencies = valid_countries[
@@ -49,7 +51,7 @@ def generate_currency_questions(df: pd.DataFrame, num_questions: int = 10) -> Li
             "question": f"What is the currency of {correct_country}?",
             "options": options,
             "correct": correct_index,
-            "explanation": f"The currency of {correct_country} is {correct_currency}.",
+            "explanation": f"The currency of {correct_country} is {correct_currency}. Capital:{capital}, GDP:{gdp}",
             "type": "currency"
         }
         questions.append(question)
@@ -71,6 +73,8 @@ def generate_capital_questions(df: pd.DataFrame, num_questions: int = 10) -> Lis
     for _, country_row in selected_countries.iterrows():
         correct_country = country_row['country']
         correct_capital = country_row['capital']
+        currency = country_row['currency']
+        gdp = country_row['gdp']
         
         # Handle complex capital entries (like "La Paz (admin), Sucre (judicial)")
         display_capital = correct_capital.split('(')[0].strip() if '(' in correct_capital else correct_capital
@@ -110,7 +114,7 @@ def generate_capital_questions(df: pd.DataFrame, num_questions: int = 10) -> Lis
             "question": f"What is the capital of {correct_country}?",
             "options": options,
             "correct": correct_index,
-            "explanation": f"The capital of {correct_country} is {display_capital}.",
+            "explanation": f"The capital of {correct_country} is {display_capital}.Currency:{currency}, GDP:{gdp}",
             "type": "capital"
         }
         questions.append(question)
@@ -129,33 +133,50 @@ def generate_continent_questions(df: pd.DataFrame, num_questions: int =10) -> Li
     selected_countries = valid_countries.sample(n=num_questions)
     questions = []
     
+       # Define a comprehensive list of all possible continents to draw from
+    # This should include all continents present in your DataFrame's 'continent' column
+    # plus any standard ones you want to ensure are always available.
+    all_possible_continents = list(df['continent'].unique())
+    # Add any standard continents that might not be in your DataFrame but you want as options
+    standard_continents_to_add = ['Africa', 'Asia', 'Europe', 'North America', 'South America', 'Oceania', 'Australia', 'Transcontinental(Asia and Europe)']
+    for sc in standard_continents_to_add:
+        if sc not in all_possible_continents:
+            all_possible_continents.append(sc)
+
     for _, country_row in selected_countries.iterrows():
         correct_country = country_row['country']
         correct_continent = country_row['continent']
         currency = country_row['currency']
         gdp = country_row['gdp']
         
-        # Generate 3 wrong continent options
-        other_continents = valid_countries[
+        # Collect all potential wrong continents
+        # Start with continents from other countries in the DataFrame
+        potential_wrong_options = set(valid_countries[
             (valid_countries['country'] != correct_country) & 
             (valid_countries['continent'] != correct_continent)
-        ]['continent'].unique()
+        ]['continent'].unique())
         
-        if len(other_continents) >= 3:
-            wrong_continents = random.sample(list(other_continents), 3)
+        # Add from the comprehensive list of all possible continents, ensuring uniqueness
+        # and excluding the correct continent
+        for continent in all_possible_continents:
+            if continent != correct_continent:
+                potential_wrong_options.add(continent)
+        
+        # Convert to a list to sample from
+        potential_wrong_options_list = list(potential_wrong_options)
+
+        # Ensure we have enough options to sample 3
+        if len(potential_wrong_options_list) >= 3:
+            wrong_continents = random.sample(potential_wrong_options_list, 3)
         else:
-            # If not enough unique continents, use what we have and pad with standard continents
-            wrong_continents = list(other_continents)
-            standard_continents = ['Africa', 'Asia', 'Europe', 'North America', 'South America', 'Oceania', 'Australia', 'Transcontinental(Asia and Europe)']
-            for continent in standard_continents:
-                if len(wrong_continents) < 3 and continent != correct_continent and continent not in wrong_continents:
-                    wrong_continents.append(continent)
-                if len(wrong_continents) >= 3:
-                    break
-        
-        # Ensure we have exactly 3 unique wrong options
-        wrong_continents = wrong_continents[:3]
-        
+            # If not enough, use all available unique wrong options
+            wrong_continents = potential_wrong_options_list 
+            # You might want to handle this edge case if you absolutely need 3 wrong options,
+            # perhaps by allowing fewer options for such questions, or returning fewer questions overall.
+            # For now, it will use whatever unique wrong options are available.
+            print(f"Warning: Not enough unique wrong continents for {correct_country}. Found {len(wrong_continents)} unique wrong options.")
+
+
         # Create options list with correct answer at random position
         options = wrong_continents + [correct_continent]
         random.shuffle(options)
