@@ -317,16 +317,32 @@ def create_completion_screen(score, total, quiz_type, questions=None, user_answe
         html.H2("Quiz Completed! 🎉", style={'textAlign': 'center', 'color': '#28a745'}),
         create_score_display(score, total, percentage, performance_msg, color),
         html.Div([
-            create_quiz_button(
-                f"Start New {quiz_type.title()} Quiz", 
-                f"restart-{quiz_type}-quiz-result", 
-                "primary", 
-                "10px"
+            html.Button(
+                f"Start New {quiz_type.title()} Quiz",
+                id="restart-current-quiz",
+                style={
+                    'padding': '15px 30px',
+                    'fontSize': '16px',
+                    'border': 'none',
+                    'borderRadius': '5px',
+                    'cursor': 'pointer',
+                    'marginRight': '10px',
+                    'backgroundColor': '#28a745',
+                    'color': 'white'
+                }
             ),
-            create_quiz_button(
-                "Back to Quiz Selection", 
-                "back-to-selection", 
-                "secondary"
+            html.Button(
+                "Back to Quiz Selection",
+                id="back-to-selection",
+                style={
+                    'padding': '15px 30px',
+                    'fontSize': '16px',
+                    'border': 'none',
+                    'borderRadius': '5px',
+                    'cursor': 'pointer',
+                    'backgroundColor': '#007bff',
+                    'color': 'white'
+                }
             )
         ], style={'textAlign': 'center'})
     ]

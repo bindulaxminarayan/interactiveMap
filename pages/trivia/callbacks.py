@@ -96,50 +96,26 @@ def register_trivia_callbacks(app):
                 progress_bar, 
                 progress_style)
     
-    # Separate callback for restart buttons from results screen
+    # Callback for restart button from completion screen
     @app.callback(
         Output('question-container', 'children', allow_duplicate=True),
         Output('current-question-store', 'data', allow_duplicate=True),
         Output('progress-container', 'children', allow_duplicate=True),
         Output('progress-container', 'style', allow_duplicate=True),
-        [Input('restart-country-quiz-result', 'n_clicks'),
-         Input('restart-currency-quiz-result', 'n_clicks'),
-         Input('restart-capital-quiz-result', 'n_clicks'),
-         Input('restart-continent-quiz-result', 'n_clicks'),
-         Input('restart-flag-quiz-result', 'n_clicks')],
+        Input('restart-current-quiz', 'n_clicks'),
         State('current-question-store', 'data'),
         prevent_initial_call=True
     )
-    def restart_quiz_from_results(restart_country_clicks,restart_currency_clicks,restart_capital_clicks,restart_continent_clicks,restart_flag_clicks,current_data):
-        ctx = callback_context
-        if not ctx.triggered:
+    def restart_current_quiz(restart_clicks, current_data):
+        if not restart_clicks or restart_clicks == 0:
             raise dash.exceptions.PreventUpdate
         
-        triggered_id = ctx.triggered[0]['prop_id'].split('.')[0]
-        triggered_value = ctx.triggered[0]['value']
+        # Get the quiz type from the previous quiz session (stored in completion data or fallback)
+        quiz_type = 'country'  # Default fallback
+        if current_data and 'quiz_type' in current_data:
+            quiz_type = current_data['quiz_type']
         
-        # Only process if button was actually clicked (n_clicks > 0)
-        if not triggered_value or triggered_value == 0:
-            raise dash.exceptions.PreventUpdate
-        
-        if triggered_id == 'restart-currency-quiz-result':
-            questions = get_quiz_questions('currency', df, 10)
-            quiz_type = 'currency'
-        elif triggered_id == 'restart-capital-quiz-result':
-            questions = get_quiz_questions('capital', df, 10)
-            quiz_type = 'capital'
-        elif triggered_id == 'restart-continent-quiz-result':
-            questions = get_quiz_questions('continent', df, 10)
-            quiz_type = 'continent'
-        elif triggered_id == 'restart-country-quiz-result':
-            questions = get_quiz_questions('country', df, 10)
-            quiz_type = 'country'
-        elif triggered_id == 'restart-flag-quiz-result':
-            questions = get_quiz_questions('flag', df, 10)
-            quiz_type = 'flag'
-        else:
-            raise dash.exceptions.PreventUpdate
-        
+        questions = get_quiz_questions(quiz_type, df, 10)
         question_data = questions[0]
         new_data = {
             'index': 0, 
@@ -266,7 +242,7 @@ def register_trivia_callbacks(app):
                     questions, 
                     user_answers
                 )
-                completion_data = {'index': 0, 'score': 0, 'questions': [], 'answered': False, 'user_answers': {}}
+                completion_data = {'index': 0, 'score': 0, 'questions': [], 'answered': False, 'user_answers': {}, 'quiz_type': quiz_type}
                 return completion_screen, completion_data, []
             else:
                 # Next question
@@ -303,7 +279,7 @@ def register_trivia_callbacks(app):
                 questions, 
                 user_answers
             )
-            completion_data = {'index': 0, 'score': 0, 'questions': [], 'answered': False, 'user_answers': {}}
+            completion_data = {'index': 0, 'score': 0, 'questions': [], 'answered': False, 'user_answers': {}, 'quiz_type': quiz_type}
             return completion_screen, completion_data, []
         
         raise dash.exceptions.PreventUpdate
