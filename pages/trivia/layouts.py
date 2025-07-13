@@ -132,6 +132,7 @@ def create_hidden_elements():
         html.Button("Restart Continent", id="restart-continent-quiz-result", style={'display': 'none'}),
         html.Button("Restart Country", id="restart-country-quiz-result", style={'display': 'none'}),
         html.Button("Restart Flag", id="restart-flag-quiz-result", style={'display': 'none'}),
+        html.Button("Restart Current", id="restart-current-quiz", style={'display': 'none'}),
         html.Button("Next Question", id='next-btn', style={'display': 'none'}),
         html.Button("View Results", id='view-results-btn', style={'display': 'none'}),
         html.Button("Quit Quiz", id='quit-quiz-btn', style={'display': 'none'}),
