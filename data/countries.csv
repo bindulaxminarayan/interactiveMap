@@ -41,7 +41,7 @@ Chad,TCD,N'Djamena,Central African CFA franc,$13.79 Billion,Africa,chad.png
 Chile,CHL,Santiago,Peso,$320.00 Billion,South America,chile.png
 China,CHN,Beijing,Yuan Renminbi,$19.23 Trillion,Asia,china.png
 Cocos Islands,CCK,West Island,Australian Dollar,$11 Million,Oceania,cocos.png
-Colombia,COL,Bogotá,Colombian Peso,$360.00 Billion,South America,colombia.png
+Colombia,COL,Bogotá,Peso,$360.00 Billion,South America,colombia.png
 Comoros,COM,Moroni,Franc,$1.38 Billion,Africa,comoros.png
 Congo (Dem. Rep.),COD,Kinshasa,Franc,$80.00 Billion,Africa,congo_cod.png
 Congo (Rep.),COG,Brazzaville,Central African CFA franc,$18.00 Billion,Africa,congo_brazzaville.png
@@ -123,8 +123,8 @@ Luxembourg,LUX,Luxembourg City,Euro,$89.00 Billion,Europe
 Macau,MAC,Macau,Macanese Pataca,$50.00 Billion,Asia
 Madagascar,MDG,Antananarivo,Malagasy Ariary,$16.00 Billion,Africa
 Malawi,MWI,Lilongwe,Malawian Kwacha,$16.00 Billion,Africa
-Malaysia,MYS,Kuala Lumpur,Malaysian Ringgit,$460.00 Billion,Asia
-Maldives,MDV,Malé,Maldivian Rufiyaa,$8.00 Billion,Asia
+Malaysia,MYS,Kuala Lumpur,Ringgit,$460.00 Billion,Asia
+Maldives,MDV,Malé,Rufiyaa,$8.00 Billion,Asia
 Mali,MLI,Bamako,West African CFA franc,$23.00 Billion,Africa
 Malta,MLT,Valletta,Euro,$25.00 Billion,Europe
 Marshall Islands,MHL,Majuro,US Dollar,$0.29 Billion,Oceania
@@ -144,23 +144,23 @@ Mozambique,MOZ,Maputo,Metical,$24.00 Billion,Africa
 Myanmar,MMR,Naypyidaw,Burmese Kyat,$90.00 Billion,Asia
 Namibia,NAM,Windhoek,Dollar,$16.00 Billion,Africa
 Nauru,NRU,Yaren,Australian Dollar,$0.15 Billion,Oceania
-Nepal,NPL,Kathmandu,Nepalese Rupee,$48.00 Billion,Asia
+Nepal,NPL,Kathmandu,Rupee,$48.00 Billion,Asia
 Netherlands,NLD,Amsterdam,Euro,$1.09 Trillion,Europe
 New Caledonia,NCL,Nouméa,CFP Franc,$9.00 Billion,Oceania
 New Zealand,NZL,Wellington,Dollar,$270.00 Billion,Oceania
-Nicaragua,NIC,Managua,Nicaraguan Córdoba,$24.00 Billion,North America
+Nicaragua,NIC,Managua,Córdoba,$24.00 Billion,North America
 Niger,NER,Niamey,West African CFA franc,$22.00 Billion,Africa
 Nigeria,NGA,Abuja,Naira,$500.00 Billion,Africa
 Niue,NIU,Alofi,New Zealand Dollar,$0.03 Billion,Oceania
 North Macedonia,MKD,Skopje,Macedonian Denar,$18.00 Billion,Europe
 Northern Mariana Islands,MNP,Saipan,US Dollar,$0.60 Billion,Oceania
-Norway,NOR,Oslo,Norwegian Krone,$590.00 Billion,Europe
+Norway,NOR,Oslo,Krone,$590.00 Billion,Europe
 Oman,OMN,Muscat,Rial,$108.00 Billion,Asia
 Pakistan,PAK,Islamabad,Rupee,$380.00 Billion,Asia
 Palau,PLW,Ngerulmud,US Dollar,$0.30 Billion,Oceania
 Panama,PAN,Panama City,Balboa,$92.00 Billion,North America
 Papua New Guinea,PNG,Port Moresby,Papua New Guinean Kina,$33.00 Billion,Oceania
-Paraguay,PRY,Asunción,Paraguayan Guaraní,$50.00 Billion,South America
+Paraguay,PRY,Asunción,Guaraní,$50.00 Billion,South America
 Peru,PER,Lima,Sol,$260.00 Billion,South America
 Philippines,PHL,Manila,Peso,$450.00 Billion,Asia
 Pitcairn Island,PCN,Adamstown,New Zealand Dollar,$0.00004 Billion,Oceania

@@ -157,14 +157,46 @@ def create_question_layout(question_data, question_index, total_questions, selec
             )
         answer_buttons.append(button)
     
-    return html.Div([
+    # Create the main content list
+    content = [
         html.H4(question_data['question'], 
-                style={'marginBottom': '20px', 'textAlign': 'center'}),
-        
-        html.Div(answer_buttons),
-        
-        html.Div(id="question-feedback", style={'marginTop': '20px'})
-    ])
+                style={'marginBottom': '20px', 'textAlign': 'center'})
+    ]
+    
+    # Add flag image if this is a flag question
+    if 'flag_image' in question_data:
+        flag_image = html.Div([
+            html.Img(
+                src=question_data['flag_image'],
+                style={
+                    'maxWidth': '300px',
+                    'maxHeight': '200px',
+                    'width': 'auto',
+                    'height': 'auto',
+                    'border': '2px solid #dee2e6',
+                    'borderRadius': '8px',
+                    'boxShadow': '0 2px 4px rgba(0,0,0,0.1)',
+                    'display': 'block',
+                    'margin': '0 auto'
+                }
+            )
+        ], style={
+            'textAlign': 'center',
+            'marginBottom': '30px',
+            'padding': '20px',
+            'backgroundColor': '#f8f9fa',
+            'borderRadius': '10px',
+            'border': '1px solid #dee2e6'
+        })
+        content.append(flag_image)
+    
+    # Add answer buttons
+    content.append(html.Div(answer_buttons))
+    
+    # Add feedback area
+    content.append(html.Div(id="question-feedback", style={'marginTop': '20px'}))
+    
+    return html.Div(content)
 
 def get_performance_data(score, total):
     """Get performance message and color based on score percentage."""
