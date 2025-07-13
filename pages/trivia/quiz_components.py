@@ -219,7 +219,8 @@ def create_review_answers_section(questions, user_answers):
     review_items = []
     
     for i, question_data in enumerate(questions):
-        user_answer_index = user_answers.get(i, -1)
+        # Handle both string and integer keys for compatibility with JSON serialization
+        user_answer_index = user_answers.get(str(i), user_answers.get(i, -1))
         correct_index = question_data['correct']
         
         # Get answer texts

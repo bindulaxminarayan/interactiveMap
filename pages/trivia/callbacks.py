@@ -272,6 +272,7 @@ def register_trivia_callbacks(app):
             quiz_type = current_data.get('quiz_type', 'quiz')
             questions = current_data.get('questions', [])
             user_answers = current_data.get('user_answers', {})
+            
             completion_screen = create_completion_screen(
                 current_data['score'], 
                 len(questions), 
@@ -279,7 +280,17 @@ def register_trivia_callbacks(app):
                 questions, 
                 user_answers
             )
-            completion_data = {'index': 0, 'score': 0, 'questions': [], 'answered': False, 'user_answers': {}, 'quiz_type': quiz_type}
+            
+            # Keep the quiz data for potential restart, but mark as completed
+            completion_data = {
+                'index': current_data['index'], 
+                'score': current_data['score'], 
+                'questions': questions, 
+                'answered': False, 
+                'user_answers': user_answers, 
+                'quiz_type': quiz_type,
+                'completed': True
+            }
             return completion_screen, completion_data, []
         
         raise dash.exceptions.PreventUpdate
