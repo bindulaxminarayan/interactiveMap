@@ -2,7 +2,7 @@
 Dash callbacks for the trivia module.
 """
 
-from dash import Input, Output, State, callback_context
+from dash import Input, Output, State, callback_context, html
 import dash.exceptions
 from utils.data_processing import load_countries_data
 from utils.quiz_generators import get_quiz_questions
@@ -102,15 +102,15 @@ def register_trivia_callbacks(app):
         Output('current-question-store', 'data', allow_duplicate=True),
         Output('progress-container', 'children', allow_duplicate=True),
         Output('progress-container', 'style', allow_duplicate=True),
-        [Input('restart-currency-quiz-result', 'n_clicks'),
+        [Input('restart-country-quiz-result', 'n_clicks'),
+         Input('restart-currency-quiz-result', 'n_clicks'),
          Input('restart-capital-quiz-result', 'n_clicks'),
          Input('restart-continent-quiz-result', 'n_clicks'),
-         Input('restart-country-quiz-result', 'n_clicks'),
          Input('restart-flag-quiz-result', 'n_clicks')],
         State('current-question-store', 'data'),
         prevent_initial_call=True
     )
-    def restart_quiz_from_results(restart_currency_clicks, restart_capital_clicks, restart_continent_clicks, restart_country_clicks, restart_flag_clicks, current_data):
+    def restart_quiz_from_results(restart_country_clicks,restart_currency_clicks,restart_capital_clicks,restart_continent_clicks,restart_flag_clicks,current_data):
         ctx = callback_context
         if not ctx.triggered:
             raise dash.exceptions.PreventUpdate
@@ -213,12 +213,18 @@ def register_trivia_callbacks(app):
             # Create layout with visual feedback
             layout = create_question_layout(question_data, current_index, len(questions), 
                                           selected_answer=clicked_index, is_answered=True)
-            layout.children[2] = feedback  # Put feedback in the correct div
+            
+            # Find and update the feedback div
+            for i, child in enumerate(layout.children):
+                if hasattr(child, 'id') and child.id == 'question-feedback':
+                    layout.children[i] = feedback
+                    break
             
             # Update data
             updated_data = current_data.copy()
             updated_data['score'] = new_score
             updated_data['answered'] = True
+            updated_data['selected_answer'] = clicked_index
             
             # Store user answer
             if 'user_answers' not in updated_data:
@@ -268,6 +274,7 @@ def register_trivia_callbacks(app):
                 updated_data = current_data.copy()
                 updated_data['index'] = next_index
                 updated_data['answered'] = False
+                updated_data['selected_answer'] = None
                 
                 # Update progress bar
                 progress_bar = create_progress_bar(next_index, len(questions))
