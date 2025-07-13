@@ -111,27 +111,27 @@ South Korea,KOR,Seoul,Won,$1.70 Trillion,Asia,southkorea.png
 Kosovo,XKX,Pristina,Euro,$11.00 Billion,Europe,kosovo.png
 Kuwait,KWT,Kuwait City,Dinar,$180.00 Billion,Asia,kuwait.png
 Kyrgyzstan,KGZ,Bishkek,Som,$14.00 Billion,Asia,kyrgystan.png
-Laos,LAO,Vientiane,Lao Kip,$23.00 Billion,Asia
-Latvia,LVA,Riga,Euro,$48.00 Billion,Europe
-Lebanon,LBN,Beirut,Pound,$23.00 Billion,Asia
-Lesotho,LSO,Maseru,Loti,$2.70 Billion,Africa
-Liberia,LBR,Monrovia,Dollar,$4.50 Billion,Africa
-Libya,LBY,Tripoli,Dinar,$54.00 Billion,Africa
-Liechtenstein,LIE,Vaduz,Swiss Franc,$7.00 Billion,Europe
-Lithuania,LTU,Vilnius,Euro,$90.00 Billion,Europe
-Luxembourg,LUX,Luxembourg City,Euro,$89.00 Billion,Europe
-Macau,MAC,Macau,Macanese Pataca,$50.00 Billion,Asia
-Madagascar,MDG,Antananarivo,Malagasy Ariary,$16.00 Billion,Africa
-Malawi,MWI,Lilongwe,Malawian Kwacha,$16.00 Billion,Africa
-Malaysia,MYS,Kuala Lumpur,Ringgit,$460.00 Billion,Asia
-Maldives,MDV,Malé,Rufiyaa,$8.00 Billion,Asia
-Mali,MLI,Bamako,West African CFA franc,$23.00 Billion,Africa
-Malta,MLT,Valletta,Euro,$25.00 Billion,Europe
-Marshall Islands,MHL,Majuro,US Dollar,$0.29 Billion,Oceania
-Martinique,MTQ,Fort-de-France,Euro,$0.00,North America
-Mauritania,MRT,Nouakchott,Ouguiya,$12.00 Billion,Africa
-Mauritius,MUS,Port Louis,Rupee,$18.00 Billion,Africa
-Mayotte,MYT,Mamoudzou,Euro,$0.00,Africa
+Laos,LAO,Vientiane,Lao Kip,$23.00 Billion,Asia,laos.png
+Latvia,LVA,Riga,Euro,$48.00 Billion,Europe,latvia.png
+Lebanon,LBN,Beirut,Pound,$23.00 Billion,Asia,lebanon.png
+Lesotho,LSO,Maseru,Loti,$2.70 Billion,Africa,lesotho.png
+Liberia,LBR,Monrovia,Dollar,$4.50 Billion,Africa,liberia.png
+Libya,LBY,Tripoli,Dinar,$54.00 Billion,Africa,libya.png
+Liechtenstein,LIE,Vaduz,Swiss Franc,$7.00 Billion,Europe,liechtenstein.png
+Lithuania,LTU,Vilnius,Euro,$90.00 Billion,Europe,lithuania.png
+Luxembourg,LUX,Luxembourg City,Euro,$89.00 Billion,Europe,luxembourg.png
+Macao,MAC,Macau,Macanese Pataca,$50.00 Billion,Asia,macao.png
+Madagascar,MDG,Antananarivo,Malagasy Ariary,$16.00 Billion,Africa,madagascar.png
+Malawi,MWI,Lilongwe,Malawian Kwacha,$16.00 Billion,Africa,malawi.png
+Malaysia,MYS,Kuala Lumpur,Ringgit,$460.00 Billion,Asia,malaysia.png
+Maldives,MDV,Malé,Rufiyaa,$8.00 Billion,Asia,maldives.png
+Mali,MLI,Bamako,West African CFA franc,$23.00 Billion,Africa,mali.png
+Malta,MLT,Valletta,Euro,$25.00 Billion,Europe,malta.png
+Marshall Islands,MHL,Majuro,US Dollar,$0.29 Billion,Oceania,marshallislands.png
+Martinique,MTQ,Fort-de-France,Euro,$0.00,North America,martinique.png
+Mauritania,MRT,Nouakchott,Ouguiya,$12.00 Billion,Africa,mauritania.png
+Mauritius,MUS,Port Louis,Rupee,$18.00 Billion,Africa,mauritius.png
+Mayotte,MYT,Mamoudzou,Euro,$0.00,Africa,mayotte.png
 Mexico,MEX,Mexico City,Peso,$1.71 Trillion,North America
 Micronesia,FSM,Palikir,US Dollar,$0.40 Billion,Oceania
 Moldova,MDA,Chișinău,Leu,$17.00 Billion,Europe
