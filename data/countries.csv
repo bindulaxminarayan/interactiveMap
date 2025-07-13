@@ -132,22 +132,22 @@ Martinique,MTQ,Fort-de-France,Euro,$0.00,North America,martinique.png
 Mauritania,MRT,Nouakchott,Ouguiya,$12.00 Billion,Africa,mauritania.png
 Mauritius,MUS,Port Louis,Rupee,$18.00 Billion,Africa,mauritius.png
 Mayotte,MYT,Mamoudzou,Euro,$0.00,Africa,mayotte.png
-Mexico,MEX,Mexico City,Peso,$1.71 Trillion,North America
-Micronesia,FSM,Palikir,US Dollar,$0.40 Billion,Oceania
-Moldova,MDA,Chișinău,Leu,$17.00 Billion,Europe
-Monaco,MCO,Monaco,Euro,$8.00 Billion,Europe
-Mongolia,MNG,Ulaanbaatar,Tögrög,$22.00 Billion,Asia
-Montenegro,MNE,Podgorica,Euro,$8.00 Billion,Europe
-Montserrat,MSR,Brades,East Caribbean Dollar,$0.07 Billion,North America
-Morocco,MAR,Rabat,Dirham,$150.00 Billion,Africa
-Mozambique,MOZ,Maputo,Metical,$24.00 Billion,Africa
-Myanmar,MMR,Naypyidaw,Burmese Kyat,$90.00 Billion,Asia
-Namibia,NAM,Windhoek,Dollar,$16.00 Billion,Africa
-Nauru,NRU,Yaren,Australian Dollar,$0.15 Billion,Oceania
-Nepal,NPL,Kathmandu,Rupee,$48.00 Billion,Asia
-Netherlands,NLD,Amsterdam,Euro,$1.09 Trillion,Europe
-New Caledonia,NCL,Nouméa,CFP Franc,$9.00 Billion,Oceania
-New Zealand,NZL,Wellington,Dollar,$270.00 Billion,Oceania
+Mexico,MEX,Mexico City,Peso,$1.71 Trillion,North America,mexico.png
+Micronesia,FSM,Palikir,US Dollar,$0.40 Billion,Oceania,micronesia.png
+Moldova,MDA,Chișinău,Leu,$17.00 Billion,Europe,moldova.png
+Monaco,MCO,Monaco,Euro,$8.00 Billion,Europe,monaco.png
+Mongolia,MNG,Ulaanbaatar,Tögrög,$22.00 Billion,Asia,mongolia.png
+Montenegro,MNE,Podgorica,Euro,$8.00 Billion,Europe,montenegro.png
+Montserrat,MSR,Brades,East Caribbean Dollar,$0.07 Billion,North America,montserrat.png
+Morocco,MAR,Rabat,Dirham,$150.00 Billion,Africa,morocco.png
+Mozambique,MOZ,Maputo,Metical,$24.00 Billion,Africa,mozambique.png
+Myanmar,MMR,Naypyidaw,Burmese Kyat,$90.00 Billion,Asia,myanmar.png
+Namibia,NAM,Windhoek,Dollar,$16.00 Billion,Africa,namibia.png
+Nauru,NRU,Yaren,Australian Dollar,$0.15 Billion,Oceania,nauru.png
+Nepal,NPL,Kathmandu,Rupee,$48.00 Billion,Asia,nepal.png
+Netherlands,NLD,Amsterdam,Euro,$1.09 Trillion,Europe,netherlands.png
+New Caledonia,NCL,Nouméa,CFP Franc,$9.00 Billion,Oceania,newcaledonia.png
+New Zealand,NZL,Wellington,Dollar,$270.00 Billion,Oceania,newzealand.png
 Nicaragua,NIC,Managua,Córdoba,$24.00 Billion,North America
 Niger,NER,Niamey,West African CFA franc,$22.00 Billion,Africa
 Nigeria,NGA,Abuja,Naira,$500.00 Billion,Africa
