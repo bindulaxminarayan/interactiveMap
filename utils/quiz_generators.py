@@ -23,6 +23,7 @@ def generate_currency_questions(df: pd.DataFrame, num_questions: int = 10) -> Li
         correct_currency = country_row['currency']
         capital = country_row['capital']
         gdp = country_row['gdp']
+        continent = country_row['continent']
         
         # Generate 3 wrong currency options
         other_currencies = valid_countries[
@@ -51,7 +52,8 @@ def generate_currency_questions(df: pd.DataFrame, num_questions: int = 10) -> Li
             "question": f"What is the currency of {correct_country}?",
             "options": options,
             "correct": correct_index,
-            "explanation": f"The currency of {correct_country} is {correct_currency}. Capital:{capital}, GDP:{gdp}",
+            "explanation": f"The currency of {correct_country} is {correct_currency}.",
+            "moreinfo": f"Capital:{capital}, GDP:{gdp}, Continent:{continent}",
             "type": "currency"
         }
         questions.append(question)
@@ -75,6 +77,7 @@ def generate_capital_questions(df: pd.DataFrame, num_questions: int = 10) -> Lis
         correct_capital = country_row['capital']
         currency = country_row['currency']
         gdp = country_row['gdp']
+        continent = country_row['continent']
         
         # Handle complex capital entries (like "La Paz (admin), Sucre (judicial)")
         display_capital = correct_capital.split('(')[0].strip() if '(' in correct_capital else correct_capital
@@ -114,7 +117,8 @@ def generate_capital_questions(df: pd.DataFrame, num_questions: int = 10) -> Lis
             "question": f"What is the capital of {correct_country}?",
             "options": options,
             "correct": correct_index,
-            "explanation": f"The capital of {correct_country} is {display_capital}.Currency:{currency}, GDP:{gdp}",
+            "explanation": f"The capital of {correct_country} is {display_capital}.",
+            "moreinfo":f"Currency:{currency}, GDP:{gdp}, Continent: {continent}",
             "type": "capital"
         }
         questions.append(question)
@@ -131,10 +135,6 @@ def generate_continent_questions(df: pd.DataFrame, num_questions: int =10) -> Li
     # Select random countries for questions
     selected_countries = valid_countries.sample(n=num_questions)
     questions = []
-    
-       # Define a comprehensive list of all possible continents to draw from
-    # This should include all continents present in your DataFrame's 'continent' column
-    # plus any standard ones you want to ensure are always available.
     all_possible_continents = list(df['continent'].unique())
     # Add any standard continents that might not be in your DataFrame but you want as options
     standard_continents_to_add = ['Africa', 'Asia', 'Europe', 'North America', 'South America', 'Oceania', 'Australia', 'Transcontinental(Asia and Europe)']
@@ -146,6 +146,7 @@ def generate_continent_questions(df: pd.DataFrame, num_questions: int =10) -> Li
         correct_continent = country_row['continent']
         currency = country_row['currency']
         gdp = country_row['gdp']
+        capital = country_row['capital']
         
         # Collect all potential wrong continents
         # Start with continents from other countries in the DataFrame
@@ -184,7 +185,8 @@ def generate_continent_questions(df: pd.DataFrame, num_questions: int =10) -> Li
             "question": f"What is the continent of {correct_country}?",
             "options": options,
             "correct": correct_index,
-            "explanation": f"The continent of {correct_country} is {correct_continent}. Currency: {currency}, GDP: {gdp}",
+            "explanation": f"The continent of {correct_country} is {correct_continent}.",
+            "moreinfo": f"Currency: {currency}, GDP: {gdp}, Capital:{capital}",
             "type": "continent"
         }
         questions.append(question)
@@ -193,12 +195,12 @@ def generate_continent_questions(df: pd.DataFrame, num_questions: int =10) -> Li
 
 def generate_country_questions(df: pd.DataFrame, num_questions: int =10) -> List[Dict[str, Any]]:
     """Generate random country-continent questions."""
-     # Divide as evenly as possible
-    base = num_questions // 3
-    remainder = num_questions % 3
-    counts = [base] * 3
+    total_categories = 3
+    base = num_questions // total_categories
+    remainder = num_questions % total_categories
+    counts = [base] * total_categories
     # Randomly assign the remainder
-    for i in random.sample(range(3), remainder):
+    for i in random.sample(range(total_categories), remainder):
         counts[i] += 1
     q_funcs = [generate_continent_questions, generate_capital_questions, generate_currency_questions]
     questions = []
@@ -206,6 +208,62 @@ def generate_country_questions(df: pd.DataFrame, num_questions: int =10) -> List
         if count > 0:
             questions.extend(func(df, count))
     random.shuffle(questions)
+    
+    return questions
+
+def generate_flag_questions(df: pd.DataFrame, num_questions: int = 10) -> List[Dict[str, Any]]:
+    """Generate flag questions - show flag image and ask for country name."""
+    # Filter out countries with missing or invalid flag data
+    valid_countries = df[(df['flag'].notna()) & (df['flag'] != '')].copy()
+    
+    if len(valid_countries) < num_questions:
+        num_questions = len(valid_countries)
+    
+    # Select random countries for questions
+    selected_countries = valid_countries.sample(n=num_questions)
+    questions = []
+    
+    for _, country_row in selected_countries.iterrows():
+        correct_country = country_row['country']
+        flag_filename = country_row['flag']
+        capital = country_row['capital']
+        currency = country_row['currency']
+        gdp = country_row['gdp']
+        continent = country_row['continent']
+        
+        # Generate 3 wrong country options
+        other_countries = valid_countries[
+            valid_countries['country'] != correct_country
+        ]['country'].unique()
+        
+        if len(other_countries) >= 3:
+            wrong_countries = random.sample(list(other_countries), 3)
+        else:
+            # If not enough unique countries with flags, use what we have and pad with generic ones
+            wrong_countries = list(other_countries)
+            # Add some common country names as fallbacks
+            generic_countries = ['United States', 'Canada', 'Brazil', 'Germany', 'France', 'Japan', 'China', 'India', 'Russia', 'South Africa']
+            for country in generic_countries:
+                if len(wrong_countries) < 3 and country != correct_country and country not in wrong_countries:
+                    wrong_countries.append(country)
+                if len(wrong_countries) >= 3:
+                    break
+        
+        # Create options list with correct answer at random position
+        options = wrong_countries[:3] + [correct_country]
+        random.shuffle(options)
+        correct_index = options.index(correct_country)
+        
+        question = {
+            "question": f"Which country does this flag belong to?",
+            "flag_image": f"assets/{flag_filename}",
+            "options": options,
+            "correct": correct_index,
+            "explanation": f"This is the flag of {correct_country}.",
+            "moreinfo": f"Capital: {capital}, Currency: {currency}, GDP: {gdp}, Continent: {continent}",
+            "type": "flag"
+        }
+        questions.append(question)
     
     return questions
 
@@ -236,7 +294,8 @@ QUIZ_GENERATORS = {
     'capital': generate_capital_questions,
     'continent': generate_continent_questions,
     'location': generate_location_questions,
-    'country' : generate_country_questions
+    'country': generate_country_questions,
+    'flag': generate_flag_questions
 }
 
 def get_quiz_questions(quiz_type: str, df: pd.DataFrame, num_questions: int = 10) -> List[Dict[str, Any]]:
