@@ -230,58 +230,86 @@ def create_review_answers_section(questions, user_answers):
         is_correct = user_answer_index == correct_index
         
         # Create question review item
-        question_review = html.Div([
+        review_content = [
             html.H5(f"Question {i + 1}: {question_data['question']}", 
-                   style={'marginBottom': '10px', 'color': '#333', 'fontWeight': 'bold'}),
-            
-            # Show all options with highlighting
-            html.Div([
-                html.Div([
-                    html.Span(f"{chr(65 + j)}. {option}", style={
+                   style={'marginBottom': '10px', 'color': '#333', 'fontWeight': 'bold'})
+        ]
+        
+        # Add flag image if this was a flag question
+        if 'flag_image' in question_data:
+            flag_image = html.Div([
+                html.Img(
+                    src=question_data['flag_image'],
+                    style={
+                        'maxWidth': '150px',
+                        'maxHeight': '100px',
+                        'width': 'auto',
+                        'height': 'auto',
+                        'border': '2px solid #dee2e6',
+                        'borderRadius': '8px',
+                        'boxShadow': '0 2px 4px rgba(0,0,0,0.1)',
                         'display': 'block',
-                        'padding': '8px 12px',
-                        'margin': '3px 0',
-                        'borderRadius': '5px',
-                        'backgroundColor': (
-                            '#28a745' if j == correct_index else  # Correct answer - green
-                            '#dc3545' if j == user_answer_index and j != correct_index else  # Wrong user answer - red
-                            '#f8f9fa'  # Other options - light gray
-                        ),
-                        'color': 'white' if (j == correct_index or (j == user_answer_index and j != correct_index)) else 'black',
-                        'fontWeight': 'bold' if (j == correct_index or j == user_answer_index) else 'normal',
-                        'border': '1px solid #dee2e6'
-                    })
-                    for j, option in enumerate(question_data['options'])
-                ])
+                        'margin': '0 auto'
+                    }
+                )
+            ], style={
+                'textAlign': 'center',
+                'marginBottom': '15px',
+                'padding': '10px',
+                'backgroundColor': '#f8f9fa',
+                'borderRadius': '8px',
+                'border': '1px solid #dee2e6'
+            })
+            review_content.append(flag_image)
+        
+        # Show all options with highlighting
+        options_div = html.Div([
+            html.Span(f"{chr(65 + j)}. {option}", style={
+                'display': 'block',
+                'padding': '8px 12px',
+                'margin': '3px 0',
+                'borderRadius': '5px',
+                'backgroundColor': (
+                    '#28a745' if j == correct_index else  # Correct answer - green
+                    '#dc3545' if j == user_answer_index and j != correct_index else  # Wrong user answer - red
+                    '#f8f9fa'  # Other options - light gray
+                ),
+                'color': 'white' if (j == correct_index or (j == user_answer_index and j != correct_index)) else 'black',
+                'fontWeight': 'bold' if (j == correct_index or j == user_answer_index) else 'normal',
+                'border': '1px solid #dee2e6'
+            })
+            for j, option in enumerate(question_data['options'])
+        ], style={'marginBottom': '10px'})
+        review_content.append(options_div)
+        
+        # Summary
+        summary_div = html.Div([
+            html.Div([
+                html.Strong("Your answer: ", style={'color': '#666'}),
+                html.Span(user_answer_text, style={
+                    'color': '#28a745' if is_correct else '#dc3545',
+                    'fontWeight': 'bold'
+                }),
+                html.Span(" ✓" if is_correct else " ✗", style={
+                    'color': '#28a745' if is_correct else '#dc3545',
+                    'fontSize': '18px',
+                    'marginLeft': '5px'
+                })
+            ], style={'marginBottom': '5px'}),
+            
+            html.Div([
+                html.Strong("Correct answer: ", style={'color': '#666'}),
+                html.Span(correct_answer_text, style={'color': '#28a745', 'fontWeight': 'bold'})
             ], style={'marginBottom': '10px'}),
             
-            # Summary
             html.Div([
-                html.Div([
-                    html.Strong("Your answer: ", style={'color': '#666'}),
-                    html.Span(user_answer_text, style={
-                        'color': '#28a745' if is_correct else '#dc3545',
-                        'fontWeight': 'bold'
-                    }),
-                    html.Span(" ✓" if is_correct else " ✗", style={
-                        'color': '#28a745' if is_correct else '#dc3545',
-                        'fontSize': '18px',
-                        'marginLeft': '5px'
-                    })
-                ], style={'marginBottom': '5px'}),
-                
-                html.Div([
-                    html.Strong("Correct answer: ", style={'color': '#666'}),
-                    html.Span(correct_answer_text, style={'color': '#28a745', 'fontWeight': 'bold'})
-                ], style={'marginBottom': '10px'}),
-                
-                html.Div([
-                    html.Strong("Explanation: ", style={'color': '#666'}),
-                    html.Span(question_data.get('explanation', 'No explanation available.'))
-                ], style={'color': '#555', 'fontStyle': 'italic'})
-            ])
-            
-        ], style={
+                html.Strong("Explanation: ", style={'color': '#666'}),
+                html.Span(question_data.get('explanation', 'No explanation available.'))
+            ], style={'color': '#555', 'fontStyle': 'italic'})
+        ])
+        review_content.append(summary_div)
+        
+        question_review = html.Div(review_content, style={
             'backgroundColor': '#ffffff',
             'border': '1px solid #dee2e6',
             'borderRadius': '8px',
