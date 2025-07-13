@@ -26,11 +26,12 @@ def register_trivia_callbacks(app):
         [Input('start-country-quiz', 'n_clicks'),
          Input('start-currency-quiz', 'n_clicks'),
          Input('start-capital-quiz', 'n_clicks'),
-         Input('start-continent-quiz','n_clicks')],
+         Input('start-continent-quiz','n_clicks'),
+         Input('start-flag-quiz','n_clicks')],
         State('current-question-store', 'data'),
         prevent_initial_call=True
     )
-    def start_quiz(country_clicks, currency_clicks, capital_clicks, continent_clicks, current_data):
+    def start_quiz(country_clicks, currency_clicks, capital_clicks, continent_clicks, flag_clicks, current_data):
         ctx = callback_context
         if not ctx.triggered:
             raise dash.exceptions.PreventUpdate
@@ -54,6 +55,9 @@ def register_trivia_callbacks(app):
         elif triggered_id == 'start-country-quiz':
             questions = get_quiz_questions('country', df, 10)
             quiz_type = 'country'
+        elif triggered_id == 'start-flag-quiz':
+            questions = get_quiz_questions('flag', df, 10)
+            quiz_type = 'flag'
         else:
             raise dash.exceptions.PreventUpdate
         
@@ -101,11 +105,12 @@ def register_trivia_callbacks(app):
         [Input('restart-currency-quiz-result', 'n_clicks'),
          Input('restart-capital-quiz-result', 'n_clicks'),
          Input('restart-continent-quiz-result', 'n_clicks'),
-         Input('restart-country-quiz-result', 'n_clicks')],
+         Input('restart-country-quiz-result', 'n_clicks'),
+         Input('restart-flag-quiz-result', 'n_clicks')],
         State('current-question-store', 'data'),
         prevent_initial_call=True
     )
-    def restart_quiz_from_results(restart_country_clicks, restart_currency_clicks, restart_capital_clicks, restart_continent_clicks, current_data):
+    def restart_quiz_from_results(restart_currency_clicks, restart_capital_clicks, restart_continent_clicks, restart_country_clicks, restart_flag_clicks, current_data):
         ctx = callback_context
         if not ctx.triggered:
             raise dash.exceptions.PreventUpdate
@@ -129,6 +134,9 @@ def register_trivia_callbacks(app):
         elif triggered_id == 'restart-country-quiz-result':
             questions = get_quiz_questions('country', df, 10)
             quiz_type = 'country'
+        elif triggered_id == 'restart-flag-quiz-result':
+            questions = get_quiz_questions('flag', df, 10)
+            quiz_type = 'flag'
         else:
             raise dash.exceptions.PreventUpdate
         
@@ -198,7 +206,8 @@ def register_trivia_callbacks(app):
             feedback = create_feedback_message(
                 is_correct, 
                 question_data['options'][question_data['correct']], 
-                question_data['explanation']
+                question_data['explanation'],
+                question_data['moreinfo']
             )
             
             # Create layout with visual feedback

@@ -98,6 +98,13 @@ def create_quiz_cards_grid():
                 button_id="start-continent-quiz"
             ),
             create_quiz_card(
+                title="Flag countries",
+                emoji="🇺🇳",
+                description="Match flag with their countries!",
+                button_text="Start Flag Quiz",
+                button_id="start-flag-quiz"
+            ),
+            create_quiz_card(
                 title="Locate Countries",
                 emoji="🗺️",
                 description="Find countries on the map!",
@@ -123,6 +130,8 @@ def create_hidden_elements():
         html.Button("Restart Currency", id="restart-currency-quiz-result", style={'display': 'none'}),
         html.Button("Restart Capital", id="restart-capital-quiz-result", style={'display': 'none'}),
         html.Button("Restart Continent", id="restart-continent-quiz-result", style={'display': 'none'}),
+        html.Button("Restart Country", id="restart-country-quiz-result", style={'display': 'none'}),
+        html.Button("Restart Flag", id="restart-flag-quiz-result", style={'display': 'none'}),
         html.Button("Next Question", id='next-btn', style={'display': 'none'}),
         html.Button("View Results", id='view-results-btn', style={'display': 'none'}),
         html.Button("Quit Quiz", id='quit-quiz-btn', style={'display': 'none'}),
@@ -131,7 +140,7 @@ def create_hidden_elements():
         html.Button("", id='answer-btn-1', style={'display': 'none'}),
         html.Button("", id='answer-btn-2', style={'display': 'none'}),
         html.Button("", id='answer-btn-3', style={'display': 'none'}),
-    ], style={'display': 'none'})
+    ], id='hidden-elements-container', style={'display': 'none'})
 
 def get_trivia_layout():
     """Get the layout for the trivia page with card-based quiz selection."""
@@ -143,6 +152,9 @@ def get_trivia_layout():
             'fontSize': '48px',
             'fontWeight': 'bold'
         }),
+        
+        # Global hidden elements that callbacks need to reference
+        create_hidden_elements(),
         
         # Quiz selection area or active quiz area
         html.Div([
@@ -161,9 +173,6 @@ def get_trivia_layout():
                 
                 # Hidden storage for current question
                 dcc.Store(id='current-question-store', data={'index': 0, 'score': 0}),
-                
-                # Hidden elements that callbacks need to reference
-                create_hidden_elements(),
                 
                 # Hidden trigger for button clicks
                 html.Div(id='hidden-trigger', style={'display': 'none'}),

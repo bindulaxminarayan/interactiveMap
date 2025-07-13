@@ -1,117 +1,116 @@
-country,country_iso_alpha,capital,currency,gdp,continent
-Afghanistan,AFG,Kabul,Afghani,$18.4 Billion,Asia
-Albania,ALB,Tirana,Lek,$28.37 Billion,Europe
-Algeria,DZA,Algiers,Dinar,$268.89 Billion,Africa
-American Samoa,ASM,Pago Pago,Dollar,$0.871 Billion,Oceania
-Andorra,AND,Andorra la Vella,Euro,$4.04 Billion,Europe
-Angola,AGO,Luanda,Kwanza,$82.57 Billion,Africa
-Anguilla,AIA,The Valley,Dollar,$0.416 Billion,North America
-Antigua and Barbuda,ATG,St. John's,Dollar,$2.37 Billion,North America
-Argentina,ARG,Buenos Aires,Peso,$654.08 Billion,South America
-Armenia,ARM,Yerevan,Dram,$62 Billion,Europe
-Australia,AUS,Canberra,Dollar,$1.728 Trillion,Australia
-Austria,AUT,Vienna,Euro,$514.3 Billion,Europe
-Azerbaijan,AZE,Baku,Manat,$78.87 Billion,Transcontinental(Asia and Europe)
-Bahamas,BHS,Nassau,Dollar,$15.00 Billion,North America
-Bahrain,BHR,Manama,Dinar,$45 Billion,Asia
-Bangladesh,BGD,Dhaka,Taka,$467.22 Billion,Asia
-Barbados,BRB,Bridgetown,Dollar,$7.55 Billion,North America
-Belarus,BLR,Minsk,Ruble,$77.00 Billion,Europe
-Belgium,BEL,Brussels,Euro,$689.36 Billion,Europe
-Belize,BLZ,Belmopan,Dollar,$3.49 Billion,North America
-Benin,BEN,Porto-Novo,West African CFA franc,$23.07 Billion,Africa
-Bermuda,BMU,Hamilton,Dollar,$7.20 Billion,North America
-Bhutan,BTN,Thimphu,Ngultrum,$3.22 Billion,Asia
-Bolivia,BOL,La Paz (administrative),Boliviano,$49.88 Billion,South America
-Bosnia and Herzegovina,BIH,Sarajevo,Convertible Mark,$33.30 Billion,Europe
-Botswana,BWA,Gaborone,Pula,$22.01 Billion,Africa
-Brazil,BRA,Brasília,Real,$2.13 Trillion,South America
-British Virgin Islands,VGB,Road Town,US Dollar,$1.80 Billion,North America
-Brunei,BRN,Bandar Seri Begawan,Dollar,$16.14 Billion,Asia
-Bulgaria,BGR,Sofia,Lev,$116.03 Billion,Europe
-Burkina Faso,BFA,Ouagadougou,West African CFA franc,$23.82 Billion,Africa
-Burundi,BDI,Gitega,Franc,$3.58 Billion,Africa
-Cabo Verde,CPV,Praia,Escudo,$2.58 Billion,Africa
-Cambodia,KHM,Phnom Penh,Cambodian Riel,$36.57 Billion,Asia
-Cameroon,CMR,Yaoundé,Central African CFA franc,$50.77 Billion,Africa
-Canada,CAN,Ottawa,Canadian Dollar,$2.23 Trillion,North America
-Cayman Islands,CYM,George Town,Dollar,$7.70 Billion,North America
-Central African Republic,CAF,Bangui,CFA franc,$2.90 Billion,Africa
-Chad,TCD,N'Djamena,Central African CFA franc,$13.79 Billion,Africa
-Chile,CHL,Santiago,Peso,$320.00 Billion,South America
-China,CHN,Beijing,Yuan Renminbi,$19.23 Trillion,Asia
-Cocos Islands,CCK,West Island,Australian Dollar,$11 Million,Oceania
-Colombia,COL,Bogotá,Colombian Peso,$360.00 Billion,South America
-Comoros,COM,Moroni,Franc,$1.38 Billion,Africa
-Congo (Dem. Rep.),COD,Kinshasa,Franc,$80.00 Billion,Africa
-Congo (Rep.),COG,Brazzaville,Central African CFA franc,$18.00 Billion,Africa
-Costa Rica,CRI,San José,Colón,$88.75 Billion,North America
-Croatia,HRV,Zagreb,Euro,$84.14 Billion,Europe
-Cuba,CUB,Havana,Peso,$70.00 Billion,North America
-Curaçao,CUW,Willemstad,Netherlands Antillean Guilder,$3.20 Billion,North America
-Cyprus,CYP,Nicosia,Euro,$34.00 Billion,Europe
-Czech Republic,CZE,Prague,Koruna,$310.00 Billion,Europe
-Côte d'Ivoire,CIV,Yamoussoukro,West African CFA franc,$90.00 Billion,Africa
-Denmark,DNK,Copenhagen,Krone,$437.00 Billion,Europe
-Djibouti,DJI,Djibouti City,Franc,$4.01 Billion,Africa
-Dominica,DMA,Roseau,East Caribbean Dollar,$0.67 Billion,North America
-Dominican Republic,DOM,Santo Domingo,Peso,$129.00 Billion,North America
-East Timor,TLS,Dili,US Dollar,$2.77 Billion,Asia
-Ecuador,ECU,Quito,US Dollar,$133.00 Billion,South America
-Egypt,EGY,Cairo,Pound,$470.00 Billion,Africa
-El Salvador,SLV,San Salvador,US Dollar,$37.00 Billion,North America
-Equatorial Guinea,GNQ,Malabo,Central African CFA franc,$12.00 Billion,Africa
-Eritrea,ERI,Asmara,Nakfa,$2.10 Billion,Africa
-Estonia,EST,Tallinn,Euro,$42.00 Billion,Europe
-Eswatini,SWZ,Mbabane (administrative),Lilangeni,$5.00 Billion,Africa
-Ethiopia,ETH,Addis Ababa,Birr,$100.00 Billion,Africa
-Falkland Islands,FLK,Stanley,Pound,$0.30 Billion,South America
-Faroe Islands,FRO,Tórshavn,Danish Krone,$3.00 Billion,Europe
-Fiji,FJI,Suva,Dollar,$6.30 Billion,Oceania
-Finland,FIN,Helsinki,Euro,$350.00 Billion,Europe
-France,FRA,Paris,Euro,$3.21 Trillion,Europe
-French Guiana,GUF,Cayenne,Euro,$4.5 Billion,South America
-French Polynesia,PYF,Papeete,CFP Franc,$6.20 Billion,Oceania
-Gabon,GAB,Libreville,Central African CFA franc,$20.00 Billion,Africa
-Gambia,GMB,Banjul,Dalasi,$2.60 Billion,Africa
-Gaza Strip,PSE,Gaza City,Israeli New Shekel,$0.00,Asia
-Georgia,GEO,Tbilisi,Lari,$30.00 Billion,Asia
-Germany,DEU,Berlin,Euro,$4.74 Trillion,Europe
-Ghana,GHA,Accra,Ghanaian Cedi,$98.00 Billion,Africa
-Gibraltar,GIB,Gibraltar,Pound,$3.50 Billion,Europe
-Greece,GRC,Athens,Euro,$280.00 Billion,Europe
-Grenada,GRD,St. George's,East Caribbean Dollar,$1.30 Billion,North America
-Guadeloupe,GLP,Basse-Terre,Euro,$0.0,North America
-Guam,GUM,Hagåtña,US Dollar,$6.10 Billion,Oceania
-Guatemala,GTM,Guatemala City,Quetzal,$110.00 Billion,North America
-Guernsey,GGY,Saint Peter Port,Pound Sterling,$0.00,Europe
-Guinea,GIN,Conakry,Franc,$21.00 Billion,Africa
-Guinea-Bissau,GNB,Bissau,West African CFA franc,$2.30 Billion,Africa
-Guyana,GUY,Georgetown,Dollar,$35.00 Billion,South America
-Haiti,HTI,Port-au-Prince,Gourde,$16.00 Billion,North America
-Honduras,HND,Tegucigalpa,Lempira,$39.00 Billion,North America
-Hong Kong,HKG,Hong Kong,Dollar,$380.00 Billion,Asia
-Hungary,HUN,Budapest,Forint,$230.00 Billion,Europe
-Iceland,ISL,Reykjavík,Króna,$33.00 Billion,Europe
-India,IND,New Delhi,Rupee,$4.19 Trillion,Asia
-Indonesia,IDN,Jakarta,Rupiah,$1.47 Trillion,Asia
-Iran,IRN,Tehran,Iranian Rial,$450.00 Billion,Asia
-Iraq,IRQ,Baghdad,Iraqi Dinar,$290.00 Billion,Asia
-Ireland,IRL,Dublin,Euro,$560.00 Billion,Europe
-Isle of Man,IMN,Douglas,Manx Pound,$8.00 Billion,Europe
-Israel,ISR,Jerusalem,Israeli New Shekel,$530.00 Billion,Asia
-Italy,ITA,Rome,Euro,$2.42 Trillion,Europe
-Jamaica,JAM,Kingston,Dollar,$20.00 Billion,North America
-Japan,JPN,Tokyo,Yen,$4.19 Trillion,Asia
-Jordan,JOR,Amman,Dinar,$56.00 Billion,Asia
-Kazakhstan,KAZ,Astana,Tenge,$260.00 Billion,Asia
-Kenya,KEN,Nairobi,Shilling,$120.00 Billion,Africa
-Kiribati,KIR,South Tarawa,Australian Dollar,$0.28 Billion,Oceania
-North Korea,PRK,Pyongyang,North Korean Won,$40.00 Billion,Asia
-South Korea,KOR,Seoul,Won,$1.70 Trillion,Asia
-Kosovo,XKX,Pristina,Euro,$11.00 Billion,Europe
-Kuwait,KWT,Kuwait City,Dinar,$180.00 Billion,Asia
-Kyrgyzstan,KGZ,Bishkek,Som,$14.00 Billion,Asia
+country,country_iso_alpha,capital,currency,gdp,continent,flag
+Afghanistan,AFG,Kabul,Afghani,$18.4 Billion,Asia,afghanistan.png
+Albania,ALB,Tirana,Lek,$28.37 Billion,Europe,albania.png
+Algeria,DZA,Algiers,Dinar,$268.89 Billion,Africa,algeria.png
+American Samoa,ASM,Pago Pago,Dollar,$0.871 Billion,Oceania,americansamoa.png
+Andorra,AND,Andorra la Vella,Euro,$4.04 Billion,Europe,andorra.png
+Angola,AGO,Luanda,Kwanza,$82.57 Billion,Africa,angola.png
+Anguilla,AIA,The Valley,Dollar,$0.416 Billion,North America,anguilla.png
+Antigua and Barbuda,ATG,St. John's,Dollar,$2.37 Billion,North America,antigua.png
+Argentina,ARG,Buenos Aires,Peso,$654.08 Billion,South America,argentina.png
+Armenia,ARM,Yerevan,Dram,$62 Billion,Europe,armenia.png
+Australia,AUS,Canberra,Dollar,$1.728 Trillion,Australia,australia.png
+Austria,AUT,Vienna,Euro,$514.3 Billion,Europe,austria.png
+Azerbaijan,AZE,Baku,Manat,$78.87 Billion,Transcontinental(Asia and Europe),azerbaijani.png
+Bahamas,BHS,Nassau,Dollar,$15.00 Billion,North America,bahamas.png
+Bahrain,BHR,Manama,Dinar,$45 Billion,Asia,bahrain.png
+Bangladesh,BGD,Dhaka,Taka,$467.22 Billion,Asia,bangladesh.png
+Barbados,BRB,Bridgetown,Dollar,$7.55 Billion,North America,barbados.png
+Belarus,BLR,Minsk,Ruble,$77.00 Billion,Europe,belarus.png
+Belgium,BEL,Brussels,Euro,$689.36 Billion,Europe,belgium.png
+Belize,BLZ,Belmopan,Dollar,$3.49 Billion,North America,belize.png
+Benin,BEN,Porto-Novo,West African CFA franc,$23.07 Billion,Africa,benin.png
+Bermuda,BMU,Hamilton,Dollar,$7.20 Billion,North America,bermuda.png
+Bhutan,BTN,Thimphu,Ngultrum,$3.22 Billion,Asia,bhutan.png
+Bolivia,BOL,La Paz (administrative),Boliviano,$49.88 Billion,South America,bolivia.png
+Bosnia and Herzegovina,BIH,Sarajevo,Convertible Mark,$33.30 Billion,Europe,bosniaHerzegovina.png
+Botswana,BWA,Gaborone,Pula,$22.01 Billion,Africa,botswana.png
+Brazil,BRA,Brasília,Real,$2.13 Trillion,South America,brazil.png
+British Virgin Islands,VGB,Road Town,US Dollar,$1.80 Billion,North America,britishvirgina.png
+Brunei,BRN,Bandar Seri Begawan,Dollar,$16.14 Billion,Asia,brunei.png
+Bulgaria,BGR,Sofia,Lev,$116.03 Billion,Europe,bulgaria.png
+Burkina Faso,BFA,Ouagadougou,West African CFA franc,$23.82 Billion,Africa,burkina.png
+Burundi,BDI,Gitega,Franc,$3.58 Billion,Africa,burundi.png
+Cape Verde,CPV,Praia,Escudo,$2.58 Billion,Africa,capeverde.png
+Cambodia,KHM,Phnom Penh,Cambodian Riel,$36.57 Billion,Asia,cambodia.png
+Cameroon,CMR,Yaoundé,Central African CFA franc,$50.77 Billion,Africa,cameroon.png
+Canada,CAN,Ottawa,Canadian Dollar,$2.23 Trillion,North America,canada.png
+Cayman Islands,CYM,George Town,Dollar,$7.70 Billion,North America,caymanislands.png
+Central African Republic,CAF,Bangui,CFA franc,$2.90 Billion,Africa,centralafrica.png
+Chad,TCD,N'Djamena,Central African CFA franc,$13.79 Billion,Africa,chad.png
+Chile,CHL,Santiago,Peso,$320.00 Billion,South America,chile.png
+China,CHN,Beijing,Yuan Renminbi,$19.23 Trillion,Asia,china.png
+Cocos Islands,CCK,West Island,Australian Dollar,$11 Million,Oceania,cocos.png
+Colombia,COL,Bogotá,Colombian Peso,$360.00 Billion,South America,colombia.png
+Comoros,COM,Moroni,Franc,$1.38 Billion,Africa,comoros.png
+Congo (Dem. Rep.),COD,Kinshasa,Franc,$80.00 Billion,Africa,congo_cod.png
+Congo (Rep.),COG,Brazzaville,Central African CFA franc,$18.00 Billion,Africa,congo_brazzaville.png
+Costa Rica,CRI,San José,Colón,$88.75 Billion,North America,costarica.png
+Croatia,HRV,Zagreb,Euro,$84.14 Billion,Europe,croatia.png
+Cuba,CUB,Havana,Peso,$70.00 Billion,North America,cuba.png
+Curaçao,CUW,Willemstad,Netherlands Antillean Guilder,$3.20 Billion,North America,curacao.png
+Cyprus,CYP,Nicosia,Euro,$34.00 Billion,Europe,cyprus.png
+Czech Republic,CZE,Prague,Koruna,$310.00 Billion,Europe,czech.png
+Côte d'Ivoire,CIV,Yamoussoukro,West African CFA franc,$90.00 Billion,Africa,cotedivoire.png
+Denmark,DNK,Copenhagen,Krone,$437.00 Billion,Europe,denmark.png
+Djibouti,DJI,Djibouti City,Franc,$4.01 Billion,Africa,djibouti.png
+Dominica,DMA,Roseau,East Caribbean Dollar,$0.67 Billion,North America,dominica.png
+Dominican Republic,DOM,Santo Domingo,Peso,$129.00 Billion,North America,dominicanrepublic.png
+Ecuador,ECU,Quito,US Dollar,$133.00 Billion,South America,ecuador.png
+Egypt,EGY,Cairo,Pound,$470.00 Billion,Africa,egypt.png
+El Salvador,SLV,San Salvador,US Dollar,$37.00 Billion,North America,elsalvador.png
+Equatorial Guinea,GNQ,Malabo,Central African CFA franc,$12.00 Billion,Africa,guinea.png
+Eritrea,ERI,Asmara,Nakfa,$2.10 Billion,Africa,eritrea.png
+Estonia,EST,Tallinn,Euro,$42.00 Billion,Europe,estonia.png
+Eswatini,SWZ,Mbabane (administrative),Lilangeni,$5.00 Billion,Africa,eswatini.png
+Ethiopia,ETH,Addis Ababa,Birr,$100.00 Billion,Africa,ethiopia.png
+Falkland Islands,FLK,Stanley,Pound,$0.30 Billion,South America,falkland.png
+Faroe Islands,FRO,Tórshavn,Danish Krone,$3.00 Billion,Europe,faroe.png
+Fiji,FJI,Suva,Dollar,$6.30 Billion,Oceania,figi.png
+Finland,FIN,Helsinki,Euro,$350.00 Billion,Europe,finland.png
+France,FRA,Paris,Euro,$3.21 Trillion,Europe,france.png
+French Guiana,GUF,Cayenne,Euro,$4.5 Billion,South America,frenchguiana.png
+French Polynesia,PYF,Papeete,CFP Franc,$6.20 Billion,Oceania,frenchpolynesia.png
+Gabon,GAB,Libreville,Central African CFA franc,$20.00 Billion,Africa,gabon.png
+Gambia,GMB,Banjul,Dalasi,$2.60 Billion,Africa,gambia.png
+Gaza Strip,PSE,Gaza City,Israeli New Shekel,$0.00,Asia,gaza_strip.png
+Georgia,GEO,Tbilisi,Lari,$30.00 Billion,Asia,georgia.png
+Germany,DEU,Berlin,Euro,$4.74 Trillion,Europe,germany.png
+Ghana,GHA,Accra,Ghanaian Cedi,$98.00 Billion,Africa,ghana.png
+Gibraltar,GIB,Gibraltar,Pound,$3.50 Billion,Europe,gibraltar.png
+Greece,GRC,Athens,Euro,$280.00 Billion,Europe,greece.png
+Grenada,GRD,St. George's,East Caribbean Dollar,$1.30 Billion,North America,grenada.png
+Guadeloupe,GLP,Basse-Terre,Euro,$0.0,North America,guadeloupe.png
+Guam,GUM,Hagåtña,US Dollar,$6.10 Billion,Oceania,guam.png
+Guatemala,GTM,Guatemala City,Quetzal,$110.00 Billion,North America,guatemala.png
+Guernsey,GGY,Saint Peter Port,Pound Sterling,$0.00,Europe,guernsey.png
+Guinea,GIN,Conakry,Franc,$21.00 Billion,Africa,guinea.png
+Guinea-Bissau,GNB,Bissau,West African CFA franc,$2.30 Billion,Africa,guineabissau.png
+Guyana,GUY,Georgetown,Dollar,$35.00 Billion,South America,guyana.png
+Haiti,HTI,Port-au-Prince,Gourde,$16.00 Billion,North America,haiti.png
+Honduras,HND,Tegucigalpa,Lempira,$39.00 Billion,North America,honduras.png
+Hong Kong,HKG,Victoria,Dollar,$380.00 Billion,Asia,hongkong.png
+Hungary,HUN,Budapest,Forint,$230.00 Billion,Europe,hungary.png
+Iceland,ISL,Reykjavík,Króna,$33.00 Billion,Europe,iceland.png
+India,IND,New Delhi,Rupee,$4.19 Trillion,Asia,india.png
+Indonesia,IDN,Jakarta,Rupiah,$1.47 Trillion,Asia,indonesia.png
+Iran,IRN,Tehran,Iranian Rial,$450.00 Billion,Asia,iran.png
+Iraq,IRQ,Baghdad,Iraqi Dinar,$290.00 Billion,Asia,iraq.png
+Ireland,IRL,Dublin,Euro,$560.00 Billion,Europe,ireland.png
+Isle of Man,IMN,Douglas,Manx Pound,$8.00 Billion,Europe,isleofman.png
+Israel,ISR,Jerusalem,Israeli New Shekel,$530.00 Billion,Asia,israel.png
+Italy,ITA,Rome,Euro,$2.42 Trillion,Europe,italy.png
+Jamaica,JAM,Kingston,Dollar,$20.00 Billion,North America,jamaica.png
+Japan,JPN,Tokyo,Yen,$4.19 Trillion,Asia,japan.png
+Jordan,JOR,Amman,Dinar,$56.00 Billion,Asia,jordan.png
+Kazakhstan,KAZ,Astana,Tenge,$260.00 Billion,Asia,kazakhstan.png
+Kenya,KEN,Nairobi,Shilling,$120.00 Billion,Africa,kenya.png
+Kiribati,KIR,South Tarawa,Australian Dollar,$0.28 Billion,Oceania,kiribati.png
+North Korea,PRK,Pyongyang,North Korean Won,$40.00 Billion,Asia,northkorea.png
+South Korea,KOR,Seoul,Won,$1.70 Trillion,Asia,southkorea.png
+Kosovo,XKX,Pristina,Euro,$11.00 Billion,Europe,kosovo.png
+Kuwait,KWT,Kuwait City,Dinar,$180.00 Billion,Asia,kuwait.png
+Kyrgyzstan,KGZ,Bishkek,Som,$14.00 Billion,Asia,kyrgystan.png
 Laos,LAO,Vientiane,Lao Kip,$23.00 Billion,Asia
 Latvia,LVA,Riga,Euro,$48.00 Billion,Europe
 Lebanon,LBN,Beirut,Pound,$23.00 Billion,Asia
@@ -143,7 +142,7 @@ Montserrat,MSR,Brades,East Caribbean Dollar,$0.07 Billion,North America
 Morocco,MAR,Rabat,Dirham,$150.00 Billion,Africa
 Mozambique,MOZ,Maputo,Metical,$24.00 Billion,Africa
 Myanmar,MMR,Naypyidaw,Burmese Kyat,$90.00 Billion,Asia
-Namibia,,Windhoek,Dollar,$16.00 Billion,Africa
+Namibia,NAM,Windhoek,Dollar,$16.00 Billion,Africa
 Nauru,NRU,Yaren,Australian Dollar,$0.15 Billion,Oceania
 Nepal,NPL,Kathmandu,Nepalese Rupee,$48.00 Billion,Asia
 Netherlands,NLD,Amsterdam,Euro,$1.09 Trillion,Europe
@@ -183,7 +182,7 @@ San Marino,SMR,San Marino,Euro,$1.80 Billion,Europe
 Sao Tome and Principe,STP,São Tomé,Dobra,$0.60 Billion,Africa
 Saudi Arabia,SAU,Riyadh,Riyal,$1.15 Trillion,Asia
 Senegal,SEN,Dakar,West African CFA franc,$41.00 Billion,Africa
-Serbia,SRB,Belgrade,Serbian Dinar,$80.00 Billion,Europe
+Serbia,SRB,Belgrade,Dinar,$80.00 Billion,Europe
 Seychelles,SYC,Victoria,Seychellois Rupee,$2.00 Billion,Africa
 Sierra Leone,SLE,Freetown,Leone,$4.50 Billion,Africa
 Singapore,SGP,Singapore,Dollar,$530.00 Billion,Asia
@@ -198,14 +197,14 @@ Spain,ESP,Madrid,Euro,$1.72 Trillion,Europe
 Sri Lanka,LKA,Colombo,Rupee,$80.00 Billion,Asia
 Sudan,SDN,Khartoum,Pound,$50.00 Billion,Africa
 Suriname,SUR,Paramaribo,Dollar,$4.00 Billion,South America
-Sweden,SWE,Stockholm,Swedish Krona,$600.00 Billion,Europe
+Sweden,SWE,Stockholm,Krona,$600.00 Billion,Europe
 Switzerland,CHE,Bern,Franc,$920.00 Billion,Europe
 Syria,SYR,Damascus,Pound,$50.00 Billion,Asia
 Taiwan,TWN,Taipei,Dollar,$850.00 Billion,Asia
 Tajikistan,TJK,Dushanbe,Somoni,$15.00 Billion,Asia
 Tanzania,TZA,Dodoma,Shilling,$90.00 Billion,Africa
 Thailand,THA,Bangkok,Baht,$590.00 Billion,Asia
-Timor-Leste,TLS,Dili,US Dollar,$2.77 Billion,Asia
+Timor-Leste(East-Timor),TLS,Dili,US Dollar,$2.77 Billion,Asia
 Togo,TGO,Lomé,West African CFA franc,$12.00 Billion,Africa
 Tokelau,TKL,Nukunonu,New Zealand Dollar,$0.01 Billion,Oceania
 Tonga,TON,Nukuʻalofa,Tongan Paʻanga,$0.60 Billion,Oceania
@@ -221,7 +220,7 @@ United Arab Emirates,ARE,Abu Dhabi,Dirham,$550.00 Billion,Asia
 United Kingdom,GBR,London,Pound Sterling,$3.84 Trillion,Europe
 United States,USA,Washington D.C.,Dollar,$30.51 Trillion,North America
 United States Virgin Islands,VIR,Charlotte Amalie,Dollar,$4.50 Billion,North America
-Uruguay,URY,Montevideo,Uruguayan Peso,$80.00 Billion,South America
+Uruguay,URY,Montevideo,Peso,$80.00 Billion,South America
 Uzbekistan,UZB,Tashkent,Som,$100.00 Billion,Asia
 Vanuatu,VUT,Port Vila,Vanuatu Vatu,$1.20 Billion,Oceania
 Venezuela,VEN,Caracas,Bolívar,$100.00 Billion,South America
