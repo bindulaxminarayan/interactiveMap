@@ -61,8 +61,8 @@ def create_quiz_cards_grid():
         # First row
         html.Div([
               create_quiz_card(
-                title="General country quiz",
-                emoji="🏛️",
+                title="General",
+                emoji="🌎",
                 description="Match countries, capital, currencies!",
                 button_text="Start Country Quiz",
                 button_id="start-country-quiz"
@@ -91,14 +91,14 @@ def create_quiz_cards_grid():
         # Second row
         html.Div([
             create_quiz_card(
-                title="Country Continent",
+                title="Continents",
                 emoji="🌐",
                 description="Match countries with their continents!",
                 button_text="Start Continent Quiz",
                 button_id="start-continent-quiz"
             ),
             create_quiz_card(
-                title="Flag countries",
+                title="Flags",
                 emoji="🇺🇳",
                 description="Match flag with their countries!",
                 button_text="Start Flag Quiz",
@@ -146,12 +146,20 @@ def create_hidden_elements():
 def get_trivia_layout():
     """Get the layout for the trivia page with card-based quiz selection."""
     return html.Div([
-        html.H1("Country Trivia", style={
+        html.H1("World Trivia", style={
             'textAlign': 'center', 
-            'marginBottom': '40px',
+            'marginBottom': '10px',
             'color': '#333',
             'fontSize': '48px',
             'fontWeight': 'bold'
+        }),
+            html.Div(id="quiz_type_display", style={
+            'textAlign': 'center', 
+            'marginTop': '0px',
+            'marginBottom': '20px',
+            'fontSize': '28px',
+            'fontWeight': 'bold',
+            'color': "#270D9B"
         }),
         
         # Global hidden elements that callbacks need to reference

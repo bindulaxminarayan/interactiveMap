@@ -315,3 +315,12 @@ def get_quiz_questions(quiz_type: str, df: pd.DataFrame, num_questions: int = 10
     
     generator_func = QUIZ_GENERATORS[quiz_type]
     return generator_func(df, num_questions)
+
+QUIZ_TYPE_LABEL = {
+    "currency": "Currencies",
+    "capital":"Capitals",
+    "continent":"Continents",
+    "country":"Countries",
+    "flag":"Flags"
+}
+
