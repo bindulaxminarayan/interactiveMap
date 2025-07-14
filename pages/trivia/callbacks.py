@@ -5,9 +5,10 @@ Dash callbacks for the trivia module.
 from dash import Input, Output, State, callback_context, html
 import dash.exceptions
 from utils.data_processing import load_countries_data
-from utils.quiz_generators import get_quiz_questions
+from utils.quiz_generators import get_quiz_questions,QUIZ_TYPE_LABEL
 from .quiz_components import create_progress_bar, create_question_layout, create_completion_screen
 from .components import create_feedback_message
+import pprint
 
 # Load the data for trivia questions
 df = load_countries_data()
@@ -17,6 +18,7 @@ def register_trivia_callbacks(app):
     
     # Callback for starting quizzes from quiz cards
     @app.callback(
+        Output('quiz_type_display','children'),
         Output('question-container', 'children'),
         Output('current-question-store', 'data'),
         Output('quiz-selection-area', 'style'),
@@ -46,18 +48,23 @@ def register_trivia_callbacks(app):
         if triggered_id == 'start-currency-quiz':
             questions = get_quiz_questions('currency', df, 10)
             quiz_type = 'currency'
+            quiz_type_display = QUIZ_TYPE_LABEL[quiz_type] 
         elif triggered_id == 'start-capital-quiz':
             questions = get_quiz_questions('capital', df, 10)
             quiz_type = 'capital'
+            quiz_type_display = QUIZ_TYPE_LABEL[quiz_type]
         elif triggered_id == 'start-continent-quiz':
             questions = get_quiz_questions('continent', df, 10)
             quiz_type = 'continent'
+            quiz_type_display = QUIZ_TYPE_LABEL[quiz_type]
         elif triggered_id == 'start-country-quiz':
             questions = get_quiz_questions('country', df, 10)
             quiz_type = 'country'
+            quiz_type_display = QUIZ_TYPE_LABEL[quiz_type]
         elif triggered_id == 'start-flag-quiz':
             questions = get_quiz_questions('flag', df, 10)
             quiz_type = 'flag'
+            quiz_type_display = QUIZ_TYPE_LABEL[quiz_type]
         else:
             raise dash.exceptions.PreventUpdate
         
@@ -68,6 +75,7 @@ def register_trivia_callbacks(app):
             'questions': questions,
             'answered': False,
             'quiz_type': quiz_type,
+            'quiz_type_display': quiz_type_display,
             'user_answers': {}
         }
         
@@ -88,8 +96,8 @@ def register_trivia_callbacks(app):
         # Show progress bar
         progress_bar = create_progress_bar(0, len(questions))
         progress_style = {'display': 'block'}
-        
-        return (create_question_layout(question_data, 0, len(questions)), 
+        return (quiz_type_display,
+                create_question_layout(question_data, 0, len(questions)), 
                 new_data, 
                 quiz_selection_style,
                 quiz_content_style,
@@ -98,6 +106,7 @@ def register_trivia_callbacks(app):
     
     # Callback for restart button from completion screen
     @app.callback(
+        Output('quiz_type_display','children',allow_duplicate=True),
         Output('question-container', 'children', allow_duplicate=True),
         Output('current-question-store', 'data', allow_duplicate=True),
         Output('progress-container', 'children', allow_duplicate=True),
@@ -114,6 +123,10 @@ def register_trivia_callbacks(app):
         quiz_type = 'country'  # Default fallback
         if current_data and 'quiz_type' in current_data:
             quiz_type = current_data['quiz_type']
+            if quiz_type in QUIZ_TYPE_LABEL:
+                quiz_type_display = QUIZ_TYPE_LABEL[quiz_type]
+            else:
+                quiz_type_display = f"{quiz_type.capitalize()} Quiz" # Fallback just in case
         
         questions = get_quiz_questions(quiz_type, df, 10)
         question_data = questions[0]
@@ -123,6 +136,7 @@ def register_trivia_callbacks(app):
             'questions': questions,
             'answered': False,
             'quiz_type': quiz_type,
+            'quiz_type_display': quiz_type_display,
             'user_answers': {}
         }
         
@@ -130,7 +144,8 @@ def register_trivia_callbacks(app):
         progress_bar = create_progress_bar(0, len(questions))
         progress_style = {'display': 'block'}
         
-        return (create_question_layout(question_data, 0, len(questions)), 
+        return (quiz_type_display,
+                create_question_layout(question_data, 0, len(questions)), 
                 new_data, 
                 progress_bar, 
                 progress_style)
@@ -303,6 +318,7 @@ def register_trivia_callbacks(app):
         Output('quiz-content-area', 'style', allow_duplicate=True),
         Output('progress-container', 'style', allow_duplicate=True),
         Output('progress-container', 'children', allow_duplicate=True),
+        Output('quiz_type_display','children',allow_duplicate=True),
         Input('quit-quiz-btn', 'n_clicks'),
         prevent_initial_call=True
     )
@@ -319,6 +335,7 @@ def register_trivia_callbacks(app):
         Output('quiz-content-area', 'style', allow_duplicate=True),
         Output('progress-container', 'style', allow_duplicate=True),
         Output('progress-container', 'children', allow_duplicate=True),
+        Output('quiz_type_display','children',allow_duplicate=True),
         Input('back-to-selection', 'n_clicks'),
         prevent_initial_call=True
     )
@@ -336,4 +353,4 @@ def _return_to_quiz_selection():
     
     reset_data = {'index': 0, 'score': 0, 'questions': [], 'answered': False, 'user_answers': {}}
     
-    return [], reset_data, quiz_selection_style, quiz_content_style, progress_style, []
+    return [], reset_data, quiz_selection_style, quiz_content_style, progress_style, [], ""
