@@ -98,7 +98,7 @@ Iran,IRN,Tehran,Iranian Rial,$450.00 Billion,Asia,iran.png
 Iraq,IRQ,Baghdad,Iraqi Dinar,$290.00 Billion,Asia,iraq.png
 Ireland,IRL,Dublin,Euro,$560.00 Billion,Europe,ireland.png
 Isle of Man,IMN,Douglas,Manx Pound,$8.00 Billion,Europe,isleofman.png
-Israel,ISR,Jerusalem,Israeli New Shekel,$530.00 Billion,Asia,israel.png
+Israel,ISR,Jerusalem,New Shekel,$530.00 Billion,Asia,israel.png
 Italy,ITA,Rome,Euro,$2.42 Trillion,Europe,italy.png
 Jamaica,JAM,Kingston,Dollar,$20.00 Billion,North America,jamaica.png
 Japan,JPN,Tokyo,Yen,$4.19 Trillion,Asia,japan.png
@@ -157,16 +157,16 @@ Northern Mariana Islands,MNP,Saipan,US Dollar,$0.60 Billion,Oceania,mariana.png
 Norway,NOR,Oslo,Krone,$590.00 Billion,Europe,norway.png
 Oman,OMN,Muscat,Rial,$108.00 Billion,Asia,oman.png
 Pakistan,PAK,Islamabad,Rupee,$380.00 Billion,Asia,pakistan.png
-Palau,PLW,Ngerulmud,US Dollar,$0.30 Billion,Oceania
-Panama,PAN,Panama City,Balboa,$92.00 Billion,North America
-Papua New Guinea,PNG,Port Moresby,Papua New Guinean Kina,$33.00 Billion,Oceania
-Paraguay,PRY,Asunción,Guaraní,$50.00 Billion,South America
-Peru,PER,Lima,Sol,$260.00 Billion,South America
-Philippines,PHL,Manila,Peso,$450.00 Billion,Asia
-Pitcairn Island,PCN,Adamstown,New Zealand Dollar,$0.00004 Billion,Oceania
-Poland,POL,Warsaw,Zloty,$850.00 Billion,Europe
-Portugal,PRT,Lisbon,Euro,$340.00 Billion,Europe
-Puerto Rico,PRI,San Juan,US Dollar,$120.00 Billion,North America
+Palau,PLW,Ngerulmud,US Dollar,$0.30 Billion,Oceania,palau.png
+Panama,PAN,Panama City,Balboa,$92.00 Billion,North America,panama.png
+Papua New Guinea,PNG,Port Moresby,Kina,$33.00 Billion,Oceania,papuanewguinea.png
+Paraguay,PRY,Asunción,Guaraní,$50.00 Billion,South America,paraguay.png
+Peru,PER,Lima,Sol,$260.00 Billion,South America,peru.png
+Philippines,PHL,Manila,Peso,$450.00 Billion,Asia,phillippines.png
+Pitcairn Island,PCN,Adamstown,New Zealand Dollar,$0.00004 Billion,Oceania,pitcairn.png
+Poland,POL,Warsaw,Zloty,$850.00 Billion,Europe,poland.png
+Portugal,PRT,Lisbon,Euro,$340.00 Billion,Europe,portugal.png
+Puerto Rico,PRI,San Juan,Dollar,$120.00 Billion,North America,puertorico.png
 Qatar,QAT,Doha,Riyal,$220.00 Billion,Asia
 Réunion,REU,Saint-Denis,Euro,$0.00,Africa
 Romania,ROU,Bucharest,Leu,$320.00 Billion,Europe
