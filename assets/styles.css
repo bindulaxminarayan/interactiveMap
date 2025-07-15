@@ -1,0 +1,176 @@
+/* General App Background */
+.app-background {
+    min-height: 100vh;
+    background-color: #f0f2f5;
+}
+
+/* Main Layout Container (Side Panel + Main Content) */
+.main-layout-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 0 auto;
+    padding: 20px 0;
+    /* IMPORTANT: Ensure 'max-width: 1400px;' is NOT present here if it was before */
+}
+
+/* Side Panel Container */
+.side-panel-container {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    padding: 30px 20px;
+    margin: 20px;
+    width: 250px;
+    min-height: calc(100vh - 40px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.side-panel-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* Category Buttons in Side Panel */
+.category-button {
+    width: 100%;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    background-color: #f8f9fa; /* Default inactive color */
+    color: #333;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.category-button:hover {
+    background-color: #e2e6ea;
+}
+
+.category-button-active {
+    background-color: #007bff; /* Active color */
+    color: white;
+    border-color: #007bff;
+}
+
+/* Main Content Area (Quiz Cards / Quiz Content) */
+.main-content-area {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    align-items: center;
+    padding: 0px;
+}
+
+/* Quiz Cards Grid Container */
+.quiz-cards-grid-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+/* Quiz Cards Row */
+.quiz-cards-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+/* Individual Quiz Card Container */
+.quiz-card-container {
+    background-color: #ffffff;
+    border-radius: 15px;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    padding: 30px;
+    margin: 15px;
+    width: 250px; /* This should now be consistently applied */
+    height: 200px; /* This should now be consistently applied */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.quiz-card-container:hover {
+    transform: translateY(-5px); /* Subtle lift effect on hover */
+    box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+}
+
+.quiz-card-title {
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.quiz-card-description {
+    text-align: center;
+    margin: 15px 0 25px 0;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.quiz-card-button {
+    width: 100%;
+    padding: 15px 20px;
+    color: white;
+    border: none;
+    border-radius: 88px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.quiz-card-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0,0,0,0.2);
+}
+
+/* Quiz Content Area */
+.quiz-content-area {
+    display: none; /* Initially hidden */
+    background-color: #ffffff;
+    border-radius: 15px;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin: 10px;
+    min-height: 500px;
+    flex-grow: 1;
+    width: 100%;
+    max-width: calc(100vw - 40px); /* Prevent horizontal scrolling */
+    box-sizing: border-box;
+}
+
+/* Main H1 Title */
+.main-title {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 48px;
+    font-weight: bold;
+}
+
+/* Quiz Type Display */
+.quiz-type-display {
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #270D9B;
+}
