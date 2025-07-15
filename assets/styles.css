@@ -1,7 +1,14 @@
 /* General App Background */
+body {
+    margin: 0; /* Remove default body margin */
+    padding: 0; /* Remove default body padding */
+    overflow-x: hidden; /* Prevent horizontal scrolling for the entire page */
+}
+
 .app-background {
     min-height: 100vh;
     background-color: #f0f2f5;
+    overflow-x: hidden; /* Ensure no horizontal overflow from this container */
 }
 
 /* Main Layout Container (Side Panel + Main Content) */
@@ -12,6 +19,9 @@
     margin: 0 auto;
     padding: 20px 0;
     /* IMPORTANT: Ensure 'max-width: 1400px;' is NOT present here if it was before */
+    width: 100%; /* Ensure it takes full width initially */
+    box-sizing: border-box; /* Include padding in width calculation */
+    overflow-x: hidden; /* Prevent horizontal scrolling within this container */
 }
 
 /* Side Panel Container */
@@ -69,39 +79,46 @@
     flex-grow: 1;
     align-items: center;
     padding: 0px;
+    overflow-x: hidden; /* Prevent horizontal scrolling here */
 }
 
-/* Quiz Cards Grid Container */
+/* Quiz Cards Grid Container (Outer container for the grid) */
 .quiz-cards-grid-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
     flex-grow: 1;
+    width: 100%; /* Ensure it takes full width of its parent */
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
-/* Quiz Cards Row */
-.quiz-cards-row {
+/* Inner container for the actual flex-wrapped grid of cards */
+.quiz-cards-grid-container-inner {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    margin-bottom: 20px;
+    width: 100%; /* Ensure it takes full width of its parent */
+    overflow-x: hidden;
 }
 
-/* Individual Quiz Card Container */
+/* Individual Quiz Card Container (Outer Wrapper - defines the card's overall box) */
 .quiz-card-container {
     background-color: #ffffff;
     border-radius: 15px;
     border: 1px solid #dee2e6;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    padding: 30px;
+    padding: 0; /* REMOVED padding from here, it's now on inner-container */
     margin: 15px;
-    width: 250px; /* This should now be consistently applied */
-    height: 200px; /* This should now be consistently applied */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    width: 250px; /* Consistent card width */
+    height: 200px; /* Consistent card height */
+    display: flex; /* Make this a flex container for its direct child */
+    flex-direction: column; /* Stack children vertically */
+    justify-content: center; /* Center inner content vertically within this container */
+    align-items: center; /* Center inner content horizontally within this container */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box; /* Include border in width/height */
 }
 
 .quiz-card-container:hover {
@@ -109,30 +126,43 @@
     box-shadow: 0 8px 12px rgba(0,0,0,0.15);
 }
 
+/* Inner container for quiz card content - THIS IS KEY FOR ALIGNMENT */
+.quiz-card-inner-container {
+    padding: 20px; /* Adjusted padding to fit content better within 250x200 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Vertically center content elements (title, desc, button) */
+    align-items: center; /* Horizontally center content elements (title, desc, button) */
+    width: 100%; /* Take full width of its parent (.quiz-card-container) */
+    height: 100%; /* Take full height of its parent (.quiz-card-container) */
+    box-sizing: border-box; /* Include padding in width/height calculation */
+    text-align: center; /* Ensure all text within is centered by default */
+}
+
 .quiz-card-title {
-    text-align: center;
-    margin-bottom: 15px;
+    margin: 0 0 10px 0; /* Reset default margin, add specific bottom margin */
     font-weight: bold;
-    font-size: 24px;
+    font-size: 20px; /* Slightly reduced font size to fit better */
 }
 
 .quiz-card-description {
-    text-align: center;
-    margin: 15px 0 25px 0;
-    font-size: 16px;
-    line-height: 1.5;
+    margin: 0 0 15px 0; /* Reset default margin, add specific bottom margin */
+    font-size: 14px; /* Slightly reduced font size to fit better */
+    line-height: 1.4;
 }
 
 .quiz-card-button {
-    width: 100%;
-    padding: 15px 20px;
+    width: 90%; /* Reduced width slightly to give some side padding within the card */
+    max-width: 200px; /* Added max-width to prevent button from getting too wide in larger cards */
+    padding: 10px 15px; /* Reduced padding for smaller card size */
     color: white;
     border: none;
     border-radius: 88px;
-    font-size: 16px;
+    font-size: 14px; /* Reduced font size */
     font-weight: bold;
     transition: all 0.3s ease;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin-top: auto; /* Push button to the bottom if space allows, or keep it close if not */
 }
 
 .quiz-card-button:hover:not(:disabled) {
@@ -140,20 +170,21 @@
     box-shadow: 0 6px 10px rgba(0,0,0,0.2);
 }
 
-/* Quiz Content Area */
+/* Quiz Content Area - Adjusted for full-width without scrollbar */
 .quiz-content-area {
     display: none; /* Initially hidden */
     background-color: #ffffff;
     border-radius: 15px;
     border: 1px solid #dee2e6;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    padding: 20px;
-    margin: 10px;
+    padding: 30px; /* Internal padding for content */
+    margin: 20px; /* Margin from viewport edges */
     min-height: 500px;
     flex-grow: 1;
-    width: 100%;
-    max-width: calc(100vw - 40px); /* Prevent horizontal scrolling */
-    box-sizing: border-box;
+    width: auto; /* Let content determine width within max-width */
+    max-width: calc(100vw - 40px); /* Ensures it fits within viewport (20px margin on each side) */
+    box-sizing: border-box; /* Include padding in element's total width/height */
+    overflow-x: hidden; /* Prevent horizontal scrolling within this specific area */
 }
 
 /* Main H1 Title */

@@ -4,6 +4,40 @@ Layout components for the trivia module.
 
 from dash import html, dcc
 
+# Refactored: Centralized data for World quiz cards
+WORLD_QUIZ_CARDS_DATA = [
+    {
+        "title": "General",
+        "emoji": "🌎",
+        "description": "Match countries, capital, currencies!",
+        "button_id": "start-country-quiz"
+    },
+    {
+        "title": "Currencies",
+        "emoji": "💰",
+        "description": "Match countries with their currencies!",
+        "button_id": "start-currency-quiz"
+    },
+    {
+        "title": "Capital Cities",
+        "emoji": "🏛️",
+        "description": "Match countries with their capitals!",
+        "button_id": "start-capital-quiz"
+    },
+    {
+        "title": "Continents",
+        "emoji": "🌐",
+        "description": "Match countries with their continents!",
+        "button_id": "start-continent-quiz"
+    },
+    {
+        "title": "Flags",
+        "emoji": "🇺🇳",
+        "description": "Match flag with their countries!",
+        "button_id": "start-flag-quiz"
+    },
+]
+
 def create_side_panel():
     """Create a side panel with category labels."""
     return html.Div([
@@ -12,9 +46,9 @@ def create_side_panel():
         html.Button("United States", id="category-us", className="category-button"),
         html.Button("India", id="category-india", className="category-button"),
         html.Button("China", id="category-china", className="category-button"),
-    ], id="side-panel", className="side-panel-container") # Added id="side-panel"
+    ], id="side-panel", className="side-panel-container")
 
-def create_quiz_card(title, emoji, description, button_text_unused, button_id, is_disabled=False):
+def create_quiz_card(title, emoji, description, button_id, is_disabled=False):
     """Create a quiz card with title, description and button."""
     # Determine dynamic styles based on is_disabled
     wrapper_style = {
@@ -41,56 +75,30 @@ def create_quiz_card(title, emoji, description, button_text_unused, button_id, i
                        disabled=is_disabled,
                        className="quiz-card-button",
                        style=button_style)
-        ], className='quiz-card-container')  # Removed inline style from main container
-    ], style=wrapper_style)  # Apply opacity to wrapper instead
+        ], className='quiz-card-inner-container') # Renamed to avoid conflict with outer wrapper class
+    ], className='quiz-card-container', style=wrapper_style) # Apply opacity to wrapper
 
-def create_quiz_cards_grid():
-    """Create a grid of quiz cards."""
-    return html.Div([
-        # First row
-        html.Div([
-              create_quiz_card(
-                title="General",
-                emoji="🌎",
-                description="Match countries, capital, currencies!",
-                button_text_unused="Start Country Quiz", # Parameter not used directly now
-                button_id="start-country-quiz"
-            ),
+def create_quiz_cards_grid(quiz_cards_data):
+    """
+    Create a grid of quiz cards from a list of quiz card data.
+    This function is now dynamic based on the provided data.
+    """
+    cards = []
+    # Split cards into two rows for better layout if there are many cards
+    # For simplicity, we'll just put them all in one flex container for now
+    # and let flex-wrap handle it.
+    for card_data in quiz_cards_data:
+        cards.append(
             create_quiz_card(
-                title="Currencies",
-                emoji="💰",
-                description="Match countries with their currencies!",
-                button_text_unused="Start Currency Quiz", # Parameter not used directly now
-                button_id="start-currency-quiz"
-            ),
-            create_quiz_card(
-                title="Capital Cities",
-                emoji="🏛️",
-                description="Match countries with their capitals!",
-                button_text_unused="Start Capital Quiz", # Parameter not used directly now
-                button_id="start-capital-quiz"
-            ),
-        ], className="quiz-cards-row"),
+                title=card_data["title"],
+                emoji=card_data["emoji"],
+                description=card_data["description"],
+                button_id=card_data["button_id"],
+                is_disabled=card_data.get("is_disabled", False) # Allow disabling via data
+            )
+        )
 
-        # Second row
-        html.Div([
-            create_quiz_card(
-                title="Continents",
-                emoji="🌐",
-                description="Match countries with their continents!",
-                button_text_unused="Start Continent Quiz", # Parameter not used directly now
-                button_id="start-continent-quiz"
-            ),
-            create_quiz_card(
-                title="Flags",
-                emoji="🇺🇳",
-                description="Match flag with their countries!",
-                button_text_unused="Start Flag Quiz", # Parameter not used directly now
-                button_id="start-flag-quiz"
-            ),
-            # Removed the "Locate Countries" quiz card as requested
-        ], className="quiz-cards-row")
-    ], className="quiz-cards-grid-container")
+    return html.Div(cards, className="quiz-cards-grid-container-inner") # New inner container for flex-wrap
 
 def create_hidden_elements():
     """Create hidden elements that callbacks need to reference."""
@@ -127,9 +135,9 @@ def get_trivia_layout():
 
             # Quiz selection area or active quiz area
             html.Div([
-                # Quiz Cards Grid (initially displayed)
+                # Quiz Cards Grid (initially displayed with World data)
                 html.Div([
-                    create_quiz_cards_grid()
+                    create_quiz_cards_grid(WORLD_QUIZ_CARDS_DATA)
                 ], id="quiz-selection-area"), # This will be hidden when quiz starts
 
                 # Quiz Content Area (initially hidden)

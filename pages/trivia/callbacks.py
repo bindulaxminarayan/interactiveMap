@@ -8,10 +8,14 @@ from utils.data_processing import load_countries_data
 from utils.quiz_generators import get_quiz_questions,QUIZ_TYPE_LABEL
 from .quiz_components import create_progress_bar, create_question_layout, create_completion_screen
 from .components import create_feedback_message
-import pprint
+from .layouts import create_quiz_cards_grid, WORLD_QUIZ_CARDS_DATA # Re-added import
 
 # Load the data for trivia questions
 df = load_countries_data()
+
+# Define reusable CSS class names for category buttons
+ACTIVE_CATEGORY_CLASS = "category-button category-button-active"
+INACTIVE_CATEGORY_CLASS = "category-button"
 
 def register_trivia_callbacks(app):
     """Register all callbacks for the trivia page."""
@@ -25,9 +29,9 @@ def register_trivia_callbacks(app):
         Output('quiz-content-area', 'style'),
         Output('progress-container', 'children'),
         Output('progress-container', 'style'),
-        Output('side-panel', 'style'), # New output for side panel visibility
-        Output('main-layout-container-wrapper', 'style'), # New output for main layout adjustment
-        Output('quiz-active-store', 'data'), # New output for quiz active state
+        Output('side-panel', 'style'),
+        Output('main-layout-container-wrapper', 'style'),
+        Output('quiz-active-store', 'data'),
         [Input('start-country-quiz', 'n_clicks'),
          Input('start-currency-quiz', 'n_clicks'),
          Input('start-capital-quiz', 'n_clicks'),
@@ -86,26 +90,26 @@ def register_trivia_callbacks(app):
         side_panel_quiz_active_style = {'display': 'none'} # Hide side panel
         quiz_selection_quiz_active_style = {'display': 'none'} # Hide quiz selection area
         quiz_content_quiz_active_style = {
-            'display': 'block',
+            'display': 'block', # Or 'flex' depending on inner content
             'backgroundColor': '#ffffff',
             'borderRadius': '15px',
             'border': '1px solid #dee2e6',
             'boxShadow': '0 4px 6px rgba(0,0,0,0.1)',
-            'padding': '20px',
-            'margin': '10px',
+            'padding': '30px', # Internal padding for content
+            'margin': '0', # No external margin, let parent handle spacing
             'minHeight': '500px',
             'flexGrow': 1,
-            'width': '100%',
-            'maxWidth': 'calc(100vw - 40px)',
-            'boxSizing': 'border-box'
+            'width': '100%', # Take up 100% of its parent's available width
+            'boxSizing': 'border-box' # Include padding in element's total width/height
         }
         main_layout_quiz_active_style = {
             'display': 'flex',
             'justifyContent': 'center',
             'alignItems': 'flex-start',
-            'maxWidth': '1200px',
-            'margin': '0 auto',
-            'padding': '20px 10px'
+            'width': '100%', # Take full width of its own parent (app-background)
+            'maxWidth': '98vw', # Limit the overall visible width to 98% of viewport
+            'margin': '0 auto', # Center this main wrapper horizontally
+            'padding': '0' # Remove padding here, let inner elements handle it
         }
         quiz_active_store_data = {'active': True}
 
@@ -172,21 +176,21 @@ def register_trivia_callbacks(app):
             'borderRadius': '15px',
             'border': '1px solid #dee2e6',
             'boxShadow': '0 4px 6px rgba(0,0,0,0.1)',
-            'padding': '20px',
-            'margin': '10px',
+            'padding': '30px',
+            'margin': '0', # No external margin, let parent handle spacing
             'minHeight': '500px',
             'flexGrow': 1,
             'width': '100%',
-            'maxWidth': 'calc(100vw - 40px)',
             'boxSizing': 'border-box'
         }
         main_layout_quiz_active_style = {
             'display': 'flex',
             'justifyContent': 'center',
             'alignItems': 'flex-start',
-            'maxWidth': '1200px',
-            'margin': '0 auto',
-            'padding': '20px 10px'
+            'width': '100%', # Take full width of its own parent (app-background)
+            'maxWidth': '98vw', # Limit the overall visible width to 98% of viewport
+            'margin': '0 auto', # Center this main wrapper horizontally
+            'padding': '0' # Remove padding here, let inner elements handle it
         }
         quiz_active_store_data = {'active': True}
 
@@ -372,9 +376,13 @@ def register_trivia_callbacks(app):
         Output('progress-container', 'style', allow_duplicate=True),
         Output('progress-container', 'children', allow_duplicate=True),
         Output('quiz_type_display','children',allow_duplicate=True),
-        Output('side-panel', 'style', allow_duplicate=True), # New output
-        Output('main-layout-container-wrapper', 'style', allow_duplicate=True), # New output
-        Output('quiz-active-store', 'data', allow_duplicate=True), # New output
+        Output('side-panel', 'style', allow_duplicate=True),
+        Output('main-layout-container-wrapper', 'style', allow_duplicate=True),
+        Output('quiz-active-store', 'data', allow_duplicate=True),
+        Output('category-world', 'className', allow_duplicate=True), # New output for category button styling
+        Output('category-us', 'className', allow_duplicate=True),    # New output
+        Output('category-india', 'className', allow_duplicate=True), # New output
+        Output('category-china', 'className', allow_duplicate=True), # New output
         Input('quit-quiz-btn', 'n_clicks'),
         prevent_initial_call=True
     )
@@ -392,9 +400,13 @@ def register_trivia_callbacks(app):
         Output('progress-container', 'style', allow_duplicate=True),
         Output('progress-container', 'children', allow_duplicate=True),
         Output('quiz_type_display','children',allow_duplicate=True),
-        Output('side-panel', 'style', allow_duplicate=True), # New output
-        Output('main-layout-container-wrapper', 'style', allow_duplicate=True), # New output
-        Output('quiz-active-store', 'data', allow_duplicate=True), # New output
+        Output('side-panel', 'style', allow_duplicate=True),
+        Output('main-layout-container-wrapper', 'style', allow_duplicate=True),
+        Output('quiz-active-store', 'data', allow_duplicate=True),
+        Output('category-world', 'className', allow_duplicate=True), # New output
+        Output('category-us', 'className', allow_duplicate=True),    # New output
+        Output('category-india', 'className', allow_duplicate=True), # New output
+        Output('category-china', 'className', allow_duplicate=True), # New output
         Input('back-to-selection', 'n_clicks'),
         prevent_initial_call=True
     )
@@ -402,6 +414,66 @@ def register_trivia_callbacks(app):
         if back_clicks:
             return _return_to_quiz_selection()
         raise dash.exceptions.PreventUpdate
+
+    # New Callback for Category Selection
+    @app.callback(
+        Output('quiz-selection-area', 'children'),
+        Output('category-world', 'className'),
+        Output('category-us', 'className'),
+        Output('category-india', 'className'),
+        Output('category-china', 'className'),
+        [Input('category-world', 'n_clicks'),
+         Input('category-us', 'n_clicks'),
+         Input('category-india', 'n_clicks'),
+         Input('category-china', 'n_clicks')],
+        State('quiz-active-store', 'data'), # Use State to prevent category changes during an active quiz
+        prevent_initial_call=True
+    )
+    def display_category_cards(world_clicks, us_clicks, india_clicks, china_clicks, quiz_active_state):
+        ctx = callback_context
+        if not ctx.triggered:
+            raise dash.exceptions.PreventUpdate
+
+        # Prevent category changes if a quiz is currently active
+        if quiz_active_state and quiz_active_state.get('active', False):
+            raise dash.exceptions.PreventUpdate
+
+        triggered_id = ctx.triggered[0]['prop_id'].split('.')[0]
+
+        # Default class names
+        world_class = INACTIVE_CATEGORY_CLASS
+        us_class = INACTIVE_CATEGORY_CLASS
+        india_class = INACTIVE_CATEGORY_CLASS
+        china_class = INACTIVE_CATEGORY_CLASS
+
+        quiz_cards_to_display = []
+
+        if triggered_id == 'category-world':
+            quiz_cards_to_display = create_quiz_cards_grid(WORLD_QUIZ_CARDS_DATA)
+            world_class = ACTIVE_CATEGORY_CLASS
+        elif triggered_id == 'category-us':
+            # For US, India, China, return an empty list for now
+            quiz_cards_to_display = html.Div([
+                html.P("Coming Soon!", style={'textAlign': 'center', 'fontSize': '24px', 'marginTop': '50px', 'color': '#6c757d'})
+            ], style={'width': '100%', 'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center'})
+            us_class = ACTIVE_CATEGORY_CLASS
+        elif triggered_id == 'category-india':
+            quiz_cards_to_display = html.Div([
+                html.P("Coming Soon!", style={'textAlign': 'center', 'fontSize': '24px', 'marginTop': '50px', 'color': '#6c757d'})
+            ], style={'width': '100%', 'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center'})
+            india_class = ACTIVE_CATEGORY_CLASS
+        elif triggered_id == 'category-china':
+            quiz_cards_to_display = html.Div([
+                html.P("Coming Soon!", style={'textAlign': 'center', 'fontSize': '24px', 'marginTop': '50px', 'color': '#6c757d'})
+            ], style={'width': '100%', 'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center'})
+            china_class = ACTIVE_CATEGORY_CLASS
+
+        return (quiz_cards_to_display,
+                world_class,
+                us_class,
+                india_class,
+                china_class)
+
 
 def _return_to_quiz_selection():
     """Helper function to return to the quiz selection screen."""
@@ -412,7 +484,14 @@ def _return_to_quiz_selection():
     quiz_selection_default_style = {'display': 'flex', 'flexDirection': 'column', 'alignItems': 'center', 'padding': '20px', 'flexGrow': 1}
     quiz_content_default_style = {'display': 'none'}
     progress_style = {'display': 'none'} # Progress bar hidden
-    main_layout_default_style = {'display': 'flex', 'justifyContent': 'center', 'alignItems': 'flex-start', 'margin': '0 auto', 'padding': '20px 0'}
+    main_layout_default_style = {
+        'display': 'flex',
+        'justifyContent': 'center',
+        'alignItems': 'flex-start',
+        'maxWidth': '1400px', # Revert to the default max-width for the selection screen
+        'margin': '0 auto',
+        'padding': '20px 0'
+    }
     quiz_active_store_default_data = {'active': False}
 
     reset_data = {'index': 0, 'score': 0, 'questions': [], 'answered': False, 'user_answers': {}}
@@ -426,5 +505,9 @@ def _return_to_quiz_selection():
             "", # quiz_type_display children (empty)
             side_panel_default_style, # side-panel style (visible)
             main_layout_default_style, # main-layout-container-wrapper style (default)
-            quiz_active_store_default_data # quiz-active-store data (inactive)
+            quiz_active_store_default_data, # quiz-active-store data (inactive)
+            ACTIVE_CATEGORY_CLASS, # Set World button to active
+            INACTIVE_CATEGORY_CLASS, # Set US button to inactive
+            INACTIVE_CATEGORY_CLASS, # Set India button to inactive
+            INACTIVE_CATEGORY_CLASS  # Set China button to inactive
     )
