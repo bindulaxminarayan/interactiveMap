@@ -25,6 +25,22 @@ def load_countries_data(file_path='data/countries.csv'):
         logging.error(f"An unexpected error occurred: {e}")
         raise
 
+def load_us_states_data(file_path='data/us.csv'):
+    """Load and preprocess US states data from CSV file."""
+    try:
+        df = pd.read_csv(file_path)
+        logging.info(f"--- Successfully loaded {file_path} ---")
+        logging.info(f"Data contains {len(df)} rows.")
+        return df
+        
+    except FileNotFoundError:
+        logging.error(f"!!! CRITICAL ERROR: File not found at '{file_path}'")
+        logging.warn("!!! Please make sure the data file exists.")
+        raise
+    except Exception as e:
+        logging.error(f"An unexpected error occurred: {e}")
+        raise
+
 def convert_gdp_to_numeric(gdp_str):
     """Convert GDP string format to numeric value in billions."""
     if pd.isna(gdp_str) or gdp_str == "No reliable data available":

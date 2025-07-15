@@ -4,14 +4,15 @@ Dash callbacks for the trivia module.
 
 from dash import Input, Output, State, callback_context, html
 import dash.exceptions
-from utils.data_processing import load_countries_data
+from utils.data_processing import load_countries_data, load_us_states_data
 from utils.quiz_generators import get_quiz_questions,QUIZ_TYPE_LABEL
 from .quiz_components import create_progress_bar, create_question_layout, create_completion_screen
 from .components import create_feedback_message
-from .layouts import create_quiz_cards_grid, WORLD_QUIZ_CARDS_DATA # Re-added import
+from .layouts import create_quiz_cards_grid, WORLD_QUIZ_CARDS_DATA, US_QUIZ_CARDS_DATA
 
 # Load the data for trivia questions
 df = load_countries_data()
+us_df = load_us_states_data()
 
 # Define reusable CSS class names for category buttons
 ACTIVE_CATEGORY_CLASS = "category-button category-button-active"
@@ -20,7 +21,7 @@ INACTIVE_CATEGORY_CLASS = "category-button"
 def register_trivia_callbacks(app):
     """Register all callbacks for the trivia page."""
 
-    # Callback for starting quizzes from quiz cards
+    # Callback for starting world quizzes from quiz cards
     @app.callback(
         Output('quiz_type_display','children'),
         Output('question-container', 'children'),
@@ -40,7 +41,7 @@ def register_trivia_callbacks(app):
         State('current-question-store', 'data'),
         prevent_initial_call=True
     )
-    def start_quiz(country_clicks, currency_clicks, capital_clicks, continent_clicks, flag_clicks, current_data):
+    def start_world_quiz(country_clicks, currency_clicks, capital_clicks, continent_clicks, flag_clicks, current_data):
         ctx = callback_context
         if not ctx.triggered:
             raise dash.exceptions.PreventUpdate
@@ -129,6 +130,84 @@ def register_trivia_callbacks(app):
                 quiz_active_store_data            # Update quiz-active-store
         )
 
+    # Separate callback for starting US capital quiz
+    @app.callback(
+        Output('quiz_type_display','children', allow_duplicate=True),
+        Output('question-container', 'children', allow_duplicate=True),
+        Output('current-question-store', 'data', allow_duplicate=True),
+        Output('quiz-selection-area', 'style', allow_duplicate=True),
+        Output('quiz-content-area', 'style', allow_duplicate=True),
+        Output('progress-container', 'children', allow_duplicate=True),
+        Output('progress-container', 'style', allow_duplicate=True),
+        Output('side-panel', 'style', allow_duplicate=True),
+        Output('main-layout-container-wrapper', 'style', allow_duplicate=True),
+        Output('quiz-active-store', 'data', allow_duplicate=True),
+        Input('start-us-capital-quiz', 'n_clicks'),
+        State('current-question-store', 'data'),
+        prevent_initial_call=True
+    )
+    def start_us_capital_quiz(us_capital_clicks, current_data):
+        if not us_capital_clicks or us_capital_clicks == 0:
+            raise dash.exceptions.PreventUpdate
+
+        questions = get_quiz_questions('us_capital', us_df, 10)
+        quiz_type = 'us_capital'
+        quiz_type_display = QUIZ_TYPE_LABEL[quiz_type]
+
+        question_data = questions[0]
+        new_data = {
+            'index': 0,
+            'score': 0,
+            'questions': questions,
+            'answered': False,
+            'quiz_type': quiz_type,
+            'quiz_type_display': quiz_type_display,
+            'user_answers': {}
+        }
+
+        # Styles for when quiz is active
+        side_panel_quiz_active_style = {'display': 'none'} # Hide side panel
+        quiz_selection_quiz_active_style = {'display': 'none'} # Hide quiz selection area
+        quiz_content_quiz_active_style = {
+            'display': 'block', # Or 'flex' depending on inner content
+            'backgroundColor': '#ffffff',
+            'borderRadius': '15px',
+            'border': '1px solid #dee2e6',
+            'boxShadow': '0 4px 6px rgba(0,0,0,0.1)',
+            'padding': '30px', # Internal padding for content
+            'margin': '0', # No external margin, let parent handle spacing
+            'minHeight': '500px',
+            'flexGrow': 1,
+            'width': '100%', # Take up 100% of its parent's available width
+            'boxSizing': 'border-box' # Include padding in element's total width/height
+        }
+        main_layout_quiz_active_style = {
+            'display': 'flex',
+            'justifyContent': 'center',
+            'alignItems': 'flex-start',
+            'width': '100%', # Take full width of its own parent (app-background)
+            'maxWidth': '98vw', # Limit the overall visible width to 98% of viewport
+            'margin': '0 auto', # Center this main wrapper horizontally
+            'padding': '0' # Remove padding here, let inner elements handle it
+        }
+        quiz_active_store_data = {'active': True}
+
+        # Show progress bar
+        progress_bar = create_progress_bar(0, len(questions))
+        progress_style = {'display': 'block'}
+
+        return (quiz_type_display,
+                create_question_layout(question_data, 0, len(questions)),
+                new_data,
+                quiz_selection_quiz_active_style, # Hide quiz selection
+                quiz_content_quiz_active_style,   # Show quiz content
+                progress_bar,
+                progress_style,
+                side_panel_quiz_active_style,     # Hide side panel
+                main_layout_quiz_active_style,    # Adjust main wrapper
+                quiz_active_store_data            # Update quiz-active-store
+        )
+
     # Callback for restart button from completion screen
     @app.callback(
         Output('quiz_type_display','children',allow_duplicate=True),
@@ -151,12 +230,18 @@ def register_trivia_callbacks(app):
         quiz_type = 'country'  # Default fallback
         if current_data and 'quiz_type' in current_data:
             quiz_type = current_data['quiz_type']
-            if quiz_type in QUIZ_TYPE_LABEL:
-                quiz_type_display = QUIZ_TYPE_LABEL[quiz_type]
-            else:
-                quiz_type_display = f"{quiz_type.capitalize()} Quiz" # Fallback just in case
+        
+        # Set quiz_type_display based on quiz_type
+        if quiz_type in QUIZ_TYPE_LABEL:
+            quiz_type_display = QUIZ_TYPE_LABEL[quiz_type]
+        else:
+            quiz_type_display = f"{quiz_type.capitalize()} Quiz" # Fallback just in case
 
-        questions = get_quiz_questions(quiz_type, df, 10)
+        # Use appropriate data source based on quiz type
+        if quiz_type == 'us_capital':
+            questions = get_quiz_questions(quiz_type, us_df, 10)
+        else:
+            questions = get_quiz_questions(quiz_type, df, 10)
         question_data = questions[0]
         new_data = {
             'index': 0,
@@ -379,16 +464,17 @@ def register_trivia_callbacks(app):
         Output('side-panel', 'style', allow_duplicate=True),
         Output('main-layout-container-wrapper', 'style', allow_duplicate=True),
         Output('quiz-active-store', 'data', allow_duplicate=True),
-        Output('category-world', 'className', allow_duplicate=True), # New output for category button styling
-        Output('category-us', 'className', allow_duplicate=True),    # New output
-        Output('category-india', 'className', allow_duplicate=True), # New output
-        Output('category-china', 'className', allow_duplicate=True), # New output
+        Output('category-world', 'className', allow_duplicate=True),
+        Output('category-us', 'className', allow_duplicate=True),   
+        Output('category-india', 'className', allow_duplicate=True), 
+        Output('category-china', 'className', allow_duplicate=True), 
+        Output('quiz-selection-area', 'children', allow_duplicate=True),
         Input('quit-quiz-btn', 'n_clicks'),
         prevent_initial_call=True
     )
     def quit_quiz(quit_clicks):
         if quit_clicks:
-            return _return_to_quiz_selection()
+            return _return_to_quiz_selection(None)
         raise dash.exceptions.PreventUpdate
 
     # Callback for "Back to Quiz Selection" button on completion screen
@@ -403,16 +489,18 @@ def register_trivia_callbacks(app):
         Output('side-panel', 'style', allow_duplicate=True),
         Output('main-layout-container-wrapper', 'style', allow_duplicate=True),
         Output('quiz-active-store', 'data', allow_duplicate=True),
-        Output('category-world', 'className', allow_duplicate=True), # New output
-        Output('category-us', 'className', allow_duplicate=True),    # New output
-        Output('category-india', 'className', allow_duplicate=True), # New output
-        Output('category-china', 'className', allow_duplicate=True), # New output
+        Output('category-world', 'className', allow_duplicate=True),
+        Output('category-us', 'className', allow_duplicate=True),   
+        Output('category-india', 'className', allow_duplicate=True),
+        Output('category-china', 'className', allow_duplicate=True),
+        Output('quiz-selection-area', 'children', allow_duplicate=True),
         Input('back-to-selection', 'n_clicks'),
+        State('current-question-store', 'data'),
         prevent_initial_call=True
     )
-    def back_to_selection(back_clicks):
+    def back_to_selection(back_clicks, current_data):
         if back_clicks:
-            return _return_to_quiz_selection()
+            return _return_to_quiz_selection(current_data)
         raise dash.exceptions.PreventUpdate
 
     # New Callback for Category Selection
@@ -452,10 +540,7 @@ def register_trivia_callbacks(app):
             quiz_cards_to_display = create_quiz_cards_grid(WORLD_QUIZ_CARDS_DATA)
             world_class = ACTIVE_CATEGORY_CLASS
         elif triggered_id == 'category-us':
-            # For US, India, China, return an empty list for now
-            quiz_cards_to_display = html.Div([
-                html.P("Coming Soon!", style={'textAlign': 'center', 'fontSize': '24px', 'marginTop': '50px', 'color': '#6c757d'})
-            ], style={'width': '100%', 'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center'})
+            quiz_cards_to_display = create_quiz_cards_grid(US_QUIZ_CARDS_DATA)
             us_class = ACTIVE_CATEGORY_CLASS
         elif triggered_id == 'category-india':
             quiz_cards_to_display = html.Div([
@@ -475,7 +560,7 @@ def register_trivia_callbacks(app):
                 china_class)
 
 
-def _return_to_quiz_selection():
+def _return_to_quiz_selection(current_data=None):
     """Helper function to return to the quiz selection screen."""
     # Styles for when quiz is NOT active (selection view)
     side_panel_default_style = {'display': 'flex', 'flexDirection': 'column', 'alignItems': 'center', 'flexShrink': 0,
@@ -496,6 +581,25 @@ def _return_to_quiz_selection():
 
     reset_data = {'index': 0, 'score': 0, 'questions': [], 'answered': False, 'user_answers': {}}
 
+    # Determine which category to return to based on quiz type
+    quiz_type = current_data.get('quiz_type', 'country') if current_data else 'country'
+    
+    # Set category button classes and quiz cards based on quiz type
+    if quiz_type == 'us_capital':
+        # Return to US category
+        world_class = INACTIVE_CATEGORY_CLASS
+        us_class = ACTIVE_CATEGORY_CLASS
+        india_class = INACTIVE_CATEGORY_CLASS
+        china_class = INACTIVE_CATEGORY_CLASS
+        quiz_cards_to_display = create_quiz_cards_grid(US_QUIZ_CARDS_DATA)
+    else:
+        # Return to World category (default for all world quizzes)
+        world_class = ACTIVE_CATEGORY_CLASS
+        us_class = INACTIVE_CATEGORY_CLASS
+        india_class = INACTIVE_CATEGORY_CLASS
+        china_class = INACTIVE_CATEGORY_CLASS
+        quiz_cards_to_display = create_quiz_cards_grid(WORLD_QUIZ_CARDS_DATA)
+
     return ([], # question-container children (empty)
             reset_data, # current-question-store data (reset)
             quiz_selection_default_style, # quiz-selection-area style (visible)
@@ -506,8 +610,9 @@ def _return_to_quiz_selection():
             side_panel_default_style, # side-panel style (visible)
             main_layout_default_style, # main-layout-container-wrapper style (default)
             quiz_active_store_default_data, # quiz-active-store data (inactive)
-            ACTIVE_CATEGORY_CLASS, # Set World button to active
-            INACTIVE_CATEGORY_CLASS, # Set US button to inactive
-            INACTIVE_CATEGORY_CLASS, # Set India button to inactive
-            INACTIVE_CATEGORY_CLASS  # Set China button to inactive
+            world_class, # Set World button class
+            us_class, # Set US button class
+            india_class, # Set India button class
+            china_class, # Set China button class
+            quiz_cards_to_display  # Show appropriate quiz cards
     )

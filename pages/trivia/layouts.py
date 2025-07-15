@@ -4,7 +4,7 @@ Layout components for the trivia module.
 
 from dash import html, dcc
 
-# Refactored: Centralized data for World quiz cards
+# World quiz cards
 WORLD_QUIZ_CARDS_DATA = [
     {
         "title": "General",
@@ -38,10 +38,17 @@ WORLD_QUIZ_CARDS_DATA = [
     },
 ]
 
+US_QUIZ_CARDS_DATA = [{
+        "title": "Capital Cities",
+        "emoji": "🏛️",
+        "description": "Match states and capitals!",
+        "button_id": "start-us-capital-quiz"
+    }]
+
 def create_side_panel():
     """Create a side panel with category labels."""
     return html.Div([
-        html.H2("Categories", className="side-panel-title"),
+        html.H2("Select a category", className="side-panel-title"),
         html.Button("World", id="category-world", className="category-button category-button-active"), # Default active
         html.Button("United States", id="category-us", className="category-button"),
         html.Button("India", id="category-india", className="category-button"),
@@ -74,7 +81,8 @@ def create_quiz_card(title, emoji, description, button_id, is_disabled=False):
                        id=button_id,
                        disabled=is_disabled,
                        className="quiz-card-button",
-                       style=button_style)
+                       style=button_style,
+                       n_clicks=0)  # Ensure button has n_clicks property
         ], className='quiz-card-inner-container') # Renamed to avoid conflict with outer wrapper class
     ], className='quiz-card-container', style=wrapper_style) # Apply opacity to wrapper
 
@@ -103,6 +111,7 @@ def create_quiz_cards_grid(quiz_cards_data):
 def create_hidden_elements():
     """Create hidden elements that callbacks need to reference."""
     return html.Div([
+        # Other hidden elements (no quiz start buttons here)
         html.Button("Restart Currency", id="restart-currency-quiz-result", style={'display': 'none'}),
         html.Button("Restart Capital", id="restart-capital-quiz-result", style={'display': 'none'}),
         html.Button("Restart Continent", id="restart-continent-quiz-result", style={'display': 'none'}),
