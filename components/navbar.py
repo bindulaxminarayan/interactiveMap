@@ -12,7 +12,7 @@ def create_simple_navbar():
                 html.A("Interactive World Map", href="/", className="navbar-brand"),
                 html.Div([
                     html.A("Explore", href="/", className="nav-link"),
-                    html.A("Trivia", href="/trivia", className="nav-link"),
+                    html.A("Geography", href="/trivia", className="nav-link"),
                 ], className="navbar-nav")
             ], className="navbar-container")
         ], className="navbar"),

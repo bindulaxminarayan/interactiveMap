@@ -4,7 +4,7 @@ Dash callbacks for the trivia module.
 
 from dash import Input, Output, State, callback_context, html
 import dash.exceptions
-from utils.data_processing import load_countries_data, load_us_states_data
+from utils.data_processing import load_countries_data, load_us_states_data, load_world_physical_geography
 from utils.quiz_generators import get_quiz_questions,QUIZ_TYPE_LABEL
 from .quiz_components import create_progress_bar, create_question_layout, create_completion_screen
 from .components import create_feedback_message
@@ -13,6 +13,7 @@ from .layouts import create_quiz_cards_grid, WORLD_QUIZ_CARDS_DATA, US_QUIZ_CARD
 # Load the data for trivia questions
 df = load_countries_data()
 us_df = load_us_states_data()
+world_physical_geography_df = load_world_physical_geography()
 
 # Define reusable CSS class names for category buttons
 ACTIVE_CATEGORY_CLASS = "category-button category-button-active"
@@ -37,11 +38,12 @@ def register_trivia_callbacks(app):
          Input('start-currency-quiz', 'n_clicks'),
          Input('start-capital-quiz', 'n_clicks'),
          Input('start-continent-quiz','n_clicks'),
-         Input('start-flag-quiz','n_clicks')],
+         Input('start-flag-quiz','n_clicks'),
+         Input('start-physical-geography-quiz','n_clicks')],
         State('current-question-store', 'data'),
         prevent_initial_call=True
     )
-    def start_world_quiz(country_clicks, currency_clicks, capital_clicks, continent_clicks, flag_clicks, current_data):
+    def start_world_quiz(world_physical_geography_clicks,country_clicks, currency_clicks, capital_clicks, continent_clicks, flag_clicks, current_data):
         ctx = callback_context
         if not ctx.triggered:
             raise dash.exceptions.PreventUpdate
@@ -72,6 +74,10 @@ def register_trivia_callbacks(app):
         elif triggered_id == 'start-flag-quiz':
             questions = get_quiz_questions('flag', df, 10)
             quiz_type = 'flag'
+            quiz_type_display = QUIZ_TYPE_LABEL[quiz_type]
+        elif triggered_id == 'start-physical-geography-quiz':
+            questions = get_quiz_questions('world_physical_geography', world_physical_geography_df, 10)
+            quiz_type = 'world_physical_geography'
             quiz_type_display = QUIZ_TYPE_LABEL[quiz_type]
         else:
             raise dash.exceptions.PreventUpdate
@@ -240,6 +246,8 @@ def register_trivia_callbacks(app):
         # Use appropriate data source based on quiz type
         if quiz_type == 'us_capital':
             questions = get_quiz_questions(quiz_type, us_df, 10)
+        elif quiz_type == 'world_physical_geography':
+            questions = get_quiz_questions(quiz_type, world_physical_geography_df, 10)
         else:
             questions = get_quiz_questions(quiz_type, df, 10)
         question_data = questions[0]

@@ -6,7 +6,7 @@ A comprehensive interactive world map application built with Dash and Plotly, fe
 
 - **Interactive World Map**: Visualize country data with hover information
 - **GDP Visualization**: High/Low GDP country highlighting
-- **World Trivia**: Multiple quiz types including:
+- **Geography Challenge**: Multiple quiz types including:
   - Capital cities
   - Currencies
   - Continents

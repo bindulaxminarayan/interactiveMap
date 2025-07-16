@@ -6,11 +6,11 @@ from dash import html, dcc
 
 # World quiz cards
 WORLD_QUIZ_CARDS_DATA = [
-    {
-        "title": "General",
-        "emoji": "🌎",
-        "description": "Match countries, capital, currencies!",
-        "button_id": "start-country-quiz"
+       {
+        "title": "Physical Geography",
+        "emoji": "🇺🇳",
+        "description": "Landscapes etc",
+        "button_id": "start-physical-geography-quiz"
     },
     {
         "title": "Currencies",
@@ -36,6 +36,13 @@ WORLD_QUIZ_CARDS_DATA = [
         "description": "Match flag with their countries!",
         "button_id": "start-flag-quiz"
     },
+    {
+        "title": "General",
+        "emoji": "🌎",
+        "description": "Match countries, capital, currencies!",
+        "button_id": "start-country-quiz"
+    },
+   
 ]
 
 US_QUIZ_CARDS_DATA = [{
@@ -131,7 +138,7 @@ def create_hidden_elements():
 def get_trivia_layout():
     """Get the layout for the trivia page with card-based quiz selection."""
     return html.Div([
-        html.H1("World Trivia", className="main-title"),
+        # html.H1("Geography Challenge", className="main-title"),
         html.Div(id="quiz_type_display", className="quiz-type-display"),
 
         # Global hidden elements that callbacks need to reference
