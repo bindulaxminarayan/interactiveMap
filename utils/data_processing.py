@@ -2,9 +2,9 @@
 Data processing utilities for the interactive map application.
 """
 
-import pandas as pd
 import re
 import logging
+import pandas as pd
 
 def load_countries_data(file_path='data/countries.csv'):
     """Load and preprocess countries data from CSV file."""
@@ -15,6 +15,38 @@ def load_countries_data(file_path='data/countries.csv'):
         
         # Convert GDP column to numeric
         df['gdp_numeric'] = df['gdp'].apply(convert_gdp_to_numeric)
+        return df
+        
+    except FileNotFoundError:
+        logging.error(f"!!! CRITICAL ERROR: File not found at '{file_path}'")
+        logging.warn("!!! Please make sure the data file exists.")
+        raise
+    except Exception as e:
+        logging.error(f"An unexpected error occurred: {e}")
+        raise
+
+def load_us_states_data(file_path='data/us.csv'):
+    """Load and preprocess US states data from CSV file."""
+    try:
+        df = pd.read_csv(file_path)
+        logging.info(f"--- Successfully loaded {file_path} ---")
+        logging.info(f"Data contains {len(df)} rows.")
+        return df
+        
+    except FileNotFoundError:
+        logging.error(f"!!! CRITICAL ERROR: File not found at '{file_path}'")
+        logging.warn("!!! Please make sure the data file exists.")
+        raise
+    except Exception as e:
+        logging.error(f"An unexpected error occurred: {e}")
+        raise
+
+def load_world_physical_geography(file_path='data/world_physical_geography.csv'):
+    """Load and preprocess US states data from CSV file."""
+    try:
+        df = pd.read_csv(file_path)
+        logging.info(f"--- Successfully loaded {file_path} ---")
+        logging.info(f"Data contains {len(df)} rows.")
         return df
         
     except FileNotFoundError:

@@ -52,8 +52,6 @@ def generate_currency_questions(df: pd.DataFrame, num_questions: int = 10) -> Li
             "question": f"What is the currency of {correct_country}?",
             "options": options,
             "correct": correct_index,
-            "explanation": f"The currency of {correct_country} is {correct_currency}.",
-            "moreinfo": f"Capital:{capital}, GDP:{gdp}, Continent:{continent}",
             "type": "currency"
         }
         questions.append(question)
@@ -117,8 +115,6 @@ def generate_capital_questions(df: pd.DataFrame, num_questions: int = 10) -> Lis
             "question": f"What is the capital of {correct_country}?",
             "options": options,
             "correct": correct_index,
-            "explanation": f"The capital of {correct_country} is {display_capital}.",
-            "moreinfo":f"Currency:{currency}, GDP:{gdp}, Continent: {continent}",
             "type": "capital"
         }
         questions.append(question)
@@ -185,29 +181,9 @@ def generate_continent_questions(df: pd.DataFrame, num_questions: int =10) -> Li
             "question": f"What is the continent of {correct_country}?",
             "options": options,
             "correct": correct_index,
-            "explanation": f"The continent of {correct_country} is {correct_continent}.",
-            "moreinfo": f"Currency: {currency}, GDP: {gdp}, Capital:{capital}",
             "type": "continent"
         }
         questions.append(question)
-    
-    return questions
-
-def generate_country_questions(df: pd.DataFrame, num_questions: int =10) -> List[Dict[str, Any]]:
-    """Generate random country-continent questions."""
-    total_categories = 3
-    base = num_questions // total_categories
-    remainder = num_questions % total_categories
-    counts = [base] * total_categories
-    # Randomly assign the remainder
-    for i in random.sample(range(total_categories), remainder):
-        counts[i] += 1
-    q_funcs = [generate_continent_questions, generate_capital_questions, generate_currency_questions]
-    questions = []
-    for func, count in zip(q_funcs, counts):
-        if count > 0:
-            questions.extend(func(df, count))
-    random.shuffle(questions)
     
     return questions
 
@@ -259,32 +235,95 @@ def generate_flag_questions(df: pd.DataFrame, num_questions: int = 10) -> List[D
             "flag_image": f"assets/{flag_filename}",
             "options": options,
             "correct": correct_index,
-            "explanation": f"This is the flag of {correct_country}.",
-            "moreinfo": f"Capital: {capital}, Currency: {currency}, GDP: {gdp}, Continent: {continent}",
             "type": "flag"
         }
         questions.append(question)
     
     return questions
 
-def generate_location_questions(df: pd.DataFrame, num_questions: int = 10) -> List[Dict[str, Any]]:
-    """
-    Generate location-based questions (placeholder for future implementation).
-    This could include questions about continents, neighboring countries, etc.
-    """
-    # Placeholder for future implementation
+def generate_us_capital_questions(df: pd.DataFrame, num_questions: int = 10) -> List[Dict[str, Any]]:
+    """Generate random US state-capital questions."""
+    # Filter out states with missing or invalid capital data
+    valid_states = df[(df['capital'].notna()) & (df['capital'] != '')].copy()
+    
+    if len(valid_states) < num_questions:
+        num_questions = len(valid_states)
+    
+    # Select random states for questions
+    selected_states = valid_states.sample(n=num_questions)
     questions = []
     
-    # Example structure for when this is implemented:
-    # for i in range(num_questions):
-    #     question = {
-    #         "question": "Which continent is [country] located in?",
-    #         "options": ["Africa", "Asia", "Europe", "North America"],
-    #         "correct": 0,
-    #         "explanation": "[Country] is located in [continent].",
-    #         "type": "location"
-    #     }
-    #     questions.append(question)
+    for _, state_row in selected_states.iterrows():
+        correct_state = state_row['state']
+        correct_capital = state_row['capital']
+        
+        # Generate 3 wrong capital options from other states
+        other_states = valid_states[
+            (valid_states['state'] != correct_state) & 
+            (valid_states['capital'] != correct_capital)
+        ]
+        
+        other_capitals = other_states['capital'].unique()
+        
+        if len(other_capitals) >= 3:
+            wrong_capitals = random.sample(list(other_capitals), 3)
+        else:
+            # If not enough unique capitals, use what we have and pad with generic ones
+            wrong_capitals = list(other_capitals)
+            generic_capitals = ['Chicago', 'New York City', 'Los Angeles', 'Miami', 'Seattle', 'Portland', 'Las Vegas', 'San Antonio', 'Philadelphia', 'Detroit']
+            for capital in generic_capitals:
+                if len(wrong_capitals) < 3 and capital != correct_capital and capital not in wrong_capitals:
+                    wrong_capitals.append(capital)
+                if len(wrong_capitals) >= 3:
+                    break
+        
+        # Create options list with correct answer at random position
+        options = wrong_capitals[:3] + [correct_capital]
+        random.shuffle(options)
+        correct_index = options.index(correct_capital)
+        
+        question = {
+            "question": f"What is the capital of {correct_state}?",
+            "options": options,
+            "correct": correct_index,
+            "type": "us_capital"
+        }
+        questions.append(question)
+    
+    return questions
+
+def generate_world_physical_geography_questions(df: pd.DataFrame, num_questions: int = 10) -> List[Dict[str, Any]]:
+    """
+    Generate physical geography questions from data set
+    """
+      # Filter out states with missing or invalid capital data
+    valid_questions = df[(df['question'].notna()) & (df['question'] != '')].copy()
+    
+    if len(valid_questions) < num_questions:
+        num_questions = len(valid_questions)
+    
+    # Select random states for questions
+    selected_questions = valid_questions.sample(n=num_questions)
+    questions = []
+    for _, question_row in selected_questions.iterrows():
+            correct_question = question_row['question']
+            correct_answer = question_row['correct_answer']
+        
+            other_options=[
+            question_row['option1'],
+            question_row['option2'],
+            question_row['option3']]   
+            options = other_options + [correct_answer]
+            random.shuffle(options)
+            correct_index = options.index(correct_answer)
+            question = {
+            "question": correct_question,
+            "options": options,
+            "correct": correct_index,
+            "type": "world_physical-geography-quiz"
+        }
+            questions.append(question)
+    
     
     return questions
 
@@ -293,9 +332,9 @@ QUIZ_GENERATORS = {
     'currency': generate_currency_questions,
     'capital': generate_capital_questions,
     'continent': generate_continent_questions,
-    'location': generate_location_questions,
-    'country': generate_country_questions,
-    'flag': generate_flag_questions
+    'flag': generate_flag_questions,
+    'us_capital': generate_us_capital_questions,
+    'world_physical_geography': generate_world_physical_geography_questions
 }
 
 def get_quiz_questions(quiz_type: str, df: pd.DataFrame, num_questions: int = 10) -> List[Dict[str, Any]]:
@@ -303,8 +342,8 @@ def get_quiz_questions(quiz_type: str, df: pd.DataFrame, num_questions: int = 10
     Get questions for a specific quiz type.
     
     Args:
-        quiz_type: Type of quiz ('currency', 'capital','continent', 'location')
-        df: DataFrame containing country data
+        quiz_type: Type of quiz ('currency', 'capital','continent', 'location', 'us_capital')
+        df: DataFrame containing country data or US states data
         num_questions: Number of questions to generate
     
     Returns:
@@ -318,9 +357,9 @@ def get_quiz_questions(quiz_type: str, df: pd.DataFrame, num_questions: int = 10
 
 QUIZ_TYPE_LABEL = {
     "currency": "Currencies",
-    "capital":"Capitals",
-    "continent":"Continents",
-    "country":"Countries",
-    "flag":"Flags"
+    "capital": "Capitals",
+    "continent": "Continents",
+    "flag": "Flags",
+    "us_capital": "US State Capitals",
+    "world_physical_geography": "Physical Geography"
 }
-
