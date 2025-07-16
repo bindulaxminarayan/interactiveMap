@@ -32,12 +32,21 @@ app.layout = html.Div([
 # Callback for updating page content based on URL
 @app.callback(
     Output('page-content', 'children'),
-    Input('url', 'pathname')
+    [Input('url', 'pathname'),
+     Input('url', 'search')]
 )
-def display_page(pathname):
-    """Route to different pages based on URL pathname."""
+def display_page(pathname, search):
+    """Route to different pages based on URL pathname and query parameters."""
     if pathname == '/trivia':
-        return get_trivia_layout()
+        # Parse category from query parameters
+        category = 'geography'  # default
+        if search:
+            # Parse query string (e.g., "?category=geography")
+            from urllib.parse import parse_qs
+            params = parse_qs(search.lstrip('?'))
+            if 'category' in params:
+                category = params['category'][0]
+        return get_trivia_layout(category)
     else:  # Default to explore page
         return get_explore_layout()
 
@@ -45,69 +54,6 @@ def display_page(pathname):
 register_explore_callbacks(app)
 register_trivia_callbacks(app)
 
-# Add custom CSS for the navbar
-app.index_string = '''
-<!DOCTYPE html>
-<html>
-    <head>
-        {%metas%}
-        <title>{%title%}</title>
-        {%favicon%}
-        {%css%}
-        <style>
-            .navbar {
-                background-color: #007bff;
-                padding: 1rem;
-                margin-bottom: 2rem;
-            }
-            .navbar-container {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                max-width: 1200px;
-                margin: 0 auto;
-            }
-            .navbar-brand {
-                font-size: 1.75rem;
-                font-weight: bold;
-                color: white;
-                text-decoration: none;
-            }
-            .navbar-brand:hover {
-                color: #f8f9fa;
-            }
-            .navbar-nav {
-                display: flex;
-                gap: 1rem;
-            }
-            .nav-link {
-                color: white;
-                text-decoration: none;
-                padding: 0.5rem 1rem;
-                border-radius: 0.25rem;
-                transition: background-color 0.3s;
-            }
-            .nav-link:hover {
-                background-color: rgba(255, 255, 255, 0.1);
-                color: white;
-            }
-            body {
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-                margin: 0;
-                padding: 0;
-            }
-        </style>
-    </head>
-    <body>
-        {%app_entry%}
-        <footer>
-            {%config%}
-            {%scripts%}
-            {%renderer%}
-        </footer>
-    </body>
-</html>
-'''
 
 # Run the app
 if __name__ == '__main__':

@@ -89,7 +89,5 @@ def create_feedback_message(is_correct, correct_answer):
         ])
     else:
         return html.Div([
-            html.P("❌ Incorrect!", style={'fontWeight': 'bold', 'color': '#dc3545', 'fontSize': '18px'}),
-            html.P(f"Correct answer: {correct_answer}", 
-                   style={'fontWeight': 'bold', 'color': '#28a745'})
+            html.P("❌ Incorrect!", style={'fontWeight': 'bold', 'color': '#dc3545', 'fontSize': '18px'})
         ])

@@ -4,13 +4,19 @@ Layout components for the trivia module.
 
 from dash import html, dcc
 
-# World quiz cards
-WORLD_QUIZ_CARDS_DATA = [
+# Geography quiz cards
+GEOGRAPHY_QUIZ_CARDS_DATA = [
        {
         "title": "Physical Geography",
         "emoji": "🏔️",
         "description": "Landscapes etc",
         "button_id": "start-physical-geography-quiz"
+    },
+        {
+        "title": "Flags",
+        "emoji": "🏳️",
+        "description": "Match flags with their countries!",
+        "button_id": "start-flag-quiz"
     },
     {
         "title": "Currencies",
@@ -25,24 +31,54 @@ WORLD_QUIZ_CARDS_DATA = [
         "button_id": "start-capital-quiz"
     },
     {
-        "title": "US State Capitals",
-        "emoji": "🇺🇸",
-        "description": "Match US states with their capitals!",
-        "button_id": "start-us-capital-quiz"
-    },
-    {
         "title": "Continents",
         "emoji": "🌐",
         "description": "Match countries with their continents!",
         "button_id": "start-continent-quiz"
     },
     {
-        "title": "Flags",
-        "emoji": "🏳️",
-        "description": "Match flags with their countries!",
-        "button_id": "start-flag-quiz"
+        "title": "US State Capitals",
+        "emoji": "🇺🇸",
+        "description": "Match US states with their capitals!",
+        "button_id": "start-us-capital-quiz"
     }
 ]
+
+# History quiz cards
+HISTORY_QUIZ_CARDS_DATA = [
+    {
+        "title": "Coming Soon",
+        "emoji": "⏳",
+        "description": "History quizzes will be available soon!",
+        "button_id": "history-coming-soon",
+        "is_disabled": True
+    }
+]
+
+# Science quiz cards
+SCIENCE_QUIZ_CARDS_DATA = [
+    {
+        "title": "Coming Soon",
+        "emoji": "⏳",
+        "description": "Science quizzes will be available soon!",
+        "button_id": "science-coming-soon",
+        "is_disabled": True
+    }
+]
+
+# Sports quiz cards
+SPORTS_QUIZ_CARDS_DATA = [
+    {
+        "title": "Coming Soon",
+        "emoji": "⏳",
+        "description": "Sports quizzes will be available soon!",
+        "button_id": "sports-coming-soon",
+        "is_disabled": True
+    }
+]
+
+# Legacy alias for backward compatibility
+WORLD_QUIZ_CARDS_DATA = GEOGRAPHY_QUIZ_CARDS_DATA
 
 US_QUIZ_CARDS_DATA = [{
         "title": "Capital Cities",
@@ -51,15 +87,6 @@ US_QUIZ_CARDS_DATA = [{
         "button_id": "start-us-capital-quiz"
     }]
 
-def create_side_panel():
-    """Create a side panel with category labels."""
-    return html.Div([
-        html.H2("Select a category", className="side-panel-title"),
-        html.Button("Geography", id="category-world", className="category-button category-button-active"), # Default active
-        html.Button("History", id="category-history", className="category-button"),
-        html.Button("Science", id="category-science", className="category-button"),
-        html.Button("Sports", id="category-sports", className="category-button"),
-    ], id="side-panel", className="side-panel-container")
 
 def create_quiz_card(title, emoji, description, button_id, is_disabled=False):
     """Create a quiz card with title, description and button."""
@@ -133,8 +160,21 @@ def create_hidden_elements():
         html.Button("", id='answer-btn-3', style={'display': 'none'}),
     ], id='hidden-elements-container', style={'display': 'none'})
 
-def get_trivia_layout():
+def get_cards_for_category(category):
+    """Get quiz cards data for a specific category."""
+    category_map = {
+        'geography': GEOGRAPHY_QUIZ_CARDS_DATA,
+        'history': HISTORY_QUIZ_CARDS_DATA,
+        'science': SCIENCE_QUIZ_CARDS_DATA,
+        'sports': SPORTS_QUIZ_CARDS_DATA
+    }
+    return category_map.get(category, GEOGRAPHY_QUIZ_CARDS_DATA)  # Default to geography
+
+def get_trivia_layout(category='geography'):
     """Get the layout for the trivia page with card-based quiz selection."""
+    # Get cards for the specified category
+    quiz_cards_data = get_cards_for_category(category)
+    
     return html.Div([
         # html.H1("Geography Challenge", className="main-title"),
         html.Div(id="quiz_type_display", className="quiz-type-display"),
@@ -142,16 +182,13 @@ def get_trivia_layout():
         # Global hidden elements that callbacks need to reference
         create_hidden_elements(),
 
-        # Main content area with side panel and quiz content
+        # Main content area without side panel
         html.Div([
-            # Side Panel
-            create_side_panel(),
-
             # Quiz selection area or active quiz area
             html.Div([
-                # Quiz Cards Grid (initially displayed with World data)
+                # Quiz Cards Grid (dynamically based on category)
                 html.Div([
-                    create_quiz_cards_grid(WORLD_QUIZ_CARDS_DATA)
+                    create_quiz_cards_grid(quiz_cards_data)
                 ], id="quiz-selection-area"), # This will be hidden when quiz starts
 
                 # Quiz Content Area (initially hidden)

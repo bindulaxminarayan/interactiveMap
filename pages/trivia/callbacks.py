@@ -31,7 +31,6 @@ def register_trivia_callbacks(app):
         Output('quiz-content-area', 'style'),
         Output('progress-container', 'children'),
         Output('progress-container', 'style'),
-        Output('side-panel', 'style'),
         Output('main-layout-container-wrapper', 'style'),
         Output('quiz-active-store', 'data'),
         [Input('start-currency-quiz', 'n_clicks'),
@@ -89,7 +88,6 @@ def register_trivia_callbacks(app):
         }
 
         # Styles for when quiz is active
-        side_panel_quiz_active_style = {'display': 'none'} # Hide side panel
         quiz_selection_quiz_active_style = {'display': 'none'} # Hide quiz selection area
         quiz_content_quiz_active_style = {
             'display': 'block', # Or 'flex' depending on inner content
@@ -126,7 +124,6 @@ def register_trivia_callbacks(app):
                 quiz_content_quiz_active_style,   # Show quiz content
                 progress_bar,
                 progress_style,
-                side_panel_quiz_active_style,     # Hide side panel
                 main_layout_quiz_active_style,    # Adjust main wrapper
                 quiz_active_store_data            # Update quiz-active-store
         )
@@ -140,7 +137,6 @@ def register_trivia_callbacks(app):
         Output('quiz-content-area', 'style', allow_duplicate=True),
         Output('progress-container', 'children', allow_duplicate=True),
         Output('progress-container', 'style', allow_duplicate=True),
-        Output('side-panel', 'style', allow_duplicate=True),
         Output('main-layout-container-wrapper', 'style', allow_duplicate=True),
         Output('quiz-active-store', 'data', allow_duplicate=True),
         Input('start-us-capital-quiz', 'n_clicks'),
@@ -167,7 +163,6 @@ def register_trivia_callbacks(app):
         }
 
         # Styles for when quiz is active
-        side_panel_quiz_active_style = {'display': 'none'} # Hide side panel
         quiz_selection_quiz_active_style = {'display': 'none'} # Hide quiz selection area
         quiz_content_quiz_active_style = {
             'display': 'block', # Or 'flex' depending on inner content
@@ -204,7 +199,6 @@ def register_trivia_callbacks(app):
                 quiz_content_quiz_active_style,   # Show quiz content
                 progress_bar,
                 progress_style,
-                side_panel_quiz_active_style,     # Hide side panel
                 main_layout_quiz_active_style,    # Adjust main wrapper
                 quiz_active_store_data            # Update quiz-active-store
         )
@@ -216,9 +210,8 @@ def register_trivia_callbacks(app):
         Output('current-question-store', 'data', allow_duplicate=True),
         Output('progress-container', 'children', allow_duplicate=True),
         Output('progress-container', 'style', allow_duplicate=True),
-        Output('side-panel', 'style', allow_duplicate=True), # Added output
-        Output('main-layout-container-wrapper', 'style', allow_duplicate=True), # Added output
-        Output('quiz-active-store', 'data', allow_duplicate=True), # Added output
+        Output('main-layout-container-wrapper', 'style', allow_duplicate=True),
+        Output('quiz-active-store', 'data', allow_duplicate=True),
         Input('restart-current-quiz', 'n_clicks'),
         State('current-question-store', 'data'),
         prevent_initial_call=True
@@ -257,20 +250,6 @@ def register_trivia_callbacks(app):
         }
 
         # Styles for when quiz is active (same as start_quiz)
-        side_panel_quiz_active_style = {'display': 'none'}
-        quiz_content_quiz_active_style = { # Corrected variable name
-            'display': 'block',
-            'backgroundColor': '#ffffff',
-            'borderRadius': '15px',
-            'border': '1px solid #dee2e6',
-            'boxShadow': '0 4px 6px rgba(0,0,0,0.1)',
-            'padding': '30px',
-            'margin': '0', # No external margin, let parent handle spacing
-            'minHeight': '500px',
-            'flexGrow': 1,
-            'width': '100%',
-            'boxSizing': 'border-box'
-        }
         main_layout_quiz_active_style = {
             'display': 'flex',
             'justifyContent': 'center',
@@ -291,7 +270,6 @@ def register_trivia_callbacks(app):
                 new_data,
                 progress_bar,
                 progress_style,
-                side_panel_quiz_active_style,
                 main_layout_quiz_active_style,
                 quiz_active_store_data)
 
@@ -462,14 +440,8 @@ def register_trivia_callbacks(app):
         Output('progress-container', 'style', allow_duplicate=True),
         Output('progress-container', 'children', allow_duplicate=True),
         Output('quiz_type_display','children',allow_duplicate=True),
-        Output('side-panel', 'style', allow_duplicate=True),
         Output('main-layout-container-wrapper', 'style', allow_duplicate=True),
         Output('quiz-active-store', 'data', allow_duplicate=True),
-        Output('category-world', 'className', allow_duplicate=True),
-        Output('category-history', 'className', allow_duplicate=True),   
-        Output('category-science', 'className', allow_duplicate=True), 
-        Output('category-sports', 'className', allow_duplicate=True), 
-        Output('quiz-selection-area', 'children', allow_duplicate=True),
         Input('quit-quiz-btn', 'n_clicks'),
         prevent_initial_call=True
     )
@@ -487,14 +459,8 @@ def register_trivia_callbacks(app):
         Output('progress-container', 'style', allow_duplicate=True),
         Output('progress-container', 'children', allow_duplicate=True),
         Output('quiz_type_display','children',allow_duplicate=True),
-        Output('side-panel', 'style', allow_duplicate=True),
         Output('main-layout-container-wrapper', 'style', allow_duplicate=True),
         Output('quiz-active-store', 'data', allow_duplicate=True),
-        Output('category-world', 'className', allow_duplicate=True),
-        Output('category-history', 'className', allow_duplicate=True),   
-        Output('category-science', 'className', allow_duplicate=True),
-        Output('category-sports', 'className', allow_duplicate=True),
-        Output('quiz-selection-area', 'children', allow_duplicate=True),
         Input('back-to-selection', 'n_clicks'),
         State('current-question-store', 'data'),
         prevent_initial_call=True
@@ -504,71 +470,10 @@ def register_trivia_callbacks(app):
             return _return_to_quiz_selection(current_data)
         raise dash.exceptions.PreventUpdate
 
-    # New Callback for Category Selection
-    @app.callback(
-        Output('quiz-selection-area', 'children'),
-        Output('category-world', 'className'),
-        Output('category-history', 'className'),
-        Output('category-science', 'className'),
-        Output('category-sports', 'className'),
-        [Input('category-world', 'n_clicks'),
-         Input('category-history', 'n_clicks'),
-         Input('category-science', 'n_clicks'),
-         Input('category-sports', 'n_clicks')],
-        State('quiz-active-store', 'data'), # Use State to prevent category changes during an active quiz
-        prevent_initial_call=True
-    )
-    def display_category_cards(world_clicks, history_clicks, science_clicks, sports_clicks, quiz_active_state):
-        ctx = callback_context
-        if not ctx.triggered:
-            raise dash.exceptions.PreventUpdate
-
-        # Prevent category changes if a quiz is currently active
-        if quiz_active_state and quiz_active_state.get('active', False):
-            raise dash.exceptions.PreventUpdate
-
-        triggered_id = ctx.triggered[0]['prop_id'].split('.')[0]
-
-        # Default class names
-        world_class = INACTIVE_CATEGORY_CLASS
-        history_class = INACTIVE_CATEGORY_CLASS
-        science_class = INACTIVE_CATEGORY_CLASS
-        sports_class = INACTIVE_CATEGORY_CLASS
-
-        quiz_cards_to_display = []
-
-        if triggered_id == 'category-world':
-            quiz_cards_to_display = create_quiz_cards_grid(WORLD_QUIZ_CARDS_DATA)
-            world_class = ACTIVE_CATEGORY_CLASS
-        elif triggered_id == 'category-history':
-            quiz_cards_to_display = html.Div([
-                html.P("Coming Soon!", style={'textAlign': 'center', 'fontSize': '1.5rem', 'marginTop': '3rem', 'color': '#6c757d'})
-            ], style={'width': '100%', 'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center'})
-            history_class = ACTIVE_CATEGORY_CLASS
-        elif triggered_id == 'category-science':
-            quiz_cards_to_display = html.Div([
-                html.P("Coming Soon!", style={'textAlign': 'center', 'fontSize': '1.5rem', 'marginTop': '3rem', 'color': '#6c757d'})
-            ], style={'width': '100%', 'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center'})
-            science_class = ACTIVE_CATEGORY_CLASS
-        elif triggered_id == 'category-sports':
-            quiz_cards_to_display = html.Div([
-                html.P("Coming Soon!", style={'textAlign': 'center', 'fontSize': '1.5rem', 'marginTop': '3rem', 'color': '#6c757d'})
-            ], style={'width': '100%', 'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center'})
-            sports_class = ACTIVE_CATEGORY_CLASS
-
-        return (quiz_cards_to_display,
-                world_class,
-                history_class,
-                science_class,
-                sports_class)
-
 
 def _return_to_quiz_selection(current_data=None):
     """Helper function to return to the quiz selection screen."""
     # Styles for when quiz is NOT active (selection view)
-    side_panel_default_style = {'display': 'flex', 'flexDirection': 'column', 'alignItems': 'center', 'flexShrink': 0,
-                                'backgroundColor': '#ffffff', 'borderRadius': '15px', 'boxShadow': '0 4px 6px rgba(0,0,0,0.1)',
-                                'padding': '30px 20px', 'margin': '20px', 'width': '250px', 'minHeight': 'calc(100vh - 40px)'}
     quiz_selection_default_style = {'display': 'flex', 'flexDirection': 'column', 'alignItems': 'center', 'padding': '20px', 'flexGrow': 1}
     quiz_content_default_style = {'display': 'none'}
     progress_style = {'display': 'none'} # Progress bar hidden
@@ -584,17 +489,6 @@ def _return_to_quiz_selection(current_data=None):
 
     reset_data = {'index': 0, 'score': 0, 'questions': [], 'answered': False, 'user_answers': {}}
 
-    # Determine which category to return to based on quiz type
-    quiz_type = current_data.get('quiz_type', 'country') if current_data else 'country'
-    
-    # Set category button classes and quiz cards - always return to Geography category
-    # since all quizzes are now in the Geography section
-    world_class = ACTIVE_CATEGORY_CLASS
-    history_class = INACTIVE_CATEGORY_CLASS
-    science_class = INACTIVE_CATEGORY_CLASS
-    sports_class = INACTIVE_CATEGORY_CLASS
-    quiz_cards_to_display = create_quiz_cards_grid(WORLD_QUIZ_CARDS_DATA)
-
     return ([], # question-container children (empty)
             reset_data, # current-question-store data (reset)
             quiz_selection_default_style, # quiz-selection-area style (visible)
@@ -602,12 +496,6 @@ def _return_to_quiz_selection(current_data=None):
             progress_style, # progress-container style (hidden)
             [], # progress-container children (empty)
             "", # quiz_type_display children (empty)
-            side_panel_default_style, # side-panel style (visible)
             main_layout_default_style, # main-layout-container-wrapper style (default)
-            quiz_active_store_default_data, # quiz-active-store data (inactive)
-            world_class, # Set World button class
-            history_class, # Set History button class
-            science_class, # Set Science button class
-            sports_class, # Set Sports button class
-            quiz_cards_to_display  # Show appropriate quiz cards
+            quiz_active_store_default_data # quiz-active-store data (inactive)
     )
