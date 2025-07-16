@@ -6,11 +6,16 @@ A comprehensive learning platform built with Dash and Plotly, featuring interact
 
 - **Interactive World Map**: Visualize country data with hover information
 - **GDP Visualization**: High/Low GDP country highlighting
-- **Geography Challenge**: Multiple quiz types including:
-  - Capital cities
-  - Currencies
-  - Continents
-  - Mixed country knowledge
+- **Category-Based Navigation**: Access different quiz categories through the navbar
+- **Geography Quizzes**: Complete geography challenge with 6 quiz types:
+  - Physical Geography (landscapes, mountain ranges, etc.)
+  - Flags (match flags with countries)
+  - Currencies (match countries with currencies)
+  - Capital Cities (match countries with capitals)
+  - Continents (match countries with continents)
+  - US State Capitals (match US states with capitals)
+- **Upcoming Categories**: History, Science, and Sports (coming soon)
+- **Streamlined Quiz Experience**: Clean feedback system focused on learning
 
 ## Prerequisites
 
