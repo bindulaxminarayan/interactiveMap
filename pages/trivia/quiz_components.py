@@ -302,12 +302,7 @@ def create_review_answers_section(questions, user_answers):
             html.Div([
                 html.Strong("Correct answer: ", style={'color': '#666'}),
                 html.Span(correct_answer_text, style={'color': '#28a745', 'fontWeight': 'bold'})
-            ], style={'marginBottom': '10px'}),
-            
-            html.Div([
-                html.Strong("Explanation: ", style={'color': '#666'}),
-                html.Span(question_data.get('explanation', 'No explanation available.'))
-            ], style={'color': '#555', 'fontStyle': 'italic'})
+            ], style={'marginBottom': '10px'})
         ])
         review_content.append(summary_div)
         
@@ -348,7 +343,7 @@ def create_completion_screen(score, total, quiz_type, questions=None, user_answe
         create_score_display(score, total, percentage, performance_msg, color),
         html.Div([
             html.Button(
-                f"Restart {QUIZ_TYPE_LABEL[quiz_type].title()} Quiz",
+                f"Restart {QUIZ_TYPE_LABEL[quiz_type]} Quiz",
                 id="restart-current-quiz",
                 style={
                     'padding': '15px 30px',

@@ -9,10 +9,10 @@ def create_simple_navbar():
     return html.Div([
         html.Nav([
             html.Div([
-                html.A("Interactive World Map", href="/", className="navbar-brand"),
+                html.A("QuizVerse", href="/", className="navbar-brand"),
                 html.Div([
                     html.A("Explore", href="/", className="nav-link"),
-                    html.A("Geography", href="/trivia", className="nav-link"),
+                    html.A("Quizzes", href="/trivia", className="nav-link"),
                 ], className="navbar-nav")
             ], className="navbar-container")
         ], className="navbar"),

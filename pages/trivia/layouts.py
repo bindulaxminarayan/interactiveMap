@@ -8,7 +8,7 @@ from dash import html, dcc
 WORLD_QUIZ_CARDS_DATA = [
        {
         "title": "Physical Geography",
-        "emoji": "🇺🇳",
+        "emoji": "🏔️",
         "description": "Landscapes etc",
         "button_id": "start-physical-geography-quiz"
     },
@@ -25,6 +25,12 @@ WORLD_QUIZ_CARDS_DATA = [
         "button_id": "start-capital-quiz"
     },
     {
+        "title": "US State Capitals",
+        "emoji": "🇺🇸",
+        "description": "Match US states with their capitals!",
+        "button_id": "start-us-capital-quiz"
+    },
+    {
         "title": "Continents",
         "emoji": "🌐",
         "description": "Match countries with their continents!",
@@ -32,17 +38,10 @@ WORLD_QUIZ_CARDS_DATA = [
     },
     {
         "title": "Flags",
-        "emoji": "🇺🇳",
-        "description": "Match flag with their countries!",
+        "emoji": "🏳️",
+        "description": "Match flags with their countries!",
         "button_id": "start-flag-quiz"
-    },
-    {
-        "title": "General",
-        "emoji": "🌎",
-        "description": "Match countries, capital, currencies!",
-        "button_id": "start-country-quiz"
-    },
-   
+    }
 ]
 
 US_QUIZ_CARDS_DATA = [{
@@ -56,10 +55,10 @@ def create_side_panel():
     """Create a side panel with category labels."""
     return html.Div([
         html.H2("Select a category", className="side-panel-title"),
-        html.Button("World", id="category-world", className="category-button category-button-active"), # Default active
-        html.Button("United States", id="category-us", className="category-button"),
-        html.Button("India", id="category-india", className="category-button"),
-        html.Button("China", id="category-china", className="category-button"),
+        html.Button("Geography", id="category-world", className="category-button category-button-active"), # Default active
+        html.Button("History", id="category-history", className="category-button"),
+        html.Button("Science", id="category-science", className="category-button"),
+        html.Button("Sports", id="category-sports", className="category-button"),
     ], id="side-panel", className="side-panel-container")
 
 def create_quiz_card(title, emoji, description, button_id, is_disabled=False):
@@ -122,7 +121,6 @@ def create_hidden_elements():
         html.Button("Restart Currency", id="restart-currency-quiz-result", style={'display': 'none'}),
         html.Button("Restart Capital", id="restart-capital-quiz-result", style={'display': 'none'}),
         html.Button("Restart Continent", id="restart-continent-quiz-result", style={'display': 'none'}),
-        html.Button("Restart Country", id="restart-country-quiz-result", style={'display': 'none'}),
         html.Button("Restart Flag", id="restart-flag-quiz-result", style={'display': 'none'}),
         html.Button("Restart Current", id="restart-current-quiz", style={'display': 'none'}),
         html.Button("Next Question", id='next-btn', style={'display': 'none'}),

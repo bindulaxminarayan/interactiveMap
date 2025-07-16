@@ -68,7 +68,7 @@ app.index_string = '''
                 margin: 0 auto;
             }
             .navbar-brand {
-                font-size: 1.5rem;
+                font-size: 1.75rem;
                 font-weight: bold;
                 color: white;
                 text-decoration: none;

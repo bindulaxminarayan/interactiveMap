@@ -81,19 +81,15 @@ def create_score_display(score, total, percentage, performance_msg, color):
               style={'textAlign': 'center', 'fontSize': '20px', 'color': color, 'margin': '20px 0'})
     ], style={'backgroundColor': '#f8f9fa', 'padding': '30px', 'borderRadius': '10px', 'margin': '20px 0'})
 
-def create_feedback_message(is_correct, correct_answer, explanation, moreinfo):
+def create_feedback_message(is_correct, correct_answer):
     """Create a feedback message for quiz answers."""
     if is_correct:
         return html.Div([
-            html.P("✅ Correct!", style={'fontWeight': 'bold', 'color': '#28a745', 'fontSize': '18px'}),
-            html.P(explanation, style={'fontStyle': 'italic'}),
-            html.P(moreinfo, style={'fontStyle': 'italic'})
+            html.P("✅ Correct!", style={'fontWeight': 'bold', 'color': '#28a745', 'fontSize': '18px'})
         ])
     else:
         return html.Div([
             html.P("❌ Incorrect!", style={'fontWeight': 'bold', 'color': '#dc3545', 'fontSize': '18px'}),
             html.P(f"Correct answer: {correct_answer}", 
-                   style={'fontWeight': 'bold', 'color': '#28a745'}),
-            html.P(explanation, style={'fontStyle': 'italic'}),
-            html.P(moreinfo, style={'fontStyle': 'italic'})
+                   style={'fontWeight': 'bold', 'color': '#28a745'})
         ])

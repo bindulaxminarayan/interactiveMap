@@ -14,7 +14,7 @@ Reusable UI components used throughout the trivia module:
 - `create_quiz_category_section()`: Creates quiz category sections in the side panel
 - `create_quiz_button()`: Standardized button creation with different styles
 - `create_score_display()`: Score display component for quiz results
-- `create_feedback_message()`: Feedback messages for correct/incorrect answers
+- `create_feedback_message()`: Simple feedback messages for correct/incorrect answers (shows only basic status and correct answer when wrong)
 - `create_welcome_content()`: Welcome screen content
 
 ### `quiz_components.py`

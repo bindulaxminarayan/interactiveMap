@@ -34,8 +34,7 @@ def register_trivia_callbacks(app):
         Output('side-panel', 'style'),
         Output('main-layout-container-wrapper', 'style'),
         Output('quiz-active-store', 'data'),
-        [Input('start-country-quiz', 'n_clicks'),
-         Input('start-currency-quiz', 'n_clicks'),
+        [Input('start-currency-quiz', 'n_clicks'),
          Input('start-capital-quiz', 'n_clicks'),
          Input('start-continent-quiz','n_clicks'),
          Input('start-flag-quiz','n_clicks'),
@@ -43,7 +42,7 @@ def register_trivia_callbacks(app):
         State('current-question-store', 'data'),
         prevent_initial_call=True
     )
-    def start_world_quiz(world_physical_geography_clicks,country_clicks, currency_clicks, capital_clicks, continent_clicks, flag_clicks, current_data):
+    def start_world_quiz(currency_clicks, capital_clicks, continent_clicks, flag_clicks, world_physical_geography_clicks, current_data):
         ctx = callback_context
         if not ctx.triggered:
             raise dash.exceptions.PreventUpdate
@@ -66,10 +65,6 @@ def register_trivia_callbacks(app):
         elif triggered_id == 'start-continent-quiz':
             questions = get_quiz_questions('continent', df, 10)
             quiz_type = 'continent'
-            quiz_type_display = QUIZ_TYPE_LABEL[quiz_type]
-        elif triggered_id == 'start-country-quiz':
-            questions = get_quiz_questions('country', df, 10)
-            quiz_type = 'country'
             quiz_type_display = QUIZ_TYPE_LABEL[quiz_type]
         elif triggered_id == 'start-flag-quiz':
             questions = get_quiz_questions('flag', df, 10)
@@ -233,7 +228,7 @@ def register_trivia_callbacks(app):
             raise dash.exceptions.PreventUpdate
 
         # Get the quiz type from the previous quiz session (stored in completion data or fallback)
-        quiz_type = 'country'  # Default fallback
+        quiz_type = 'currency'  # Default fallback
         if current_data and 'quiz_type' in current_data:
             quiz_type = current_data['quiz_type']
         
@@ -346,9 +341,7 @@ def register_trivia_callbacks(app):
             # Create feedback
             feedback = create_feedback_message(
                 is_correct,
-                question_data['options'][question_data['correct']],
-                question_data['explanation'],
-                question_data['moreinfo']
+                question_data['options'][question_data['correct']]
             )
 
             # Create layout with visual feedback
@@ -473,9 +466,9 @@ def register_trivia_callbacks(app):
         Output('main-layout-container-wrapper', 'style', allow_duplicate=True),
         Output('quiz-active-store', 'data', allow_duplicate=True),
         Output('category-world', 'className', allow_duplicate=True),
-        Output('category-us', 'className', allow_duplicate=True),   
-        Output('category-india', 'className', allow_duplicate=True), 
-        Output('category-china', 'className', allow_duplicate=True), 
+        Output('category-history', 'className', allow_duplicate=True),   
+        Output('category-science', 'className', allow_duplicate=True), 
+        Output('category-sports', 'className', allow_duplicate=True), 
         Output('quiz-selection-area', 'children', allow_duplicate=True),
         Input('quit-quiz-btn', 'n_clicks'),
         prevent_initial_call=True
@@ -498,9 +491,9 @@ def register_trivia_callbacks(app):
         Output('main-layout-container-wrapper', 'style', allow_duplicate=True),
         Output('quiz-active-store', 'data', allow_duplicate=True),
         Output('category-world', 'className', allow_duplicate=True),
-        Output('category-us', 'className', allow_duplicate=True),   
-        Output('category-india', 'className', allow_duplicate=True),
-        Output('category-china', 'className', allow_duplicate=True),
+        Output('category-history', 'className', allow_duplicate=True),   
+        Output('category-science', 'className', allow_duplicate=True),
+        Output('category-sports', 'className', allow_duplicate=True),
         Output('quiz-selection-area', 'children', allow_duplicate=True),
         Input('back-to-selection', 'n_clicks'),
         State('current-question-store', 'data'),
@@ -515,17 +508,17 @@ def register_trivia_callbacks(app):
     @app.callback(
         Output('quiz-selection-area', 'children'),
         Output('category-world', 'className'),
-        Output('category-us', 'className'),
-        Output('category-india', 'className'),
-        Output('category-china', 'className'),
+        Output('category-history', 'className'),
+        Output('category-science', 'className'),
+        Output('category-sports', 'className'),
         [Input('category-world', 'n_clicks'),
-         Input('category-us', 'n_clicks'),
-         Input('category-india', 'n_clicks'),
-         Input('category-china', 'n_clicks')],
+         Input('category-history', 'n_clicks'),
+         Input('category-science', 'n_clicks'),
+         Input('category-sports', 'n_clicks')],
         State('quiz-active-store', 'data'), # Use State to prevent category changes during an active quiz
         prevent_initial_call=True
     )
-    def display_category_cards(world_clicks, us_clicks, india_clicks, china_clicks, quiz_active_state):
+    def display_category_cards(world_clicks, history_clicks, science_clicks, sports_clicks, quiz_active_state):
         ctx = callback_context
         if not ctx.triggered:
             raise dash.exceptions.PreventUpdate
@@ -538,34 +531,36 @@ def register_trivia_callbacks(app):
 
         # Default class names
         world_class = INACTIVE_CATEGORY_CLASS
-        us_class = INACTIVE_CATEGORY_CLASS
-        india_class = INACTIVE_CATEGORY_CLASS
-        china_class = INACTIVE_CATEGORY_CLASS
+        history_class = INACTIVE_CATEGORY_CLASS
+        science_class = INACTIVE_CATEGORY_CLASS
+        sports_class = INACTIVE_CATEGORY_CLASS
 
         quiz_cards_to_display = []
 
         if triggered_id == 'category-world':
             quiz_cards_to_display = create_quiz_cards_grid(WORLD_QUIZ_CARDS_DATA)
             world_class = ACTIVE_CATEGORY_CLASS
-        elif triggered_id == 'category-us':
-            quiz_cards_to_display = create_quiz_cards_grid(US_QUIZ_CARDS_DATA)
-            us_class = ACTIVE_CATEGORY_CLASS
-        elif triggered_id == 'category-india':
+        elif triggered_id == 'category-history':
             quiz_cards_to_display = html.Div([
-                html.P("Coming Soon!", style={'textAlign': 'center', 'fontSize': '24px', 'marginTop': '50px', 'color': '#6c757d'})
+                html.P("Coming Soon!", style={'textAlign': 'center', 'fontSize': '1.5rem', 'marginTop': '3rem', 'color': '#6c757d'})
             ], style={'width': '100%', 'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center'})
-            india_class = ACTIVE_CATEGORY_CLASS
-        elif triggered_id == 'category-china':
+            history_class = ACTIVE_CATEGORY_CLASS
+        elif triggered_id == 'category-science':
             quiz_cards_to_display = html.Div([
-                html.P("Coming Soon!", style={'textAlign': 'center', 'fontSize': '24px', 'marginTop': '50px', 'color': '#6c757d'})
+                html.P("Coming Soon!", style={'textAlign': 'center', 'fontSize': '1.5rem', 'marginTop': '3rem', 'color': '#6c757d'})
             ], style={'width': '100%', 'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center'})
-            china_class = ACTIVE_CATEGORY_CLASS
+            science_class = ACTIVE_CATEGORY_CLASS
+        elif triggered_id == 'category-sports':
+            quiz_cards_to_display = html.Div([
+                html.P("Coming Soon!", style={'textAlign': 'center', 'fontSize': '1.5rem', 'marginTop': '3rem', 'color': '#6c757d'})
+            ], style={'width': '100%', 'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center'})
+            sports_class = ACTIVE_CATEGORY_CLASS
 
         return (quiz_cards_to_display,
                 world_class,
-                us_class,
-                india_class,
-                china_class)
+                history_class,
+                science_class,
+                sports_class)
 
 
 def _return_to_quiz_selection(current_data=None):
@@ -592,21 +587,13 @@ def _return_to_quiz_selection(current_data=None):
     # Determine which category to return to based on quiz type
     quiz_type = current_data.get('quiz_type', 'country') if current_data else 'country'
     
-    # Set category button classes and quiz cards based on quiz type
-    if quiz_type == 'us_capital':
-        # Return to US category
-        world_class = INACTIVE_CATEGORY_CLASS
-        us_class = ACTIVE_CATEGORY_CLASS
-        india_class = INACTIVE_CATEGORY_CLASS
-        china_class = INACTIVE_CATEGORY_CLASS
-        quiz_cards_to_display = create_quiz_cards_grid(US_QUIZ_CARDS_DATA)
-    else:
-        # Return to World category (default for all world quizzes)
-        world_class = ACTIVE_CATEGORY_CLASS
-        us_class = INACTIVE_CATEGORY_CLASS
-        india_class = INACTIVE_CATEGORY_CLASS
-        china_class = INACTIVE_CATEGORY_CLASS
-        quiz_cards_to_display = create_quiz_cards_grid(WORLD_QUIZ_CARDS_DATA)
+    # Set category button classes and quiz cards - always return to Geography category
+    # since all quizzes are now in the Geography section
+    world_class = ACTIVE_CATEGORY_CLASS
+    history_class = INACTIVE_CATEGORY_CLASS
+    science_class = INACTIVE_CATEGORY_CLASS
+    sports_class = INACTIVE_CATEGORY_CLASS
+    quiz_cards_to_display = create_quiz_cards_grid(WORLD_QUIZ_CARDS_DATA)
 
     return ([], # question-container children (empty)
             reset_data, # current-question-store data (reset)
@@ -619,8 +606,8 @@ def _return_to_quiz_selection(current_data=None):
             main_layout_default_style, # main-layout-container-wrapper style (default)
             quiz_active_store_default_data, # quiz-active-store data (inactive)
             world_class, # Set World button class
-            us_class, # Set US button class
-            india_class, # Set India button class
-            china_class, # Set China button class
+            history_class, # Set History button class
+            science_class, # Set Science button class
+            sports_class, # Set Sports button class
             quiz_cards_to_display  # Show appropriate quiz cards
     )

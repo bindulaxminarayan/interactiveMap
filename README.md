@@ -1,6 +1,6 @@
-# Interactive Map Application
+# QuizVerse
 
-A comprehensive interactive world map application built with Dash and Plotly, featuring country data visualization and trivia quizzes about countries, capitals, currencies, and continents.
+A comprehensive learning platform built with Dash and Plotly, featuring interactive world map exploration and diverse quiz categories including geography, history, science, and sports.
 
 ## Features
 

@@ -52,8 +52,6 @@ def generate_currency_questions(df: pd.DataFrame, num_questions: int = 10) -> Li
             "question": f"What is the currency of {correct_country}?",
             "options": options,
             "correct": correct_index,
-            "explanation": f"The currency of {correct_country} is {correct_currency}.",
-            "moreinfo": f"Capital:{capital}, GDP:{gdp}, Continent:{continent}",
             "type": "currency"
         }
         questions.append(question)
@@ -117,8 +115,6 @@ def generate_capital_questions(df: pd.DataFrame, num_questions: int = 10) -> Lis
             "question": f"What is the capital of {correct_country}?",
             "options": options,
             "correct": correct_index,
-            "explanation": f"The capital of {correct_country} is {display_capital}.",
-            "moreinfo":f"Currency:{currency}, GDP:{gdp}, Continent: {continent}",
             "type": "capital"
         }
         questions.append(question)
@@ -185,30 +181,9 @@ def generate_continent_questions(df: pd.DataFrame, num_questions: int =10) -> Li
             "question": f"What is the continent of {correct_country}?",
             "options": options,
             "correct": correct_index,
-            "explanation": f"The continent of {correct_country} is {correct_continent}.",
-            "moreinfo": f"Currency: {currency}, GDP: {gdp}, Capital:{capital}",
             "type": "continent"
         }
         questions.append(question)
-    
-    return questions
-
-def generate_country_questions(df: pd.DataFrame, num_questions: int =10) -> List[Dict[str, Any]]:
-    """Generate random country-continent questions."""
-    total_categories = 3
-    base = num_questions // total_categories
-    remainder = num_questions % total_categories
-    counts = [base] * total_categories
-    # Randomly assign the remainder
-    if remainder > 0:
-        for i in random.sample(range(total_categories), remainder):
-            counts[i] += 1
-    q_funcs = [generate_continent_questions, generate_capital_questions, generate_currency_questions]
-    questions = []
-    for func, count in zip(q_funcs, counts):
-        if count > 0:
-            questions.extend(func(df, count))
-    random.shuffle(questions)
     
     return questions
 
@@ -260,8 +235,6 @@ def generate_flag_questions(df: pd.DataFrame, num_questions: int = 10) -> List[D
             "flag_image": f"assets/{flag_filename}",
             "options": options,
             "correct": correct_index,
-            "explanation": f"This is the flag of {correct_country}.",
-            "moreinfo": f"Capital: {capital}, Currency: {currency}, GDP: {gdp}, Continent: {continent}",
             "type": "flag"
         }
         questions.append(question)
@@ -313,8 +286,6 @@ def generate_us_capital_questions(df: pd.DataFrame, num_questions: int = 10) -> 
             "question": f"What is the capital of {correct_state}?",
             "options": options,
             "correct": correct_index,
-            "explanation": f"The capital of {correct_state} is {correct_capital}.",
-            "moreinfo": f"State: {correct_state}",
             "type": "us_capital"
         }
         questions.append(question)
@@ -349,8 +320,6 @@ def generate_world_physical_geography_questions(df: pd.DataFrame, num_questions:
             "question": correct_question,
             "options": options,
             "correct": correct_index,
-            "explanation": f"No explanation",
-            "moreinfo": f"No extra information available",
             "type": "world_physical-geography-quiz"
         }
             questions.append(question)
@@ -363,7 +332,6 @@ QUIZ_GENERATORS = {
     'currency': generate_currency_questions,
     'capital': generate_capital_questions,
     'continent': generate_continent_questions,
-    'country': generate_country_questions,
     'flag': generate_flag_questions,
     'us_capital': generate_us_capital_questions,
     'world_physical_geography': generate_world_physical_geography_questions
@@ -391,8 +359,7 @@ QUIZ_TYPE_LABEL = {
     "currency": "Currencies",
     "capital": "Capitals",
     "continent": "Continents",
-    "country": "Countries",
     "flag": "Flags",
     "us_capital": "US State Capitals",
-    "world_physical_geography": "World Physical Geography"
+    "world_physical_geography": "Physical Geography"
 }
