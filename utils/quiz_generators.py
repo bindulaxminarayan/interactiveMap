@@ -58,7 +58,7 @@ def generate_currency_questions(df: pd.DataFrame, num_questions: int = 10) -> Li
     
     return questions
 
-def generate_capital_questions(df: pd.DataFrame, num_questions: int = 10) -> List[Dict[str, Any]]:
+def generate_country_capital_questions(df: pd.DataFrame, num_questions: int = 10) -> List[Dict[str, Any]]:
     """Generate random country-capital questions."""
     # Filter out countries with missing or invalid capital data
     valid_countries = df[(df['capital'].notna()) & (df['capital'] != '')].copy()
@@ -241,7 +241,7 @@ def generate_flag_questions(df: pd.DataFrame, num_questions: int = 10) -> List[D
     
     return questions
 
-def generate_us_capital_questions(df: pd.DataFrame, num_questions: int = 10) -> List[Dict[str, Any]]:
+def generate_capital_questions(df: pd.DataFrame, num_questions: int = 10) -> List[Dict[str, Any]]:
     """Generate random US state-capital questions."""
     # Filter out states with missing or invalid capital data
     valid_states = df[(df['capital'].notna()) & (df['capital'] != '')].copy()
@@ -330,11 +330,12 @@ def generate_world_physical_geography_questions(df: pd.DataFrame, num_questions:
 # Quiz type registry for easy expansion
 QUIZ_GENERATORS = {
     'currency': generate_currency_questions,
-    'capital': generate_capital_questions,
+    'capital': generate_country_capital_questions,
     'continent': generate_continent_questions,
     'flag': generate_flag_questions,
-    'us_capital': generate_us_capital_questions,
-    'world_physical_geography': generate_world_physical_geography_questions
+    'us_capital': generate_capital_questions,
+    'world_physical_geography': generate_world_physical_geography_questions,
+    'india_capital': generate_capital_questions
 }
 
 def get_quiz_questions(quiz_type: str, df: pd.DataFrame, num_questions: int = 10) -> List[Dict[str, Any]]:
@@ -361,5 +362,6 @@ QUIZ_TYPE_LABEL = {
     "continent": "Continents",
     "flag": "Flags",
     "us_capital": "US State Capitals",
-    "world_physical_geography": "Physical Geography"
+    "world_physical_geography": "Physical Geography",
+    "india_capital": "India State Capitals"
 }

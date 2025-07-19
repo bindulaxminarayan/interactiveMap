@@ -15,9 +15,9 @@ def create_progress_bar(current_question, total_questions, show_next_button=Fals
         html.Div([
             html.Div([
                 html.Span(f"Question {current_question + 1} of {total_questions}", 
-                         style={'fontWeight': 'bold', 'color': '#007bff'}),
+                         style={'fontWeight': 'bold', 'color': '#007bff', 'fontSize': '20px'}),
                 html.Span(f"{remaining_questions} questions remaining", 
-                         style={'color': '#6c757d', 'fontSize': '14px'})
+                         style={'color': '#6c757d', 'fontSize': '18px'})
             ], style={'display': 'flex', 'justifyContent': 'space-between', 'marginBottom': '10px'}),
             
             # Progress bar container
@@ -43,8 +43,8 @@ def create_progress_bar(current_question, total_questions, show_next_button=Fals
             html.Div([
                 html.Button("Next Question", id='next-btn', 
                            style={
-                               'padding': '8px 16px', 
-                               'fontSize': '14px',
+                               'padding': '12px 24px', 
+                               'fontSize': '18px',
                                'backgroundColor': '#28a745', 
                                'color': 'white',
                                'border': 'none', 
@@ -55,8 +55,8 @@ def create_progress_bar(current_question, total_questions, show_next_button=Fals
                            } if show_next_button else {'display': 'none'}),
                 html.Button("View Results", id='view-results-btn', 
                            style={
-                               'padding': '8px 16px', 
-                               'fontSize': '14px',
+                               'padding': '12px 24px', 
+                               'fontSize': '18px',
                                'backgroundColor': '#007bff', 
                                'color': 'white',
                                'border': 'none', 
@@ -67,8 +67,8 @@ def create_progress_bar(current_question, total_questions, show_next_button=Fals
                            } if show_view_results_button else {'display': 'none'}),
                 html.Button("Quit Quiz", id='quit-quiz-btn', 
                            style={
-                               'padding': '8px 16px', 
-                               'fontSize': '14px',
+                               'padding': '12px 24px', 
+                               'fontSize': '18px',
                                'backgroundColor': '#dc3545', 
                                'color': 'white',
                                'border': 'none', 
@@ -92,8 +92,8 @@ def get_answer_button_style(option_index, question_data, selected_answer=None, i
         'display': 'block', 
         'width': '100%', 
         'margin': '10px 0',
-        'padding': '15px', 
-        'fontSize': '16px', 
+        'padding': '20px', 
+        'fontSize': '20px', 
         'borderRadius': '5px', 
         'textAlign': 'left'
     }
@@ -161,7 +161,7 @@ def create_question_layout(question_data, question_index, total_questions, selec
     # Create the main content list
     content = [
         html.H4(question_data['question'], 
-                style={'marginBottom': '20px', 'textAlign': 'center'})
+                style={'marginBottom': '20px', 'textAlign': 'center', 'fontSize': '24px', 'fontWeight': 'bold'})
     ]
     
     # Add flag image if this is a flag question
@@ -339,15 +339,15 @@ def create_completion_screen(score, total, quiz_type, questions=None, user_answe
     percentage, performance_msg, color = get_performance_data(score, total)
     
     completion_content = [
-        html.H2("Quiz Completed! 🎉", style={'textAlign': 'center', 'color': '#28a745'}),
+        html.H2("Quiz Completed! 🎉", style={'textAlign': 'center', 'color': '#28a745', 'fontSize': '3rem'}),
         create_score_display(score, total, percentage, performance_msg, color),
         html.Div([
             html.Button(
                 f"Restart {QUIZ_TYPE_LABEL[quiz_type]} Quiz",
                 id="restart-current-quiz",
                 style={
-                    'padding': '15px 30px',
-                    'fontSize': '16px',
+                    'padding': '20px 40px',
+                    'fontSize': '20px',
                     'border': 'none',
                     'borderRadius': '5px',
                     'cursor': 'pointer',
@@ -360,8 +360,8 @@ def create_completion_screen(score, total, quiz_type, questions=None, user_answe
                 "Back to Quiz Selection",
                 id="back-to-selection",
                 style={
-                    'padding': '15px 30px',
-                    'fontSize': '16px',
+                    'padding': '20px 40px',
+                    'fontSize': '20px',
                     'border': 'none',
                     'borderRadius': '5px',
                     'cursor': 'pointer',

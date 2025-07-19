@@ -25,7 +25,7 @@ def load_countries_data(file_path='data/countries.csv'):
         logging.error(f"An unexpected error occurred: {e}")
         raise
 
-def load_us_states_data(file_path='data/us.csv'):
+def load_states_data(file_path):
     """Load and preprocess US states data from CSV file."""
     try:
         df = pd.read_csv(file_path)

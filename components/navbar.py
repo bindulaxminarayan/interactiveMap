@@ -14,6 +14,7 @@ def create_simple_navbar():
                     html.A("Geography", href="/trivia?category=geography", className="nav-link"),
                     html.A("History", href="/trivia?category=history", className="nav-link"),
                     html.A("Science", href="/trivia?category=science", className="nav-link"),
+                    html.A("Mathematics", href="/trivia?category=math", className="nav-link"),
                     html.A("Sports", href="/trivia?category=sports", className="nav-link"),
                     html.A("Explore", href="/", className="nav-link"),
                 ], className="navbar-nav")
