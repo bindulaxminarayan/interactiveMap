@@ -232,7 +232,7 @@ def generate_flag_questions(df: pd.DataFrame, num_questions: int = 10) -> List[D
         
         question = {
             "question": f"Which country does this flag belong to?",
-            "flag_image": f"assets/{flag_filename}",
+            "flag_image": f"assets/flags/{flag_filename}",
             "options": options,
             "correct": correct_index,
             "type": "flag"
