@@ -43,7 +43,7 @@ GEOGRAPHY_QUIZ_CARDS_DATA = [
         "button_id": "start-us-capital-quiz"
     },
       {
-        "title": "India States",
+        "title": "India States & UT",
         "emoji": "🇮🇳",
         "description": "Match state with capital!",
         "button_id": "start-india-capital-quiz"
