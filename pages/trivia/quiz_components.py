@@ -306,6 +306,22 @@ def create_review_answers_section(questions, user_answers):
         ])
         review_content.append(summary_div)
         
+        # Add fun fact if available
+        fun_fact = question_data.get('fun_fact', '')
+        if fun_fact and fun_fact.strip():
+            fun_fact_div = html.Div([
+                html.Hr(style={'margin': '10px 0', 'border': '1px solid #dee2e6'}),
+                html.P("💡 Fun Fact:", style={'fontWeight': 'bold', 'color': '#6f42c1', 'fontSize': '16px', 'marginBottom': '5px'}),
+                html.P(fun_fact, style={'color': '#333', 'fontSize': '14px', 'lineHeight': '1.4', 'fontStyle': 'italic'})
+            ], style={
+                'backgroundColor': '#f8f9fa', 
+                'padding': '10px', 
+                'borderRadius': '6px', 
+                'border': '1px solid #dee2e6',
+                'marginTop': '10px'
+            })
+            review_content.append(fun_fact_div)
+        
         question_review = html.Div(review_content, style={
             'backgroundColor': '#ffffff',
             'border': '1px solid #dee2e6',

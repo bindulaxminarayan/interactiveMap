@@ -41,7 +41,7 @@ def load_states_data(file_path):
         logging.error(f"An unexpected error occurred: {e}")
         raise
 
-def load_world_physical_geography(file_path='data/world_physical_geography.csv'):
+def load_random_questions(file_path):
     """Load and preprocess US states data from CSV file."""
     try:
         df = pd.read_csv(file_path)

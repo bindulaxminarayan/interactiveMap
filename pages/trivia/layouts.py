@@ -11,6 +11,12 @@ GEOGRAPHY_QUIZ_CARDS_DATA = [
         "emoji": "🏔️",
         "description": "Landscapes etc",
         "button_id": "start-physical-geography-quiz"
+       },
+         {
+        "title": "Wonders",
+        "emoji": "🤩",
+        "description": "Wonders of the world!",
+        "button_id": "start-wonders-quiz"
     },
         {
         "title": "Flags",

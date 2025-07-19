@@ -82,13 +82,35 @@ def create_score_display(score, total, percentage, performance_msg, color):
               style={'textAlign': 'center', 'fontSize': '1.5rem', 'color': color, 'margin': '20px 0'})
     ], style={'backgroundColor': '#f8f9fa', 'padding': '30px', 'borderRadius': '10px', 'margin': '20px 0'})
 
-def create_feedback_message(is_correct, correct_answer):
+def create_feedback_message(is_correct, correct_answer, fun_fact=None):
     """Create a feedback message for quiz answers."""
+    feedback_content = []
+    
     if is_correct:
-        return html.Div([
+        feedback_content.append(
             html.P("✅ Correct!", style={'fontWeight': 'bold', 'color': '#28a745', 'fontSize': '24px'})
-        ])
+        )
     else:
-        return html.Div([
-            html.P("❌ Incorrect!", style={'fontWeight': 'bold', 'color': '#dc3545', 'fontSize': '24px'})
+        feedback_content.extend([
+            html.P("❌ Incorrect!", style={'fontWeight': 'bold', 'color': '#dc3545', 'fontSize': '24px'}),
+            html.P(f"The correct answer is: {correct_answer}", 
+                   style={'fontWeight': 'bold', 'color': '#007bff', 'fontSize': '18px', 'marginTop': '10px'})
         ])
+    
+    # Add fun fact if provided
+    if fun_fact and fun_fact.strip():
+        feedback_content.append(
+            html.Div([
+                html.Hr(style={'margin': '15px 0', 'border': '1px solid #dee2e6'}),
+                html.P("💡 Fun Fact:", style={'fontWeight': 'bold', 'color': '#6f42c1', 'fontSize': '18px', 'marginBottom': '8px'}),
+                html.P(fun_fact, style={'color': '#333', 'fontSize': '16px', 'lineHeight': '1.5', 'fontStyle': 'italic'})
+            ], style={
+                'backgroundColor': '#f8f9fa', 
+                'padding': '15px', 
+                'borderRadius': '8px', 
+                'border': '1px solid #dee2e6',
+                'marginTop': '15px'
+            })
+        )
+    
+    return html.Div(feedback_content)

@@ -4,7 +4,7 @@ Dash callbacks for the trivia module.
 
 from dash import Input, Output, State, callback_context
 import dash.exceptions
-from utils.data_processing import load_countries_data, load_states_data, load_world_physical_geography
+from utils.data_processing import load_countries_data, load_states_data,load_random_questions
 from utils.quiz_generators import get_quiz_questions,QUIZ_TYPE_LABEL
 from .quiz_components import create_progress_bar, create_question_layout, create_completion_screen
 from .components import create_feedback_message
@@ -12,8 +12,9 @@ from .components import create_feedback_message
 # Load the data for trivia questions
 df = load_countries_data()
 us_df = load_states_data("data/us.csv")
-world_physical_geography_df = load_world_physical_geography()
+world_physical_geography_df = load_random_questions("data/world_physical_geography.csv")
 india_capital_df = load_states_data("data/india.csv")
+wonders_df = load_random_questions("data/wonders.csv")
 
 # Define reusable CSS class names for category buttons
 ACTIVE_CATEGORY_CLASS = "category-button category-button-active"
@@ -35,6 +36,7 @@ def register_trivia_callbacks(app):
         Output('main-layout-container-wrapper', 'style'),
         Output('quiz-active-store', 'data'),
         [Input('start-currency-quiz', 'n_clicks'),
+         Input('start-wonders-quiz', 'n_clicks'),
          Input('start-capital-quiz', 'n_clicks'),
          Input('start-continent-quiz','n_clicks'),
          Input('start-flag-quiz','n_clicks'),
@@ -43,7 +45,7 @@ def register_trivia_callbacks(app):
         State('current-question-store', 'data'),
         prevent_initial_call=True
     )
-    def start_world_quiz(currency_clicks, capital_clicks, continent_clicks, flag_clicks, world_physical_geography_clicks, india_clicks,current_data):
+    def start_world_quiz(currency_clicks, wonders_clicks, capital_clicks, continent_clicks, flag_clicks, world_physical_geography_clicks, india_clicks,current_data):
         ctx = callback_context
         if not ctx.triggered:
             raise dash.exceptions.PreventUpdate
@@ -58,6 +60,10 @@ def register_trivia_callbacks(app):
         if triggered_id == 'start-currency-quiz':
             questions = get_quiz_questions('currency', df, NUM_OF_QUESTIONS)
             quiz_type = 'currency'
+            quiz_type_display = QUIZ_TYPE_LABEL[quiz_type]
+        elif triggered_id == 'start-wonders-quiz':
+            questions = get_quiz_questions('wonders', wonders_df, NUM_OF_QUESTIONS)
+            quiz_type = 'wonders'
             quiz_type_display = QUIZ_TYPE_LABEL[quiz_type]
         elif triggered_id == 'start-capital-quiz':
             questions = get_quiz_questions('capital', df, NUM_OF_QUESTIONS)
@@ -242,6 +248,10 @@ def register_trivia_callbacks(app):
             questions = get_quiz_questions(quiz_type, us_df, NUM_OF_QUESTIONS)
         elif quiz_type == 'world_physical_geography':
             questions = get_quiz_questions(quiz_type, world_physical_geography_df, NUM_OF_QUESTIONS)
+        elif quiz_type == 'wonders':
+            questions = get_quiz_questions(quiz_type, wonders_df, NUM_OF_QUESTIONS)
+        elif quiz_type == 'india_capital':
+            questions = get_quiz_questions(quiz_type, india_capital_df, NUM_OF_QUESTIONS)
         else:
             questions = get_quiz_questions(quiz_type, df, NUM_OF_QUESTIONS)
         question_data = questions[0]
@@ -323,9 +333,11 @@ def register_trivia_callbacks(app):
             new_score = current_data['score'] + (1 if is_correct else 0)
 
             # Create feedback
+            fun_fact = question_data.get('fun_fact', '')
             feedback = create_feedback_message(
                 is_correct,
-                question_data['options'][question_data['correct']]
+                question_data['options'][question_data['correct']],
+                fun_fact
             )
 
             # Create layout with visual feedback
