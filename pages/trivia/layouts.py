@@ -11,36 +11,48 @@ GEOGRAPHY_QUIZ_CARDS_DATA = [
         "emoji": "🏔️",
         "description": "Landscapes etc",
         "button_id": "start-physical-geography-quiz"
+       },
+         {
+        "title": "Wonders",
+        "emoji": "🤩",
+        "description": "Wonders of the world!",
+        "button_id": "start-wonders-quiz"
     },
         {
         "title": "Flags",
         "emoji": "🏳️",
-        "description": "Match flags with their countries!",
+        "description": "Match a flag with a country!",
         "button_id": "start-flag-quiz"
     },
     {
         "title": "Currencies",
         "emoji": "💰",
-        "description": "Match countries with their currencies!",
+        "description": "Match a country with currency!",
         "button_id": "start-currency-quiz"
     },
     {
-        "title": "Capital Cities",
+        "title": "Capitals",
         "emoji": "🏛️",
-        "description": "Match countries with their capitals!",
+        "description": "Match a country with capital!",
         "button_id": "start-capital-quiz"
     },
     {
         "title": "Continents",
         "emoji": "🌐",
-        "description": "Match countries with their continents!",
+        "description": "Match a country with continent!",
         "button_id": "start-continent-quiz"
     },
     {
-        "title": "US State Capitals",
+        "title": "US States",
         "emoji": "🇺🇸",
-        "description": "Match US states with their capitals!",
+        "description": "Match state with capital!",
         "button_id": "start-us-capital-quiz"
+    },
+      {
+        "title": "India States & UT",
+        "emoji": "🇮🇳",
+        "description": "Match state with capital!",
+        "button_id": "start-india-capital-quiz"
     }
 ]
 
@@ -62,6 +74,17 @@ SCIENCE_QUIZ_CARDS_DATA = [
         "emoji": "⏳",
         "description": "Science quizzes will be available soon!",
         "button_id": "science-coming-soon",
+        "is_disabled": True
+    }
+]
+
+# Math quiz cards
+MATH_QUIZ_CARDS_DATA = [
+    {
+        "title": "K-5",
+        "emoji": "⏳",
+        "description": "Math quizzes for K-5",
+        "button_id": "math-k-5-soon",
         "is_disabled": True
     }
 ]
@@ -164,6 +187,7 @@ def get_cards_for_category(category):
     """Get quiz cards data for a specific category."""
     category_map = {
         'geography': GEOGRAPHY_QUIZ_CARDS_DATA,
+        'math': MATH_QUIZ_CARDS_DATA,
         'history': HISTORY_QUIZ_CARDS_DATA,
         'science': SCIENCE_QUIZ_CARDS_DATA,
         'sports': SPORTS_QUIZ_CARDS_DATA
@@ -176,7 +200,6 @@ def get_trivia_layout(category='geography'):
     quiz_cards_data = get_cards_for_category(category)
     
     return html.Div([
-        # html.H1("Geography Challenge", className="main-title"),
         html.Div(id="quiz_type_display", className="quiz-type-display"),
 
         # Global hidden elements that callbacks need to reference

@@ -58,7 +58,7 @@ def generate_currency_questions(df: pd.DataFrame, num_questions: int = 10) -> Li
     
     return questions
 
-def generate_capital_questions(df: pd.DataFrame, num_questions: int = 10) -> List[Dict[str, Any]]:
+def generate_country_capital_questions(df: pd.DataFrame, num_questions: int = 10) -> List[Dict[str, Any]]:
     """Generate random country-capital questions."""
     # Filter out countries with missing or invalid capital data
     valid_countries = df[(df['capital'].notna()) & (df['capital'] != '')].copy()
@@ -241,7 +241,7 @@ def generate_flag_questions(df: pd.DataFrame, num_questions: int = 10) -> List[D
     
     return questions
 
-def generate_us_capital_questions(df: pd.DataFrame, num_questions: int = 10) -> List[Dict[str, Any]]:
+def generate_capital_questions(df: pd.DataFrame, num_questions: int = 10) -> List[Dict[str, Any]]:
     """Generate random US state-capital questions."""
     # Filter out states with missing or invalid capital data
     valid_states = df[(df['capital'].notna()) & (df['capital'] != '')].copy()
@@ -292,7 +292,7 @@ def generate_us_capital_questions(df: pd.DataFrame, num_questions: int = 10) -> 
     
     return questions
 
-def generate_world_physical_geography_questions(df: pd.DataFrame, num_questions: int = 10) -> List[Dict[str, Any]]:
+def generate_random_questions(df: pd.DataFrame, num_questions: int = 10) -> List[Dict[str, Any]]:
     """
     Generate physical geography questions from data set
     """
@@ -308,6 +308,9 @@ def generate_world_physical_geography_questions(df: pd.DataFrame, num_questions:
     for _, question_row in selected_questions.iterrows():
             correct_question = question_row['question']
             correct_answer = question_row['correct_answer']
+            
+            # Include fun_fact if it exists in the data
+            fun_fact = question_row.get('fun_fact', '')
         
             other_options=[
             question_row['option1'],
@@ -320,7 +323,8 @@ def generate_world_physical_geography_questions(df: pd.DataFrame, num_questions:
             "question": correct_question,
             "options": options,
             "correct": correct_index,
-            "type": "world_physical-geography-quiz"
+            "type": "world_physical-geography-quiz",
+            "fun_fact": fun_fact
         }
             questions.append(question)
     
@@ -330,11 +334,13 @@ def generate_world_physical_geography_questions(df: pd.DataFrame, num_questions:
 # Quiz type registry for easy expansion
 QUIZ_GENERATORS = {
     'currency': generate_currency_questions,
-    'capital': generate_capital_questions,
+    'capital': generate_country_capital_questions,
     'continent': generate_continent_questions,
     'flag': generate_flag_questions,
-    'us_capital': generate_us_capital_questions,
-    'world_physical_geography': generate_world_physical_geography_questions
+    'us_capital': generate_capital_questions,
+    'world_physical_geography': generate_random_questions,
+    'india_capital': generate_capital_questions,
+    'wonders': generate_random_questions
 }
 
 def get_quiz_questions(quiz_type: str, df: pd.DataFrame, num_questions: int = 10) -> List[Dict[str, Any]]:
@@ -361,5 +367,7 @@ QUIZ_TYPE_LABEL = {
     "continent": "Continents",
     "flag": "Flags",
     "us_capital": "US State Capitals",
-    "world_physical_geography": "Physical Geography"
+    "world_physical_geography": "Physical Geography",
+    "india_capital": "India State Capitals",
+    "wonders" :  "Wonders"
 }
