@@ -7,7 +7,7 @@ import dash.exceptions
 from utils.data_processing import load_countries_data, load_states_data,load_random_questions
 from utils.quiz_generators import get_quiz_questions,QUIZ_TYPE_LABEL
 from .quiz_components import create_progress_bar, create_question_layout, create_completion_screen
-from .components import create_feedback_message
+from .ui_components import create_feedback_message
 
 # Load the data for trivia questions
 df = load_countries_data()
@@ -26,7 +26,6 @@ def register_trivia_callbacks(app):
 
     # Callback for starting world quizzes from quiz cards
     @app.callback(
-        Output('quiz_type_display','children'),
         Output('question-container', 'children'),
         Output('current-question-store', 'data'),
         Output('quiz-selection-area', 'style'),
@@ -35,6 +34,7 @@ def register_trivia_callbacks(app):
         Output('progress-container', 'style'),
         Output('main-layout-container-wrapper', 'style'),
         Output('quiz-active-store', 'data'),
+        Output('page-content', 'data-navbar-auto-hide'),  # New output for navbar control
         [Input('start-currency-quiz', 'n_clicks'),
          Input('start-wonders-quiz', 'n_clicks'),
          Input('start-capital-quiz', 'n_clicks'),
@@ -99,20 +99,15 @@ def register_trivia_callbacks(app):
             'user_answers': {}
         }
 
-        # Styles for when quiz is active
+        # Styles for when quiz is active - minimal container styling for maximum content space
         quiz_selection_quiz_active_style = {'display': 'none'} # Hide quiz selection area
         quiz_content_quiz_active_style = {
-            'display': 'block', # Or 'flex' depending on inner content
-            'backgroundColor': '#ffffff',
-            'borderRadius': '15px',
-            'border': '1px solid #dee2e6',
-            'boxShadow': '0 4px 6px rgba(0,0,0,0.1)',
-            'padding': '30px', # Internal padding for content
-            'margin': '0', # No external margin, let parent handle spacing
-            'minHeight': '500px',
-            'flexGrow': 1,
-            'width': '100%', # Take up 100% of its parent's available width
-            'boxSizing': 'border-box' # Include padding in element's total width/height
+            'display': 'block',
+            'width': '100%',
+            'minHeight': '100vh',
+            'padding': '10px 20px',
+            'margin': '0',
+            'boxSizing': 'border-box'
         }
         main_layout_quiz_active_style = {
             'display': 'flex',
@@ -129,20 +124,19 @@ def register_trivia_callbacks(app):
         progress_bar = create_progress_bar(0, len(questions))
         progress_style = {'display': 'block'}
 
-        return (quiz_type_display,
-                create_question_layout(question_data, 0, len(questions)),
+        return (create_question_layout(question_data, 0, len(questions)),
                 new_data,
                 quiz_selection_quiz_active_style, # Hide quiz selection
                 quiz_content_quiz_active_style,   # Show quiz content
                 progress_bar,
                 progress_style,
                 main_layout_quiz_active_style,    # Adjust main wrapper
-                quiz_active_store_data            # Update quiz-active-store
+                quiz_active_store_data,           # Update quiz-active-store
+                "hide"                            # Hide navbar when quiz starts
         )
 
     # Separate callback for starting US capital quiz
     @app.callback(
-        Output('quiz_type_display','children', allow_duplicate=True),
         Output('question-container', 'children', allow_duplicate=True),
         Output('current-question-store', 'data', allow_duplicate=True),
         Output('quiz-selection-area', 'style', allow_duplicate=True),
@@ -151,6 +145,7 @@ def register_trivia_callbacks(app):
         Output('progress-container', 'style', allow_duplicate=True),
         Output('main-layout-container-wrapper', 'style', allow_duplicate=True),
         Output('quiz-active-store', 'data', allow_duplicate=True),
+        Output('page-content', 'data-navbar-auto-hide', allow_duplicate=True),  # New output for navbar control
         Input('start-us-capital-quiz', 'n_clicks'),
         State('current-question-store', 'data'),
         prevent_initial_call=True
@@ -174,20 +169,15 @@ def register_trivia_callbacks(app):
             'user_answers': {}
         }
 
-        # Styles for when quiz is active
+        # Styles for when quiz is active - minimal container styling for maximum content space
         quiz_selection_quiz_active_style = {'display': 'none'} # Hide quiz selection area
         quiz_content_quiz_active_style = {
-            'display': 'block', # Or 'flex' depending on inner content
-            'backgroundColor': '#ffffff',
-            'borderRadius': '15px',
-            'border': '1px solid #dee2e6',
-            'boxShadow': '0 4px 6px rgba(0,0,0,0.1)',
-            'padding': '30px', # Internal padding for content
-            'margin': '0', # No external margin, let parent handle spacing
-            'minHeight': '500px',
-            'flexGrow': 1,
-            'width': '100%', # Take up 100% of its parent's available width
-            'boxSizing': 'border-box' # Include padding in element's total width/height
+            'display': 'block',
+            'width': '100%',
+            'minHeight': '100vh',
+            'padding': '10px 20px',
+            'margin': '0',
+            'boxSizing': 'border-box'
         }
         main_layout_quiz_active_style = {
             'display': 'flex',
@@ -204,20 +194,19 @@ def register_trivia_callbacks(app):
         progress_bar = create_progress_bar(0, len(questions))
         progress_style = {'display': 'block'}
 
-        return (quiz_type_display,
-                create_question_layout(question_data, 0, len(questions)),
+        return (create_question_layout(question_data, 0, len(questions)),
                 new_data,
                 quiz_selection_quiz_active_style, # Hide quiz selection
                 quiz_content_quiz_active_style,   # Show quiz content
                 progress_bar,
                 progress_style,
                 main_layout_quiz_active_style,    # Adjust main wrapper
-                quiz_active_store_data            # Update quiz-active-store
+                quiz_active_store_data,           # Update quiz-active-store
+                "hide"                            # Hide navbar when quiz starts
         )
 
     # Callback for restart button from completion screen
     @app.callback(
-        Output('quiz_type_display','children',allow_duplicate=True),
         Output('question-container', 'children', allow_duplicate=True),
         Output('current-question-store', 'data', allow_duplicate=True),
         Output('progress-container', 'children', allow_duplicate=True),
@@ -281,8 +270,7 @@ def register_trivia_callbacks(app):
         progress_bar = create_progress_bar(0, len(questions))
         progress_style = {'display': 'block'}
 
-        return (quiz_type_display,
-                create_question_layout(question_data, 0, len(questions)),
+        return (create_question_layout(question_data, 0, len(questions)),
                 new_data,
                 progress_bar,
                 progress_style,
@@ -457,9 +445,9 @@ def register_trivia_callbacks(app):
         Output('quiz-content-area', 'style', allow_duplicate=True),
         Output('progress-container', 'style', allow_duplicate=True),
         Output('progress-container', 'children', allow_duplicate=True),
-        Output('quiz_type_display','children',allow_duplicate=True),
         Output('main-layout-container-wrapper', 'style', allow_duplicate=True),
         Output('quiz-active-store', 'data', allow_duplicate=True),
+        Output('page-content', 'data-navbar-auto-hide', allow_duplicate=True),  # New output for navbar control
         Input('quit-quiz-btn', 'n_clicks'),
         prevent_initial_call=True
     )
@@ -476,9 +464,9 @@ def register_trivia_callbacks(app):
         Output('quiz-content-area', 'style', allow_duplicate=True),
         Output('progress-container', 'style', allow_duplicate=True),
         Output('progress-container', 'children', allow_duplicate=True),
-        Output('quiz_type_display','children',allow_duplicate=True),
         Output('main-layout-container-wrapper', 'style', allow_duplicate=True),
         Output('quiz-active-store', 'data', allow_duplicate=True),
+        Output('page-content', 'data-navbar-auto-hide', allow_duplicate=True),  # New output for navbar control
         Input('back-to-selection', 'n_clicks'),
         State('current-question-store', 'data'),
         prevent_initial_call=True
@@ -513,7 +501,7 @@ def _return_to_quiz_selection(current_data=None):
             quiz_content_default_style, # quiz-content-area style (hidden)
             progress_style, # progress-container style (hidden)
             [], # progress-container children (empty)
-            "", # quiz_type_display children (empty)
             main_layout_default_style, # main-layout-container-wrapper style (default)
-            quiz_active_store_default_data # quiz-active-store data (inactive)
+            quiz_active_store_default_data, # quiz-active-store data (inactive)
+            "show" # Show navbar when returning to quiz selection
     )
