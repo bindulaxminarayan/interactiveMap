@@ -11,11 +11,11 @@ def create_simple_navbar():
             html.Div([
                 html.A("QuizVerse", href="/", className="navbar-brand"),
                 html.Div([
-                    html.A("Geography", href="/trivia?category=geography", className="nav-link"),
-                    html.A("History", href="/trivia?category=history", className="nav-link"),
-                    html.A("Science", href="/trivia?category=science", className="nav-link"),
-                    html.A("Mathematics", href="/trivia?category=math", className="nav-link"),
-                    html.A("Sports", href="/trivia?category=sports", className="nav-link"),
+                    html.A("Geography", href="/geography", className="nav-link"),
+                    html.A("History", href="/history", className="nav-link"),
+                    html.A("Science", href="/science", className="nav-link"),
+                    html.A("Mathematics", href="/mathematics", className="nav-link"),
+                    html.A("Sports", href="/sports", className="nav-link"),
                     html.A("Explore", href="/", className="nav-link"),
                 ], className="navbar-nav")
             ], className="navbar-container")

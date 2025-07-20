@@ -73,9 +73,9 @@ def generate_country_capital_questions(df: pd.DataFrame, num_questions: int = 10
     for _, country_row in selected_countries.iterrows():
         correct_country = country_row['country']
         correct_capital = country_row['capital']
-        currency = country_row['currency']
-        gdp = country_row['gdp']
-        continent = country_row['continent']
+        # currency = country_row['currency']
+        # gdp = country_row['gdp']
+        # continent = country_row['continent']
         
         # Handle complex capital entries (like "La Paz (admin), Sucre (judicial)")
         display_capital = correct_capital.split('(')[0].strip() if '(' in correct_capital else correct_capital
@@ -232,7 +232,7 @@ def generate_flag_questions(df: pd.DataFrame, num_questions: int = 10) -> List[D
         
         question = {
             "question": f"Which country does this flag belong to?",
-            "flag_image": f"assets/{flag_filename}",
+            "flag_image": f"assets/flags/{flag_filename}",
             "options": options,
             "correct": correct_index,
             "type": "flag"
@@ -294,40 +294,50 @@ def generate_capital_questions(df: pd.DataFrame, num_questions: int = 10) -> Lis
 
 def generate_random_questions(df: pd.DataFrame, num_questions: int = 10) -> List[Dict[str, Any]]:
     """
-    Generate physical geography questions from data set
+    Generate questions from data set (supports physical geography, wonders, etc.)
     """
-      # Filter out states with missing or invalid capital data
+    # Filter out questions with missing or invalid data
     valid_questions = df[(df['question'].notna()) & (df['question'] != '')].copy()
     
     if len(valid_questions) < num_questions:
         num_questions = len(valid_questions)
     
-    # Select random states for questions
+    # Select random questions
     selected_questions = valid_questions.sample(n=num_questions)
     questions = []
+    
     for _, question_row in selected_questions.iterrows():
-            correct_question = question_row['question']
-            correct_answer = question_row['correct_answer']
-            
-            # Include fun_fact if it exists in the data
-            fun_fact = question_row.get('fun_fact', '')
+        correct_question = question_row['question']
+        correct_answer = question_row['correct_answer']
         
-            other_options=[
+        # Include fun_fact if it exists in the data
+        fun_fact = question_row.get('fun_fact', '')
+        
+        # Include image if it exists in the data (handle NaN values)
+        image = question_row.get('image', '')
+        
+        other_options = [
             question_row['option1'],
             question_row['option2'],
-            question_row['option3']]   
-            options = other_options + [correct_answer]
-            random.shuffle(options)
-            correct_index = options.index(correct_answer)
-            question = {
+            question_row['option3']
+        ]   
+        options = other_options + [correct_answer]
+        random.shuffle(options)
+        correct_index = options.index(correct_answer)
+        
+        question = {
             "question": correct_question,
             "options": options,
             "correct": correct_index,
-            "type": "world_physical-geography-quiz",
+            "type": "random_quiz",
             "fun_fact": fun_fact
         }
-            questions.append(question)
-    
+        
+        # Add image path if image exists (handle both string and NaN values)
+        if pd.notna(image) and str(image).strip():
+            question["wonder_image"] = f"assets/wonders/{image}"
+        
+        questions.append(question)
     
     return questions
 

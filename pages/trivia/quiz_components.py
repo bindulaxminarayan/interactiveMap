@@ -3,7 +3,7 @@ Quiz-specific UI components for the trivia module.
 """
 
 from dash import html
-from .components import create_quiz_button, create_score_display
+from .ui_components import create_quiz_button, create_score_display
 from utils.quiz_generators import QUIZ_TYPE_LABEL
 
 def create_progress_bar(current_question, total_questions, show_next_button=False, show_view_results_button=False, show_quit_quiz_button=True):
@@ -79,10 +79,10 @@ def create_progress_bar(current_question, total_questions, show_next_button=Fals
             ], style={'textAlign': 'right'})
         ])
     ], style={
-        'padding': '20px',
+        'padding': '15px',
         'backgroundColor': '#f8f9fa',
         'borderRadius': '8px',
-        'marginBottom': '20px',
+        'marginBottom': '15px',
         'border': '1px solid #dee2e6'
     })
 
@@ -91,9 +91,9 @@ def get_answer_button_style(option_index, question_data, selected_answer=None, i
     base_style = {
         'display': 'block', 
         'width': '100%', 
-        'margin': '10px 0',
-        'padding': '20px', 
-        'fontSize': '20px', 
+        'margin': '6px 0',
+        'padding': '12px', 
+        'fontSize': '18px', 
         'borderRadius': '5px', 
         'textAlign': 'left'
     }
@@ -137,8 +137,89 @@ def get_answer_button_style(option_index, question_data, selected_answer=None, i
     
     return base_style
 
+def create_question_image(image_src, image_type="default", custom_style=None):
+    """
+    Create a standardized image component for questions.
+    
+    Args:
+        image_src: Source path for the image
+        image_type: Type of image ('flag', 'wonder', 'default') for different styling
+        custom_style: Optional custom style overrides
+    """
+    # Default image configurations by type - optimized with auto-hide navbar for better space utilization
+    image_configs = {
+        'flag': {
+            'maxWidth': '280px',
+            'maxHeight': '180px',
+            'container_style': {
+                'textAlign': 'center',
+                'marginBottom': '15px',
+                'padding': '12px',
+                'backgroundColor': '#f8f9fa',
+                'borderRadius': '8px',
+                'border': '1px solid #dee2e6'
+            }
+        },
+        'wonder': {
+            'maxWidth': '350px',
+            'maxHeight': '220px',
+            'container_style': {
+                'textAlign': 'center',
+                'marginBottom': '15px',
+                'padding': '12px',
+                'backgroundColor': '#f8f9fa',
+                'borderRadius': '8px',
+                'border': '1px solid #dee2e6'
+            }
+        },
+        'default': {
+            'maxWidth': '320px',
+            'maxHeight': '200px',
+            'container_style': {
+                'textAlign': 'center',
+                'marginBottom': '15px',
+                'padding': '12px',
+                'backgroundColor': '#f8f9fa',
+                'borderRadius': '8px',
+                'border': '1px solid #dee2e6'
+            }
+        }
+    }
+    
+    config = image_configs.get(image_type, image_configs['default'])
+    
+    # Base image style
+    image_style = {
+        'maxWidth': config['maxWidth'],
+        'maxHeight': config['maxHeight'],
+        'width': 'auto',
+        'height': 'auto',
+        'border': '2px solid #dee2e6',
+        'borderRadius': '8px',
+        'boxShadow': '0 2px 4px rgba(0,0,0,0.1)',
+        'display': 'block',
+        'margin': '0 auto'
+    }
+    
+    # Apply custom style overrides if provided
+    if custom_style:
+        image_style.update(custom_style)
+    
+    return html.Div([
+        html.Img(src=image_src, style=image_style)
+    ], style=config['container_style'])
+
 def create_question_layout(question_data, question_index, total_questions, selected_answer=None, is_answered=False):
-    """Create layout for a single question."""
+    """
+    Create layout for a single question with flexible image support.
+    
+    Args:
+        question_data: Dictionary containing question information
+        question_index: Current question index
+        total_questions: Total number of questions
+        selected_answer: Index of selected answer (if any)
+        is_answered: Whether question has been answered
+    """
     
     # Create buttons with fixed IDs
     answer_buttons = []
@@ -161,35 +242,25 @@ def create_question_layout(question_data, question_index, total_questions, selec
     # Create the main content list
     content = [
         html.H4(question_data['question'], 
-                style={'marginBottom': '20px', 'textAlign': 'center', 'fontSize': '24px', 'fontWeight': 'bold'})
+                style={'marginBottom': '12px', 'textAlign': 'center', 'fontSize': '22px', 'fontWeight': 'bold'})
     ]
     
-    # Add flag image if this is a flag question
-    if 'flag_image' in question_data:
-        flag_image = html.Div([
-            html.Img(
-                src=question_data['flag_image'],
-                style={
-                    'maxWidth': '300px',
-                    'maxHeight': '200px',
-                    'width': 'auto',
-                    'height': 'auto',
-                    'border': '2px solid #dee2e6',
-                    'borderRadius': '8px',
-                    'boxShadow': '0 2px 4px rgba(0,0,0,0.1)',
-                    'display': 'block',
-                    'margin': '0 auto'
-                }
-            )
-        ], style={
-            'textAlign': 'center',
-            'marginBottom': '30px',
-            'padding': '20px',
-            'backgroundColor': '#f8f9fa',
-            'borderRadius': '10px',
-            'border': '1px solid #dee2e6'
-        })
-        content.append(flag_image)
+    # Add images based on question type - more flexible approach
+    image_added = False
+    
+    # Check for flag image
+    if 'flag_image' in question_data and question_data['flag_image']:
+        content.append(create_question_image(question_data['flag_image'], 'flag'))
+        image_added = True
+    
+    # Check for wonder image
+    if 'wonder_image' in question_data and question_data['wonder_image']:
+        content.append(create_question_image(question_data['wonder_image'], 'wonder'))
+        image_added = True
+    
+    # Check for generic image (for future extensibility)
+    if 'image' in question_data and question_data['image'] and not image_added:
+        content.append(create_question_image(question_data['image'], 'default'))
     
     # Add answer buttons
     content.append(html.Div(answer_buttons))
@@ -237,32 +308,34 @@ def create_review_answers_section(questions, user_answers):
                    style={'marginBottom': '10px', 'color': '#333', 'fontWeight': 'bold'})
         ]
         
+        # Add images in review (smaller size)
+        image_added = False
+        
         # Add flag image if this was a flag question
-        if 'flag_image' in question_data:
-            flag_image = html.Div([
-                html.Img(
-                    src=question_data['flag_image'],
-                    style={
-                        'maxWidth': '150px',
-                        'maxHeight': '100px',
-                        'width': 'auto',
-                        'height': 'auto',
-                        'border': '2px solid #dee2e6',
-                        'borderRadius': '8px',
-                        'boxShadow': '0 2px 4px rgba(0,0,0,0.1)',
-                        'display': 'block',
-                        'margin': '0 auto'
-                    }
-                )
-            ], style={
-                'textAlign': 'center',
-                'marginBottom': '15px',
-                'padding': '10px',
-                'backgroundColor': '#f8f9fa',
-                'borderRadius': '8px',
-                'border': '1px solid #dee2e6'
-            })
-            review_content.append(flag_image)
+        if 'flag_image' in question_data and question_data['flag_image']:
+            review_content.append(create_question_image(
+                question_data['flag_image'], 
+                'flag',
+                custom_style={'maxWidth': '150px', 'maxHeight': '100px'}
+            ))
+            image_added = True
+        
+        # Add wonder image if this was a wonders question
+        if 'wonder_image' in question_data and question_data['wonder_image']:
+            review_content.append(create_question_image(
+                question_data['wonder_image'], 
+                'wonder',
+                custom_style={'maxWidth': '200px', 'maxHeight': '150px'}
+            ))
+            image_added = True
+        
+        # Add generic image if present and no specific image was added
+        if 'image' in question_data and question_data['image'] and not image_added:
+            review_content.append(create_question_image(
+                question_data['image'], 
+                'default',
+                custom_style={'maxWidth': '175px', 'maxHeight': '125px'}
+            ))
         
         # Show all options with highlighting
         options_div = html.Div([
