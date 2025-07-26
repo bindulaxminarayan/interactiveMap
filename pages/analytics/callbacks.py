@@ -4,7 +4,7 @@ Analytics page callbacks for interactive functionality.
 
 import json
 import logging
-from datetime import date, timedelta, datetime, timezone
+from datetime import date, timedelta
 
 from dash import Input, Output
 from utils.quiz_stats import QuizStatsManager
@@ -140,7 +140,7 @@ def register_analytics_callbacks(app):
             return create_category_performance_chart(category_stats)
             
         except Exception as e:
-            logging.error(f"Error updating category performance chart: {e}")
+            logging.error("Error updating category performance chart: %s",e)
             return create_category_performance_chart([])
     
     @app.callback(
@@ -159,7 +159,7 @@ def register_analytics_callbacks(app):
             return create_sessions_table(recent_sessions)
             
         except Exception as e:
-            logging.error(f"Error updating recent sessions table: {e}")
+            logging.error("Error updating recent sessions table: %s",e)
             return create_sessions_table([])
     
     @app.callback(
@@ -178,7 +178,7 @@ def register_analytics_callbacks(app):
             return create_trending_questions_table(trending_questions)
             
         except Exception as e:
-            logging.error(f"Error updating trending questions table: {e}")
+            logging.error("Error updating trending questions table: %s",e)
             return create_trending_questions_table([])
     
     @app.callback(
