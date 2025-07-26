@@ -1,21 +1,68 @@
 # QuizVerse
 
-A comprehensive learning platform built with Dash and Plotly, featuring interactive world map exploration and diverse quiz categories including geography, history, science, and sports.
+A comprehensive learning platform built with Dash and Plotly, featuring interactive world map exploration, diverse quiz categories, and advanced analytics for tracking learning progress.
 
 ## Features
 
-- **Interactive World Map**: Visualize country data with hover information
-- **GDP Visualization**: High/Low GDP country highlighting
-- **Category-Based Navigation**: Access different quiz categories through the navbar
-- **Geography Quizzes**: Complete geography challenge with 6 quiz types:
-  - Physical Geography (landscapes, mountain ranges, etc.)
-  - Flags (match flags with countries)
-  - Currencies (match countries with currencies)
-  - Capital Cities (match countries with capitals)
-  - Continents (match countries with continents)
-  - US State Capitals (match US states with capitals)
-- **Upcoming Categories**: History, Science, and Sports (coming soon)
-- **Streamlined Quiz Experience**: Clean feedback system focused on learning
+### Core Features
+- **Interactive World Map**: Visualize country data with hover information and GDP highlighting
+- **Comprehensive Quiz System**: Multiple quiz categories with session tracking and analytics
+- **Analytics Dashboard**: Advanced performance tracking with charts, leaderboards, and statistics
+- **User Management**: Username support with personalized quiz sessions
+- **Database-Driven**: Normalized SQLite database with efficient data management
+
+### Quiz Categories
+
+#### Geography Quizzes
+Complete geography challenges with 8 quiz types:
+- **Physical Geography**: Landscapes, mountain ranges, natural features
+- **World Flags**: Match flags with countries
+- **Currencies**: Match countries with their currencies  
+- **World Capitals**: Match countries with capital cities
+- **Continents**: Match countries with their continents
+- **India State Capitals**: Match Indian states with capitals
+- **US State Capitals**: Match US states with capitals
+- **Wonders**: Famous landmarks and natural wonders
+
+#### Mathematics Quizzes
+- **K-5 Math**: Elementary mathematics questions covering basic arithmetic
+
+#### Coming Soon
+- **History Quizzes**: Historical events, figures, and timelines
+- **Science Quizzes**: Physics, chemistry, biology, and general science
+- **Sports Quizzes**: Sports facts, records, and trivia
+
+### Analytics & Performance Tracking
+
+#### Dashboard Features
+- **📊 Real-time Analytics**: Live performance tracking and statistics
+- **📈 Daily Performance Trends**: Track progress over time with interactive charts
+- **📚 Category Performance**: Compare accuracy across different quiz categories
+- **🕐 Recent Sessions**: Monitor latest quiz attempts with detailed information
+- **🔥 Trending Questions**: Identify most challenging and popular questions
+- **🏆 Leaderboards**: Session rankings based on accuracy and speed
+
+#### Statistics Tracked
+- **Question-Level Stats**: Times asked, accuracy rates, response times
+- **Daily Aggregations**: Questions answered, overall accuracy, average response time
+- **Session Analytics**: Complete session tracking with user identification
+- **Category Performance**: Performance breakdown by quiz category
+- **Historical Data**: Weekly rollover with long-term trend analysis
+
+### Technical Features
+
+#### Database & Storage
+- **Normalized SQLite Database**: Efficient relational structure with proper foreign keys
+- **UTC Timestamp Storage**: Consistent timezone handling with local display conversion
+- **Automated Rollover**: Weekly aggregation of statistics with cleanup of old data
+- **Session Management**: Complete quiz session lifecycle tracking
+
+#### User Experience
+- **Responsive Design**: Clean, modern interface with CSS-based styling
+- **Username Support**: Personalized quiz sessions with user identification
+- **Progress Tracking**: Real-time progress bars and session feedback
+- **Timezone Awareness**: UTC storage with local timezone display
+- **Auto-refresh**: Live updating analytics dashboard
 
 ## Prerequisites
 
@@ -79,43 +126,30 @@ uv run app.py
 #### Step 5: Access the Application
 Open your browser and navigate to: http://127.0.0.1:8050
 
-## Docker Details
+## Usage Guide
 
-### Multi-stage Build
-The Dockerfile uses a multi-stage build process for optimal image size:
-- **Builder stage**: Installs uv and dependencies
-- **Runtime stage**: Contains only the application and its dependencies
+### Taking Quizzes
+1. **Navigate** to any quiz category from the navigation bar
+2. **Enter Username** when prompted (or use anonymous mode)
+3. **Select Quiz Type** from the available options
+4. **Answer Questions** with immediate feedback and explanations
+5. **View Results** with detailed performance breakdown
+6. **Restart or Return** to try different quizzes
 
-### Key Docker Features
-- Uses Python 3.13 slim base image
-- Leverages uv for fast dependency management
-- Implements build caching for faster rebuilds
-- Optimized for production deployment
+### Analytics Dashboard
+1. **Access Analytics** from the navigation menu
+2. **View Today's Stats** in the summary cards
+3. **Explore Charts** for performance trends and category comparisons
+4. **Check Tables** for recent sessions, trending questions, and leaderboards
+5. **Filter Date Range** to analyze specific time periods
+6. **Auto-Refresh** for real-time updates
 
-### Docker Commands Reference
-
-```bash
-# Build the image
-docker build -t interactive-map .
-
-# Run with port mapping
-docker run -p 8050:8050 interactive-map
-
-# Run in detached mode
-docker run -d -p 8050:8050 --name my-interactive-map interactive-map
-
-# View running containers
-docker ps
-
-# Stop the container
-docker stop my-interactive-map
-
-# Remove the container
-docker rm my-interactive-map
-
-# View logs
-docker logs my-interactive-map
-```
+### Database Management
+The application includes utilities for database management:
+- **Database Creation**: Automated normalized database setup
+- **Data Import**: CSV to SQLite conversion utilities
+- **Cleanup Tools**: Remove old data and optimize performance
+- **Statistics Rollover**: Weekly aggregation for long-term analysis
 
 ## Project Structure
 
@@ -126,13 +160,52 @@ interactiveMap/
 ├── pyproject.toml        # Project dependencies and metadata
 ├── uv.lock              # Locked dependency versions
 ├── components/          # Reusable UI components
+│   └── navbar.py        # Navigation bar component
 ├── pages/              # Application pages
-│   ├── explore.py      # Interactive map page
-│   └── trivia/         # Trivia quiz modules
+│   ├── explore/        # Interactive map functionality
+│   ├── analytics/      # Analytics dashboard
+│   ├── geography/      # Geography quiz pages
+│   ├── mathematics/    # Mathematics quiz pages
+│   ├── trivia/         # Core quiz functionality
+│   ├── history/        # History quiz pages (coming soon)
+│   ├── science/        # Science quiz pages (coming soon)
+│   └── sports/         # Sports quiz pages (coming soon)
 ├── utils/              # Utility functions
-├── data/               # Data files
-└── pictures/           # Application screenshots
+│   ├── database_utils.py    # Database connection and utilities
+│   ├── quiz_generators.py   # Quiz question generation
+│   ├── quiz_stats.py       # Statistics management
+│   ├── datetime_utils.py   # Timezone conversion utilities
+│   └── data_processing.py  # Data processing utilities
+├── assets/            # Static assets
+│   ├── styles.css     # Application styling
+│   └── flags/         # Country flag images
+├── data/              # Data files and database
+│   ├── quiz_database.db    # Main SQLite database
+│   ├── countries.csv       # Country data
+│   ├── us.csv             # US states data
+│   ├── india.csv          # India states data
+│   ├── math.csv           # Mathematics questions
+│   └── world_physical_geography.csv  # Physical geography data
+└── pictures/          # Application screenshots
 ```
+
+## Database Schema
+
+### Core Tables
+- **categories**: Quiz categories (Geography, Mathematics, etc.)
+- **subcategories**: Quiz subcategories (Flags, Capitals, etc.)
+- **questions_normalized**: All quiz questions with relationships
+- **daily_question_stats**: Daily question performance statistics
+- **daily_category_stats**: Daily category performance statistics
+- **quiz_sessions**: Individual quiz answers
+- **session_stats**: Session-level statistics and metadata
+- **historical_question_stats**: Weekly aggregated historical data
+
+### Key Features
+- **Normalized Structure**: Proper foreign key relationships
+- **UTC Timestamps**: Consistent timezone handling
+- **Automatic Rollover**: Weekly statistical aggregation
+- **Performance Optimized**: Indexed for fast queries
 
 ## Application Screenshots
 
@@ -147,6 +220,13 @@ interactiveMap/
 
 ## Development
 
+### Adding New Quiz Categories
+1. Create page module in `pages/[category]/`
+2. Add quiz questions to appropriate CSV file
+3. Update database schema if needed
+4. Register callbacks and layouts
+5. Add navigation menu item
+
 ### Adding New Dependencies
 ```bash
 # Add a new dependency
@@ -159,10 +239,64 @@ uv add --dev package-name
 uv sync
 ```
 
+### Database Operations
+```bash
+# Create normalized database
+uv run create_normalized_database.py
+
+# Import CSV data
+uv run utils/csv_to_sqlite.py
+
+# Test database integration
+uv run test_database_integration.py
+
+# Cleanup old data
+uv run cleanup_old_tables.py
+```
+
 ### Running Tests
 ```bash
 # Run tests (when available)
 uv run pytest
+```
+
+## API Reference
+
+### Quiz Statistics Manager
+```python
+from utils.quiz_stats import QuizStatsManager
+
+stats = QuizStatsManager()
+
+# Start a quiz session
+session_id = stats.start_quiz_session(
+    session_name="Geography Quiz",
+    user_id="john_doe"
+)
+
+# Record quiz answers
+stats.record_quiz_answer_with_session(
+    session_id=session_id,
+    question_id=123,
+    is_correct=True,
+    response_time=5.2,
+    user_answer="Paris"
+)
+
+# End session and get final stats
+final_stats = stats.end_quiz_session(session_id)
+```
+
+### Quiz Generators
+```python
+from utils.quiz_generators import get_quiz_questions
+
+# Get geography questions
+questions = get_quiz_questions('flag', None, 10)
+
+# Get math questions
+from utils.math_quiz_generators import get_math_quiz_questions
+math_questions = get_math_quiz_questions('k5_math', None, 10)
 ```
 
 ## Troubleshooting
@@ -196,14 +330,58 @@ uv cache clean
 uv sync --refresh
 ```
 
+**Database Issues**
+```bash
+# Recreate database
+uv run create_normalized_database.py
+
+# Check database schema
+uv run examine_database_schema.py
+```
+
+**Analytics Not Updating**
+- Check database permissions
+- Verify UTC timezone handling
+- Clear browser cache
+- Restart application
+
+## Performance Optimization
+
+### Database Performance
+- **Automatic Cleanup**: Old session data removed weekly
+- **Indexed Queries**: Optimized for fast statistics retrieval
+- **Batch Operations**: Efficient bulk data processing
+
+### Application Performance
+- **CSS Classes**: Eliminated inline styles for better performance
+- **Component Reuse**: Modular component architecture
+- **Lazy Loading**: Components loaded as needed
+
 ## Configuration
 
-The application runs on port 8050 by default. You can modify this in `app.py`:
-
+### Application Settings
 ```python
+# app.py
 if __name__ == '__main__':
-    app.run_server(debug=True, host='0.0.0.0', port=8050)
+    app.run_server(
+        debug=True,        # Set to False in production
+        host='0.0.0.0',   # Allow external connections
+        port=8050         # Default port
+    )
 ```
+
+### Database Configuration
+```python
+# utils/quiz_stats.py
+class QuizStatsManager:
+    def __init__(self, db_path: str = "data/quiz_database.db"):
+        self.db_path = db_path  # Customize database location
+```
+
+### Analytics Settings
+- **Auto-refresh Interval**: 30 seconds (configurable in layouts)
+- **Data Retention**: 30 days for daily stats, 7 days for sessions
+- **Chart Limits**: Configurable limits for trending questions and leaderboards
 
 ## Contributing
 
@@ -213,6 +391,26 @@ if __name__ == '__main__':
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
+### Contribution Guidelines
+- Follow existing code style and structure
+- Add tests for new functionality
+- Update documentation for new features
+- Ensure timezone handling for any datetime operations
+- Use normalized database structure for new data
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Changelog
+
+### Recent Updates
+- **Analytics Dashboard**: Comprehensive performance tracking with charts and leaderboards
+- **Mathematics Quizzes**: Added K-5 math category with elementary arithmetic
+- **Database Normalization**: Migrated to efficient relational database structure
+- **Username Support**: Personalized quiz sessions with user identification
+- **Session Tracking**: Complete quiz session lifecycle management
+- **Timezone Handling**: UTC storage with local timezone display
+- **Enhanced UI**: CSS refactoring and improved user experience
+- **Statistics System**: Daily tracking with weekly rollover functionality
+- **Performance Optimization**: Improved database queries and component efficiency
