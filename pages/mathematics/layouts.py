@@ -12,7 +12,7 @@ MATHEMATICS_QUIZ_CARDS = [
         "emoji": "🔢",
         "description": "Elementary math for grades K-5",
         "button_id": "start-k5-math-quiz",
-        "is_disabled": True
+        "is_disabled": False
     },
     {
         "title": "6-8 Math",
@@ -89,6 +89,53 @@ def get_mathematics_layout():
         ], id="main-layout-container-wrapper", className="main-layout-container"),
 
         # Hidden dcc.Store to track if a quiz is active
-        dcc.Store(id='quiz-active-store', data={'active': False})
+        dcc.Store(id='quiz-active-store', data={'active': False}),
+
+        # Store for username persistence
+        dcc.Store(id='username-store', data={'username': 'anonymous_user'}),
+
+        # Store for pending quiz info
+        dcc.Store(id='pending-quiz-store', data={}),
+
+        # Username modal components
+        dcc.Store(id='username-modal-store', data={'is_open': False}),
+        html.Div([
+            html.Div([
+                html.H3("Enter Your Name", className='username-modal-title'),
+                html.P("Please enter your name to track your quiz performance:", 
+                       className='username-modal-subtitle'),
+                dcc.Input(
+                    id='username-input',
+                    type='text',
+                    placeholder='Enter your name...',
+                    value='',
+                    className='username-input'
+                ),
+                html.Div([
+                    html.Button(
+                        "Start Quiz",
+                        id='username-confirm-btn',
+                        className='username-modal-button username-modal-button-primary'
+                    ),
+                    html.Button(
+                        "Cancel",
+                        id='username-cancel-btn',
+                        className='username-modal-button username-modal-button-secondary'
+                    )
+                ], className='username-modal-buttons')
+            ], className='username-modal-content')
+        ], id='username-modal', className='username-modal', style={'display': 'none'}),
+
+        # Hidden dummy buttons for trivia callbacks compatibility
+        html.Div([
+            html.Button(id='start-currency-quiz', style={'display': 'none'}),
+            html.Button(id='start-wonders-quiz', style={'display': 'none'}),
+            html.Button(id='start-capital-quiz', style={'display': 'none'}),
+            html.Button(id='start-continent-quiz', style={'display': 'none'}),
+            html.Button(id='start-flag-quiz', style={'display': 'none'}),
+            html.Button(id='start-physical-geography-quiz', style={'display': 'none'}),
+            html.Button(id='start-india-capital-quiz', style={'display': 'none'}),
+            html.Button(id='start-us-capital-quiz', style={'display': 'none'}),
+        ], style={'display': 'none'})
 
     ], className="app-background")

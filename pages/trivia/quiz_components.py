@@ -2,9 +2,41 @@
 Quiz-specific UI components for the trivia module.
 """
 
-from dash import html
+from dash import html, dcc
 from .ui_components import create_quiz_button, create_score_display
 from utils.quiz_generators import QUIZ_TYPE_LABEL
+
+def create_username_modal(is_open=False, current_username=""):
+    """Create a modal for username input."""
+    return dcc.Store(id='username-modal-store', data={'is_open': is_open}), \
+           html.Div([
+               html.Div([
+                   html.Div([
+                       html.H3("Enter Your Name", className='username-modal-title'),
+                       html.P("Please enter your name to track your quiz performance:", 
+                              className='username-modal-subtitle'),
+                       dcc.Input(
+                           id='username-input',
+                           type='text',
+                           placeholder='Enter your name...',
+                           value=current_username,
+                           className='username-input'
+                       ),
+                       html.Div([
+                           html.Button(
+                               "Start Quiz",
+                               id='username-confirm-btn',
+                               className='username-modal-button username-modal-button-primary'
+                           ),
+                           html.Button(
+                               "Cancel",
+                               id='username-cancel-btn',
+                               className='username-modal-button username-modal-button-secondary'
+                           )
+                       ], className='username-modal-buttons')
+                   ], className='username-modal-content')
+               ], className='username-modal', style={'display': 'flex' if is_open else 'none'})
+           ], id='username-modal')
 
 def create_progress_bar(current_question, total_questions, show_next_button=False, show_view_results_button=False, show_quit_quiz_button=True):
     """Create a progress bar showing quiz progress."""

@@ -95,6 +95,46 @@ def get_geography_layout():
         ], id="main-layout-container-wrapper", className="main-layout-container"),
 
         # Hidden dcc.Store to track if a quiz is active
-        dcc.Store(id='quiz-active-store', data={'active': False})
+        dcc.Store(id='quiz-active-store', data={'active': False}),
+
+        # Store for username persistence
+        dcc.Store(id='username-store', data={'username': 'anonymous_user'}),
+
+        # Store for pending quiz info
+        dcc.Store(id='pending-quiz-store', data={}),
+
+        # Username modal components
+        dcc.Store(id='username-modal-store', data={'is_open': False}),
+        html.Div([
+            html.Div([
+                html.H3("Enter Your Name", className='username-modal-title'),
+                html.P("Please enter your name to track your quiz performance:", 
+                       className='username-modal-subtitle'),
+                dcc.Input(
+                    id='username-input',
+                    type='text',
+                    placeholder='Enter your name...',
+                    value='',
+                    className='username-input'
+                ),
+                html.Div([
+                    html.Button(
+                        "Start Quiz",
+                        id='username-confirm-btn',
+                        className='username-modal-button username-modal-button-primary'
+                    ),
+                    html.Button(
+                        "Cancel",
+                        id='username-cancel-btn',
+                        className='username-modal-button username-modal-button-secondary'
+                    )
+                ], className='username-modal-buttons')
+            ], className='username-modal-content')
+        ], id='username-modal', className='username-modal', style={'display': 'none'}),
+
+        # Hidden dummy button for trivia callbacks compatibility
+        html.Div([
+            html.Button(id='start-k5-math-quiz', style={'display': 'none'}),
+        ], style={'display': 'none'})
 
     ], className="app-background")

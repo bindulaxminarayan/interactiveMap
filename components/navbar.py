@@ -16,6 +16,7 @@ def create_simple_navbar():
                     html.A("Science", href="/science", className="nav-link"),
                     html.A("Mathematics", href="/mathematics", className="nav-link"),
                     html.A("Sports", href="/sports", className="nav-link"),
+                    html.A("Analytics", href="/analytics", className="nav-link"),
                     html.A("Explore", href="/", className="nav-link"),
                 ], className="navbar-nav")
             ], className="navbar-container")

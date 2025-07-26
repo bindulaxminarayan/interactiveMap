@@ -5,5 +5,5 @@ description = "A simple interactive world map with Dash and Plotly."
 dependencies = [
     "dash",
     "pandas",
-    "plotly",
+    "plotly"
 ]
