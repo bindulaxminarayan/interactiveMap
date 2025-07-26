@@ -2,24 +2,24 @@
 Main application file for the Interactive World Map.
 Includes navigation and multi-page layout.
 """
-
+import logging
+from urllib.parse import parse_qs
 import dash
 from dash import html, dcc, Input, Output
-import logging
 
 # Import page modules
 from pages.explore import get_explore_layout, register_explore_callbacks
 from pages.trivia import get_trivia_layout, register_trivia_callbacks
-from pages.geography import get_geography_layout, register_geography_callbacks
-from pages.history import get_history_layout, register_history_callbacks
-from pages.science import get_science_layout, register_science_callbacks
-from pages.mathematics import get_mathematics_layout, register_mathematics_callbacks
-from pages.sports import get_sports_layout, register_sports_callbacks
+from pages.geography import get_geography_layout
+from pages.history import get_history_layout
+from pages.science import get_science_layout
+from pages.mathematics import get_mathematics_layout
+from pages.sports import get_sports_layout
 from pages.analytics import get_analytics_layout, register_analytics_callbacks
 from components.navbar import create_simple_navbar
 
-print("--- Script starting ---")
-print("--- Imports successful ---")
+logging.debug("--- Script starting ---")
+logging.debug("--- Imports successful ---")
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
@@ -56,20 +56,16 @@ def display_page(pathname, search):
     elif pathname == '/analytics':
         return get_analytics_layout()
     elif pathname == '/trivia':
-        # Keep backward compatibility for old trivia route
-        # Parse category from query parameters
         category = 'geography'  # default
         if search:
-            # Parse query string (e.g., "?category=geography")
-            from urllib.parse import parse_qs
             params = parse_qs(search.lstrip('?'))
             if 'category' in params:
                 category = params['category'][0]
         return get_trivia_layout(category)
-    else:  # Default to explore page
+    else: 
         return get_explore_layout()
 
-# Dynamic title update using clientside callback
+# Dynamic title update using clientside callback.
 app.clientside_callback(
     """
     function(pathname) {
@@ -169,10 +165,8 @@ app.clientside_callback(
 
 # Register callbacks for each page
 register_explore_callbacks(app)
-register_trivia_callbacks(app)  # Handles all quiz types including math
+register_trivia_callbacks(app)  
 register_analytics_callbacks(app)  # Register analytics callbacks
-# Note: geography, history, science, sports, and mathematics all use trivia callbacks
-# so we don't need to register them separately to avoid duplicate callback errors
 
 
 # Run the app
@@ -180,4 +174,4 @@ if __name__ == '__main__':
     logging.info("--- Starting Dash server... ---")
     app.run(debug=True, host='0.0.0.0', port=8050)
 else:
-    logging.error(f"--- SCRIPT WAS IMPORTED, NOT RUN DIRECTLY. (__name__ is '{__name__}') ---")
+    logging.error("--- SCRIPT WAS IMPORTED, NOT RUN DIRECTLY. (__name__ is '%s') ---", __name__)
