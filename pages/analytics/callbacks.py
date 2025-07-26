@@ -2,9 +2,11 @@
 Analytics page callbacks for interactive functionality.
 """
 
-from dash import Input, Output, State, callback_context
 import json
+import logging
 from datetime import date, timedelta, datetime, timezone
+
+from dash import Input, Output
 from utils.quiz_stats import QuizStatsManager
 from .layouts import (
     create_daily_performance_chart,
@@ -97,7 +99,7 @@ def register_analytics_callbacks(app):
             )
             
         except Exception as e:
-            print(f"Error refreshing analytics data: {e}")
+            logging.error("Error refreshing analytics data: %s",e)
             return (
                 json.dumps({}),
                 "Error",
@@ -122,7 +124,7 @@ def register_analytics_callbacks(app):
             return create_daily_performance_chart(daily_stats)
             
         except Exception as e:
-            print(f"Error updating daily performance chart: {e}")
+            logging.error("Error updating daily performance chart: %s",e)
             return create_daily_performance_chart([])
     
     @app.callback(
@@ -142,7 +144,7 @@ def register_analytics_callbacks(app):
             return create_category_performance_chart(category_stats)
             
         except Exception as e:
-            print(f"Error updating category performance chart: {e}")
+            logging.error(f"Error updating category performance chart: {e}")
             return create_category_performance_chart([])
     
     @app.callback(
@@ -161,7 +163,7 @@ def register_analytics_callbacks(app):
             return create_sessions_table(recent_sessions)
             
         except Exception as e:
-            print(f"Error updating recent sessions table: {e}")
+            logging.error(f"Error updating recent sessions table: {e}")
             return create_sessions_table([])
     
     @app.callback(
@@ -180,7 +182,7 @@ def register_analytics_callbacks(app):
             return create_trending_questions_table(trending_questions)
             
         except Exception as e:
-            print(f"Error updating trending questions table: {e}")
+            logging.error(f"Error updating trending questions table: {e}")
             return create_trending_questions_table([])
     
     @app.callback(
@@ -199,5 +201,5 @@ def register_analytics_callbacks(app):
             return create_leaderboard_table(leaderboard)
             
         except Exception as e:
-            print(f"Error updating session leaderboard table: {e}")
+            logging.error("Error updating session leaderboard table: %s",e)
             return create_leaderboard_table([])
