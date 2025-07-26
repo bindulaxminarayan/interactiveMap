@@ -6,6 +6,7 @@ from dash import html, dcc, dash_table
 import plotly.graph_objs as go
 import plotly.express as px
 from datetime import date, timedelta
+from utils.datetime_utils import utc_to_local_string, utc_to_local_date_string
 
 def get_analytics_layout():
     """Create the analytics page layout."""
@@ -207,7 +208,7 @@ def create_sessions_table(sessions_data):
             'Accuracy': f"{session['accuracy_rate']:.1f}%",
             'Avg Time': f"{session['avg_response_time']:.1f}s" if session['avg_response_time'] else 'N/A',
             'Status': session['status'].title(),
-            'Started': session['started_at'][:16] if session['started_at'] else 'N/A'
+            'Started': utc_to_local_string(session['started_at'])
         })
     
     return dash_table.DataTable(
@@ -294,7 +295,7 @@ def create_leaderboard_table(leaderboard_data):
             'Correct': session['correct_answers'],
             'Accuracy': f"{session['accuracy_rate']:.1f}%",
             'Avg Time': f"{session['avg_response_time']:.1f}s",
-            'Date': session['started_at'][:10] if session['started_at'] else 'N/A'
+            'Date': utc_to_local_date_string(session['started_at'])
         })
     
     return dash_table.DataTable(

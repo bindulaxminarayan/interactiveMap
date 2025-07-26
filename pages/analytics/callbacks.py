@@ -8,6 +8,7 @@ from datetime import date, timedelta, datetime, timezone
 
 from dash import Input, Output
 from utils.quiz_stats import QuizStatsManager
+from utils.datetime_utils import get_local_today, is_same_local_date
 from .layouts import (
     create_daily_performance_chart,
     create_category_performance_chart,
@@ -79,16 +80,11 @@ def register_analytics_callbacks(app):
             accuracy = f"{summary['overall_accuracy']:.1f}%"
             avg_time = f"{summary['avg_response_time']:.1f}s"
             
-            # Count today's sessions (convert local time to UTC for comparison)
-            # Get today's date in UTC since database stores UTC timestamps
-            now_utc = datetime.now(timezone.utc)
-            today_utc_date = now_utc.date().isoformat()
-            
-            # Also get local today in case some sessions are stored in local time
-            today_local_date = date.today().isoformat()
+            # Count today's sessions (properly handle timezone conversion)
+            today_local_date = get_local_today()  # Get today in local timezone
             
             active_sessions = len([s for s in recent_sessions 
-                                 if s['started_at'] and (s['started_at'][:10] == today_utc_date or s['started_at'][:10] == today_local_date)])
+                                 if s['started_at'] and is_same_local_date(s['started_at'], today_local_date)])
             
             return (
                 json.dumps(analytics_data),

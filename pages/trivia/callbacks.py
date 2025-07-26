@@ -1,10 +1,9 @@
 """
 Dash callbacks for the trivia module.
 """
-
+import time
 from dash import Input, Output, State, callback_context
 import dash.exceptions
-import time
 from utils.quiz_generators import get_quiz_questions,QUIZ_TYPE_LABEL
 from utils.math_quiz_generators import get_math_quiz_questions, MATH_QUIZ_TYPE_LABEL
 from utils.quiz_stats import quiz_stats
@@ -51,19 +50,7 @@ def register_trivia_callbacks(app):
         # Handle cancel button
         if triggered_id == 'username-cancel-btn':
             # Hide modal
-            modal_style = {
-                'position': 'fixed',
-                'top': '0',
-                'left': '0',
-                'width': '100%',
-                'height': '100%',
-                'backgroundColor': 'rgba(0, 0, 0, 0.5)',
-                'display': 'none',
-                'justifyContent': 'center',
-                'alignItems': 'center',
-                'zIndex': '1000'
-            }
-            return modal_style, username_data.get('username', ''), {}
+            return {'display': 'none'}, username_data.get('username', ''), {}
 
         # Handle quiz button clicks
         if triggered_value and triggered_value > 0:
@@ -83,24 +70,12 @@ def register_trivia_callbacks(app):
             quiz_type = quiz_type_mapping.get(triggered_id)
             if quiz_type:
                 # Show modal
-                modal_style = {
-                    'position': 'fixed',
-                    'top': '0',
-                    'left': '0',
-                    'width': '100%',
-                    'height': '100%',
-                    'backgroundColor': 'rgba(0, 0, 0, 0.5)',
-                    'display': 'flex',
-                    'justifyContent': 'center',
-                    'alignItems': 'center',
-                    'zIndex': '1000'
-                }
                 current_username = username_data.get('username', '')
                 if current_username == 'anonymous_user':
                     current_username = ''
                 
                 pending_quiz = {'quiz_type': quiz_type}
-                return modal_style, current_username, pending_quiz
+                return {'display': 'flex'}, current_username, pending_quiz
 
         raise dash.exceptions.PreventUpdate
 
@@ -159,59 +134,23 @@ def register_trivia_callbacks(app):
             'question_start_time': time.time()
         }
 
-        # Styles for when quiz is active
-        quiz_selection_quiz_active_style = {'display': 'none'}
-        quiz_content_quiz_active_style = {
-            'display': 'block',
-            'width': '100%',
-            'minHeight': '100vh',
-            'padding': '10px 20px',
-            'margin': '0',
-            'boxSizing': 'border-box'
-        }
-        main_layout_quiz_active_style = {
-            'display': 'flex',
-            'justifyContent': 'center',
-            'alignItems': 'flex-start',
-            'width': '100%',
-            'maxWidth': '98vw',
-            'margin': '0 auto',
-            'padding': '0'
-        }
-        quiz_active_store_data = {'active': True}
-
-        # Hide modal
-        modal_style = {
-            'position': 'fixed',
-            'top': '0',
-            'left': '0',
-            'width': '100%',
-            'height': '100%',
-            'backgroundColor': 'rgba(0, 0, 0, 0.5)',
-            'display': 'none',
-            'justifyContent': 'center',
-            'alignItems': 'center',
-            'zIndex': '1000'
-        }
-
         # Update username store
         updated_username_data = {'username': username}
 
         # Show progress bar
         progress_bar = create_progress_bar(0, len(questions))
-        progress_style = {'display': 'block'}
 
         return (create_question_layout(question_data, 0, len(questions)),
                 new_data,
-                quiz_selection_quiz_active_style,
-                quiz_content_quiz_active_style,
+                {'display': 'none'},
+                {'display': 'block', 'width': '100%', 'minHeight': '100vh', 'padding': '10px 20px', 'margin': '0', 'boxSizing': 'border-box'},
                 progress_bar,
-                progress_style,
-                main_layout_quiz_active_style,
-                quiz_active_store_data,
+                {'display': 'block'},
+                {'display': 'flex', 'justifyContent': 'center', 'alignItems': 'flex-start', 'width': '100%', 'maxWidth': '98vw', 'margin': '0 auto', 'padding': '0'},
+                {'active': True},
                 "hide",
                 updated_username_data,
-                modal_style)
+                {'display': 'none'})
 
     # Callback for restart button from completion screen (uses stored username)
     @app.callback(
@@ -268,28 +207,15 @@ def register_trivia_callbacks(app):
             'question_start_time': time.time()
         }
 
-        # Styles for when quiz is active (same as start_quiz)
-        main_layout_quiz_active_style = {
-            'display': 'flex',
-            'justifyContent': 'center',
-            'alignItems': 'flex-start',
-            'width': '100%', # Take full width of its own parent (app-background)
-            'maxWidth': '98vw', # Limit the overall visible width to 98% of viewport
-            'margin': '0 auto', # Center this main wrapper horizontally
-            'padding': '0' # Remove padding here, let inner elements handle it
-        }
-        quiz_active_store_data = {'active': True}
-
         # Show progress bar
         progress_bar = create_progress_bar(0, len(questions))
-        progress_style = {'display': 'block'}
 
         return (create_question_layout(question_data, 0, len(questions)),
                 new_data,
                 progress_bar,
-                progress_style,
-                main_layout_quiz_active_style,
-                quiz_active_store_data)
+                {'display': 'block'},
+                {'display': 'flex', 'justifyContent': 'center', 'alignItems': 'flex-start', 'width': '100%', 'maxWidth': '98vw', 'margin': '0 auto', 'padding': '0'},
+                {'active': True})
 
     # Single callback to handle all quiz interactions with fixed IDs
     @app.callback(
@@ -519,29 +445,15 @@ def register_trivia_callbacks(app):
 
 def _return_to_quiz_selection(current_data=None):
     """Helper function to return to the quiz selection screen."""
-    # Styles for when quiz is NOT active (selection view)
-    quiz_selection_default_style = {'display': 'flex', 'flexDirection': 'column', 'alignItems': 'center', 'padding': '20px', 'flexGrow': 1}
-    quiz_content_default_style = {'display': 'none'}
-    progress_style = {'display': 'none'} # Progress bar hidden
-    main_layout_default_style = {
-        'display': 'flex',
-        'justifyContent': 'center',
-        'alignItems': 'flex-start',
-        'maxWidth': '1400px', # Revert to the default max-width for the selection screen
-        'margin': '0 auto',
-        'padding': '20px 0'
-    }
-    quiz_active_store_default_data = {'active': False}
-
     reset_data = {'index': 0, 'score': 0, 'questions': [], 'answered': False, 'user_answers': {}}
 
     return ([], # question-container children (empty)
             reset_data, # current-question-store data (reset)
-            quiz_selection_default_style, # quiz-selection-area style (visible)
-            quiz_content_default_style, # quiz-content-area style (hidden)
-            progress_style, # progress-container style (hidden)
+            {'display': 'flex', 'flexDirection': 'column', 'alignItems': 'center', 'padding': '20px', 'flexGrow': 1}, # quiz-selection-area style (visible)
+            {'display': 'none'}, # quiz-content-area style (hidden)
+            {'display': 'none'}, # progress-container style (hidden)
             [], # progress-container children (empty)
-            main_layout_default_style, # main-layout-container-wrapper style (default)
-            quiz_active_store_default_data, # quiz-active-store data (inactive)
+            {'display': 'flex', 'justifyContent': 'center', 'alignItems': 'flex-start', 'maxWidth': '1400px', 'margin': '0 auto', 'padding': '20px 0'}, # main-layout-container-wrapper style (default)
+            {'active': False}, # quiz-active-store data (inactive)
             "show" # Show navbar when returning to quiz selection
     )

@@ -12,81 +12,30 @@ def create_username_modal(is_open=False, current_username=""):
            html.Div([
                html.Div([
                    html.Div([
-                       html.H3("Enter Your Name", style={
-                           'textAlign': 'center', 
-                           'marginBottom': '20px',
-                           'color': '#333'
-                       }),
-                       html.P("Please enter your name to track your quiz performance:", style={
-                           'textAlign': 'center',
-                           'marginBottom': '20px',
-                           'color': '#666'
-                       }),
+                       html.H3("Enter Your Name", className='username-modal-title'),
+                       html.P("Please enter your name to track your quiz performance:", 
+                              className='username-modal-subtitle'),
                        dcc.Input(
                            id='username-input',
                            type='text',
                            placeholder='Enter your name...',
                            value=current_username,
-                           style={
-                               'width': '100%',
-                               'padding': '12px',
-                               'fontSize': '16px',
-                               'border': '2px solid #dee2e6',
-                               'borderRadius': '5px',
-                               'marginBottom': '20px',
-                               'boxSizing': 'border-box'
-                           }
+                           className='username-input'
                        ),
                        html.Div([
                            html.Button(
                                "Start Quiz",
                                id='username-confirm-btn',
-                               style={
-                                   'backgroundColor': '#007bff',
-                                   'color': 'white',
-                                   'border': 'none',
-                                   'padding': '12px 24px',
-                                   'fontSize': '16px',
-                                   'borderRadius': '5px',
-                                   'cursor': 'pointer',
-                                   'marginRight': '10px'
-                               }
+                               className='username-modal-button username-modal-button-primary'
                            ),
                            html.Button(
                                "Cancel",
                                id='username-cancel-btn',
-                               style={
-                                   'backgroundColor': '#6c757d',
-                                   'color': 'white',
-                                   'border': 'none',
-                                   'padding': '12px 24px',
-                                   'fontSize': '16px',
-                                   'borderRadius': '5px',
-                                   'cursor': 'pointer'
-                               }
+                               className='username-modal-button username-modal-button-secondary'
                            )
-                       ], style={'textAlign': 'center'})
-                   ], style={
-                       'backgroundColor': 'white',
-                       'padding': '30px',
-                       'borderRadius': '10px',
-                       'width': '400px',
-                       'maxWidth': '90vw',
-                       'boxShadow': '0 4px 6px rgba(0, 0, 0, 0.1)',
-                       'position': 'relative'
-                   })
-               ], style={
-                   'position': 'fixed',
-                   'top': '0',
-                   'left': '0',
-                   'width': '100%',
-                   'height': '100%',
-                   'backgroundColor': 'rgba(0, 0, 0, 0.5)',
-                   'display': 'flex' if is_open else 'none',
-                   'justifyContent': 'center',
-                   'alignItems': 'center',
-                   'zIndex': '1000'
-               })
+                       ], className='username-modal-buttons')
+                   ], className='username-modal-content')
+               ], className='username-modal', style={'display': 'flex' if is_open else 'none'})
            ], id='username-modal')
 
 def create_progress_bar(current_question, total_questions, show_next_button=False, show_view_results_button=False, show_quit_quiz_button=True):
