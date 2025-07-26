@@ -15,6 +15,7 @@ from pages.history import get_history_layout, register_history_callbacks
 from pages.science import get_science_layout, register_science_callbacks
 from pages.mathematics import get_mathematics_layout, register_mathematics_callbacks
 from pages.sports import get_sports_layout, register_sports_callbacks
+from pages.analytics import get_analytics_layout, register_analytics_callbacks
 from components.navbar import create_simple_navbar
 
 print("--- Script starting ---")
@@ -52,6 +53,8 @@ def display_page(pathname, search):
         return get_mathematics_layout()
     elif pathname == '/sports':
         return get_sports_layout()
+    elif pathname == '/analytics':
+        return get_analytics_layout()
     elif pathname == '/trivia':
         # Keep backward compatibility for old trivia route
         # Parse category from query parameters
@@ -109,7 +112,8 @@ app.clientside_callback(
                         'flag': 'Flags',
                         'world_physical_geography': 'Physical Geography',
                         'india_capital': 'India States',
-                        'us_capital': 'US States'
+                        'us_capital': 'US States',
+                        'k5_math': 'K-5 Math'
                     };
                     
                     var subcategory = quiz_type_mapping[quiz_type] || quiz_type.charAt(0).toUpperCase() + quiz_type.slice(1);
@@ -165,8 +169,9 @@ app.clientside_callback(
 
 # Register callbacks for each page
 register_explore_callbacks(app)
-register_trivia_callbacks(app)  # Only register trivia callbacks once
-# Note: geography, history, science, mathematics, and sports all use trivia callbacks
+register_trivia_callbacks(app)  # Handles all quiz types including math
+register_analytics_callbacks(app)  # Register analytics callbacks
+# Note: geography, history, science, sports, and mathematics all use trivia callbacks
 # so we don't need to register them separately to avoid duplicate callback errors
 
 
