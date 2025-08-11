@@ -8,6 +8,13 @@ from pages.trivia.ui_components import create_quiz_cards_grid, create_hidden_ele
 # History quiz cards
 HISTORY_QUIZ_CARDS = [
     {
+        "title": "Famous People",
+        "emoji": "👑",
+        "description": "Historical leaders and rulers, influencers",
+        "button_id": "start-leaders-quiz",
+        "is_disabled": True
+    },
+    {
         "title": "World History",
         "emoji": "🌍",
         "description": "Major world historical events",
@@ -26,13 +33,6 @@ HISTORY_QUIZ_CARDS = [
         "emoji": "⚔️",
         "description": "Historical wars and conflicts",
         "button_id": "start-wars-quiz",
-        "is_disabled": True
-    },
-    {
-        "title": "Famous Leaders",
-        "emoji": "👑",
-        "description": "Historical leaders and rulers",
-        "button_id": "start-leaders-quiz",
         "is_disabled": True
     },
     {

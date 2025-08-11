@@ -414,12 +414,16 @@ def generate_questions_by_category(df: pd.DataFrame = None, num_questions: int =
         'math': ('math', None),
         'history': ('history', None),
         'science': ('science', None),
-        'sports': ('sports', None)
+        'sports': ('sports', None),
+        'biology': ('science', 'biology'),
+        'chemistry': ('science', 'chemistry')
     }
     
     # If category matches a specific quiz type, map it to normalized structure
     if category in quiz_type_mapping:
-        actual_category, actual_subcategory = quiz_type_mapping[category]
+        actual_category, mapped_subcategory = quiz_type_mapping[category]
+        # Use the passed subcategory if available, otherwise use the mapped one
+        actual_subcategory = subcategory if subcategory is not None else mapped_subcategory
     else:
         # For other cases, use as-is
         actual_category = category
@@ -433,8 +437,8 @@ def generate_questions_by_category(df: pd.DataFrame = None, num_questions: int =
                 SELECT q.*, c.name as category_name, s.name as subcategory_name
                 FROM questions_normalized q
                 JOIN categories c ON q.category_id = c.id
-                LEFT JOIN subcategories s ON q.subcategory_id = s.id
-                WHERE c.name = ? AND s.name = ? AND q.is_active = 1 AND c.is_active = 1
+                JOIN subcategories s ON q.subcategory_id = s.id
+                WHERE c.name = ? AND s.name = ? AND q.is_active = 1 AND c.is_active = 1 AND s.is_active = 1
                 ORDER BY RANDOM() LIMIT ?
             """
             question_rows = quiz_db.execute_query(query, (actual_category, actual_subcategory, num_questions))
@@ -833,7 +837,9 @@ QUIZ_GENERATORS = {
     'world_physical_geography': generate_random_questions,
     'india_capital': generate_india_capital_questions_db,
     'wonders': generate_questions_by_category,
-    'k5_math': generate_math_questions
+    'k5_math': generate_math_questions,
+    'biology': lambda df, num_questions: generate_questions_by_category(df, num_questions, 'science', 'biology'),
+    'chemistry': lambda df, num_questions: generate_questions_by_category(df, num_questions, 'science', 'chemistry')
 }
 
 def get_quiz_questions(quiz_type: str, df: pd.DataFrame = None, num_questions: int = 10) -> List[Dict[str, Any]]:
@@ -862,7 +868,9 @@ def get_quiz_questions(quiz_type: str, df: pd.DataFrame = None, num_questions: i
         'continent', 
         'flag', 
         'us_capital', 
-        'india_capital'
+        'india_capital',
+        'biology',
+        'chemistry'
     ]
     
     if quiz_type in database_backed_types:
@@ -886,5 +894,7 @@ QUIZ_TYPE_LABEL = {
     "world_physical_geography": "Physical Geography",
     "india_capital": "India State Capitals",
     "wonders" :  "Wonders",
-    "k5_math": "K-5 Math"
+    "k5_math": "K-5 Math",
+    "biology": "Biology",
+    "chemistry": "Chemistry"
 }

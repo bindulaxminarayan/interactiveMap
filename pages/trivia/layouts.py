@@ -5,7 +5,7 @@ Layout components for the trivia module.
 from dash import html, dcc
 from .quiz_data import get_cards_for_category
 from .ui_components import create_quiz_cards_grid, create_hidden_elements
-from .quiz_components import create_username_modal
+
 
 def get_trivia_layout(category='geography'):
     """Get the layout for the trivia page with card-based quiz selection."""
@@ -56,9 +56,4 @@ def get_trivia_layout(category='geography'):
         dcc.Store(id='username-store', data={'username': 'anonymous_user'}),
 
         # Store for pending quiz info
-        dcc.Store(id='pending-quiz-store', data={}),
-
-        # Username modal components
-        *create_username_modal()
-
-    ], className="app-background")
+        dcc.Store(id='pending-quiz-store', data={})], className="app-background")

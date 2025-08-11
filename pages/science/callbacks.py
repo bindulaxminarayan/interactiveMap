@@ -2,9 +2,13 @@
 Science quiz callbacks.
 """
 
-from pages.trivia.callbacks import register_trivia_callbacks
+from dash import Input, Output, State, callback_context
+import dash.exceptions
 
 def register_science_callbacks(app):
     """Register callbacks for the science quiz page."""
-    # Reuse the existing trivia callbacks since they handle all the quiz logic
-    register_trivia_callbacks(app)
+    
+    # Note: Username modal callbacks are now handled by universal_callbacks.py
+    # This file only contains science-specific callbacks if needed
+    
+    pass  # No additional callbacks needed for science page currently
