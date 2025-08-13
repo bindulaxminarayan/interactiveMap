@@ -84,13 +84,13 @@ def create_hidden_elements():
         html.Button("Physical Geography", id='start-physical-geography-quiz', style={'display': 'none'}),
         html.Button("India Capital", id='start-india-capital-quiz', style={'display': 'none'}),
         html.Button("US Capital", id='start-us-capital-quiz', style={'display': 'none'}),
-        html.Button("K5 Math", id='start-k5-math-quiz', style={'display': 'none'}),
         html.Button("Biology", id='start-biology-quiz', style={'display': 'none'}),
         html.Button("Chemistry", id='start-chemistry-quiz', style={'display': 'none'}),
         html.Button("Physics", id='start-physics-quiz', style={'display': 'none'}),
         html.Button("Astronomy", id='start-astronomy-quiz', style={'display': 'none'}),
         html.Button("Earth Science", id='start-earth-science-quiz', style={'display': 'none'}),
         html.Button("Technology", id='start-technology-quiz', style={'display': 'none'}),
+        html.Button("Famous", id='start-leaders-quiz', style={'display': 'none'}),
     ], id='hidden-elements-container', style={'display': 'none'})
 
 def create_quiz_button(text, button_id, style_type="primary", margin_right="0px"):

@@ -2,6 +2,8 @@
 Dash callbacks for the trivia module.
 """
 import time
+import logging
+import traceback
 from dash import Input, Output, State, callback_context
 import dash.exceptions
 from utils.quiz_generators import get_quiz_questions,QUIZ_TYPE_LABEL
@@ -138,6 +140,9 @@ def register_trivia_callbacks(app):
                     question_id = question_data.get('id', current_index + 1)  # Fallback to index+1
                     user_answer = question_data['options'][clicked_index]
                     
+                    logging.info("Recording quiz answer for session %s: question_id=%s, is_correct=%s, response_time=%s", 
+                               current_data['session_id'], question_id, is_correct, response_time)
+                    
                     quiz_stats.record_quiz_answer_with_session(
                         session_id=current_data['session_id'],
                         question_id=question_id,
@@ -145,8 +150,11 @@ def register_trivia_callbacks(app):
                         response_time=response_time,
                         user_answer=user_answer
                     )
+                    
+                    logging.info("Successfully recorded quiz answer for session %s", current_data['session_id'])
                 except Exception as e:
-                    print(f"Error recording quiz answer: {e}")
+                    logging.error("Error recording quiz answer: %s", e)
+                    logging.error("Traceback: %s", traceback.format_exc())
 
             # Create feedback
             fun_fact = question_data.get('fun_fact', '')
@@ -242,9 +250,12 @@ def register_trivia_callbacks(app):
             # Complete the quiz session for analytics
             if 'session_id' in current_data:
                 try:
-                    quiz_stats.end_quiz_session(current_data['session_id'])
+                    session_result = quiz_stats.end_quiz_session(current_data['session_id'])
+                    logging.info("Successfully ended quiz session: %s", current_data['session_id'])
+                    logging.info("Session result: %s", session_result)
                 except Exception as e:
-                    print(f"Error ending quiz session: {e}")
+                    logging.error("Error ending quiz session: %s", e)
+                    logging.error("Traceback: %s", traceback.format_exc())
 
             # Show results screen with review section
             quiz_type = current_data.get('quiz_type', 'quiz')

@@ -1,0 +1,12 @@
+__pychache__/
+interactive_map_app.egg-info/
+pages/__pycache__/
+pages/trivia/__pycache__/
+pages/analytics/__pycache__/
+pages/explore/__pycache__/
+pages/geography/__pycache__/
+pages/history/__pycache__/
+pages/mathematics/__pycache__/
+pages/science/__pycache__/
+pages/sports/__pycache__/
+utils/__pycache__/

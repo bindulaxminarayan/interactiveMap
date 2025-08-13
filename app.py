@@ -6,25 +6,23 @@ import logging
 from urllib.parse import parse_qs
 import dash
 from dash import html, dcc, Input, Output
+logging.basicConfig(level=logging.DEBUG)
 
 # Import page modules
 from pages.explore import get_explore_layout, register_explore_callbacks
+from pages.trivia.universal_callbacks import register_universal_username_modal_callbacks
 from pages.trivia import get_trivia_layout, register_trivia_callbacks
 from pages.geography import get_geography_layout
 from pages.history import get_history_layout
-from pages.science import get_science_layout, register_science_callbacks
+from pages.science import get_science_layout
 from pages.mathematics import get_mathematics_layout
 from pages.sports import get_sports_layout
 from pages.analytics import get_analytics_layout, register_analytics_callbacks
 from components.navbar import create_simple_navbar
 
-logging.debug("--- Script starting ---")
-logging.debug("--- Imports successful ---")
-
-# Setup logging
-logging.basicConfig(level=logging.INFO)
 
 # Initialize the Dash app
+logging.debug("Initializing the app...")
 app = dash.Dash(__name__, suppress_callback_exceptions=True, title="Quizverse")
 server = app.server
 
@@ -62,7 +60,7 @@ def display_page(pathname, search):
             if 'category' in params:
                 category = params['category'][0]
         return get_trivia_layout(category)
-    else: 
+    else:
         return get_explore_layout()
 
 # Dynamic title update using clientside callback.
@@ -106,12 +104,12 @@ app.clientside_callback(
                         'capital': 'Capitals',
                         'continent': 'Continents',
                         'flag': 'Flags',
-                        'world_physical_geography': 'Physical Geography',
+                        'physical': 'Physical Geography',
                         'india_capital': 'India States',
                         'us_capital': 'US States',
-                        'k5_math': 'K-5 Math',
                         'biology': 'Biology',
-                        'chemistry': 'Chemistry'
+                        'chemistry': 'Chemistry',
+                        'famous_people':'Famous'
                     };
                     
                     var subcategory = quiz_type_mapping[quiz_type] || quiz_type.charAt(0).toUpperCase() + quiz_type.slice(1);
@@ -165,20 +163,16 @@ app.clientside_callback(
     [Input('page-content', 'data-navbar-auto-hide')]
 )
 
-# Register universal username modal callbacks first (handles all quiz types)
-from pages.trivia.universal_callbacks import register_universal_username_modal_callbacks
+#Register call backs
 register_universal_username_modal_callbacks(app)
-
-# Register callbacks for each page
 register_explore_callbacks(app)
-register_trivia_callbacks(app)  
-register_science_callbacks(app)  # Register science callbacks
-register_analytics_callbacks(app)  # Register analytics callbacks
+register_trivia_callbacks(app)
+register_analytics_callbacks(app)
 
 
 # Run the app
 if __name__ == '__main__':
     logging.info("--- Starting Dash server... ---")
-    app.run(debug=True, host='0.0.0.0', port=8050)
+    app.run(host='0.0.0.0', port=8050)
 else:
     logging.error("--- SCRIPT WAS IMPORTED, NOT RUN DIRECTLY. (__name__ is '%s') ---", __name__)

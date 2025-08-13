@@ -1,6 +1,6 @@
 [project]
 name = "interactive-map-app"
-version = "0.1.0"
+version = "0.2.0"
 description = "A simple interactive world map with Dash and Plotly."
 dependencies = [
     "dash",

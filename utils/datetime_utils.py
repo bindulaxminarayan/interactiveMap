@@ -3,8 +3,6 @@ Datetime utilities for timezone conversion and formatting.
 """
 
 from datetime import datetime, timezone
-import pytz
-
 
 def utc_to_local_string(utc_datetime_str, format_str="%Y-%m-%d %H:%M"):
     """
