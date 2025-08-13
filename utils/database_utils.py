@@ -1,5 +1,5 @@
-import sqlite3
 from typing import List, Dict, Any
+import sqlite3
 
 class QuizDatabase:
     """

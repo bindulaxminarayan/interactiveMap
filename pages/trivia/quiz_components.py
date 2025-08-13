@@ -1,8 +1,8 @@
 """
 Quiz-specific UI components for the trivia module.
 """
-
-from dash import html, dcc
+import logging
+from dash import html
 from utils.quiz_generators import QUIZ_TYPE_LABEL
 from .ui_components import create_score_display
 
@@ -249,14 +249,15 @@ def create_question_layout(question_data, question_index, total_questions, selec
     image_added = False
     
     # Check for flag image
-    if 'flag_image' in question_data and question_data['flag_image']:
-        content.append(create_question_image(question_data['flag_image'], 'flag'))
-        image_added = True
+    # if 'flag_image' in question_data and question_data['flag_image']:
+    #     logging.debug("Question data: %s",question_data)
+    #     content.append(create_question_image(question_data['flag_image'], 'flag'))
+    #     image_added = True
     
-    # Check for wonder image
-    if 'wonder_image' in question_data and question_data['wonder_image']:
-        content.append(create_question_image(question_data['wonder_image'], 'wonder'))
-        image_added = True
+    # # Check for wonder image
+    # if 'wonder_image' in question_data and question_data['wonder_image']:
+    #     content.append(create_question_image(question_data['wonder_image'], 'wonder'))
+    #     image_added = True
     
     # Check for generic image (for future extensibility)
     if 'image' in question_data and question_data['image'] and not image_added:

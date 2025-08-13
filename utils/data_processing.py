@@ -10,51 +10,18 @@ def load_countries_data(file_path='data/countries.csv'):
     """Load and preprocess countries data from CSV file."""
     try:
         df = pd.read_csv(file_path)
-        logging.info(f"--- Successfully loaded {file_path} ---")
-        logging.info(f"Data contains {len(df)} rows.")
+        logging.info("--- Successfully loaded %s ---",file_path)
+        logging.info("Data contains %d rows.", len(df))
         
         # Convert GDP column to numeric
         df['gdp_numeric'] = df['gdp'].apply(convert_gdp_to_numeric)
         return df
         
     except FileNotFoundError:
-        logging.error(f"!!! CRITICAL ERROR: File not found at '{file_path}'")
-        logging.warn("!!! Please make sure the data file exists.")
+        logging.error("!!! CRITICAL ERROR: File not found at %s",file_path)
         raise
     except Exception as e:
-        logging.error(f"An unexpected error occurred: {e}")
-        raise
-
-def load_states_data(file_path):
-    """Load and preprocess US states data from CSV file."""
-    try:
-        df = pd.read_csv(file_path)
-        logging.info(f"--- Successfully loaded {file_path} ---")
-        logging.info(f"Data contains {len(df)} rows.")
-        return df
-        
-    except FileNotFoundError:
-        logging.error(f"!!! CRITICAL ERROR: File not found at '{file_path}'")
-        logging.warn("!!! Please make sure the data file exists.")
-        raise
-    except Exception as e:
-        logging.error(f"An unexpected error occurred: {e}")
-        raise
-
-def load_random_questions(file_path):
-    """Load and preprocess US states data from CSV file."""
-    try:
-        df = pd.read_csv(file_path)
-        logging.info(f"--- Successfully loaded {file_path} ---")
-        logging.info(f"Data contains {len(df)} rows.")
-        return df
-        
-    except FileNotFoundError:
-        logging.error(f"!!! CRITICAL ERROR: File not found at '{file_path}'")
-        logging.warn("!!! Please make sure the data file exists.")
-        raise
-    except Exception as e:
-        logging.error(f"An unexpected error occurred: {e}")
+        logging.error("An unexpected error occurred: %s",e)
         raise
 
 def convert_gdp_to_numeric(gdp_str):

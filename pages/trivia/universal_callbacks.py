@@ -1,14 +1,15 @@
 """
 Universal quiz callbacks that work across all quiz pages.
 """
-
+import logging
 import time
+import traceback
 from dash import Input, Output, State, callback_context
 import dash.exceptions
 from utils.quiz_generators import get_quiz_questions, QUIZ_TYPE_LABEL
-from utils.math_quiz_generators import get_math_quiz_questions, MATH_QUIZ_TYPE_LABEL
 from utils.quiz_stats import quiz_stats
 from .quiz_components import create_progress_bar, create_question_layout
+
 
 NUM_OF_QUESTIONS = 20
 
@@ -28,13 +29,13 @@ def register_universal_username_modal_callbacks(app):
          Input('start-physical-geography-quiz','n_clicks'),
          Input('start-india-capital-quiz','n_clicks'),
          Input('start-us-capital-quiz', 'n_clicks'),
-         Input('start-k5-math-quiz', 'n_clicks'),
          Input('start-biology-quiz', 'n_clicks'),
          Input('start-chemistry-quiz', 'n_clicks'),
          Input('start-physics-quiz', 'n_clicks'),
          Input('start-astronomy-quiz', 'n_clicks'),
          Input('start-earth-science-quiz', 'n_clicks'),
-         Input('start-technology-quiz', 'n_clicks')],
+         Input('start-technology-quiz', 'n_clicks'),
+         Input('start-leaders-quiz','n_clicks')],
         [State('username-store', 'data'),
          State('pending-quiz-store', 'data')],
         prevent_initial_call=True,
@@ -43,7 +44,6 @@ def register_universal_username_modal_callbacks(app):
     def show_universal_username_modal(*args):
         # Last two are states, rest are inputs
         *temp, username_store_data, pending_quiz_store_data = args if len(args) >= 2 else (None, None)
-        
         ctx = callback_context
         if not ctx.triggered:
             raise dash.exceptions.PreventUpdate
@@ -60,19 +60,20 @@ def register_universal_username_modal_callbacks(app):
                 'start-capital-quiz': 'capital',
                 'start-continent-quiz': 'continent',
                 'start-flag-quiz': 'flag',
-                'start-physical-geography-quiz': 'world_physical_geography',
+                'start-physical-geography-quiz': 'physical',
                 'start-india-capital-quiz': 'india_capital',
                 'start-us-capital-quiz': 'us_capital',
-                'start-k5-math-quiz': 'k5_math',
                 'start-biology-quiz': 'biology',
                 'start-chemistry-quiz': 'chemistry',
                 'start-physics-quiz': 'physics',
                 'start-astronomy-quiz': 'astronomy',
                 'start-earth-science-quiz': 'earth_science',
-                'start-technology-quiz': 'technology'
+                'start-technology-quiz': 'technology',
+                'start-leaders-quiz':'famous_people'
             }
             
             quiz_type = quiz_type_mapping.get(triggered_id)
+            logging.debug("Quiz Type: %s",quiz_type)
             if quiz_type:
                 # Show modal
                 current_username = username_store_data.get('username', '')
@@ -133,24 +134,28 @@ def register_universal_username_modal_callbacks(app):
             raise dash.exceptions.PreventUpdate
 
         quiz_type = pending_quiz['quiz_type']
+        logging.debug("Getting quiz types questions for %s",quiz_type)
         
         # Use entered username or default to anonymous_user
         username = username_input.strip() if username_input and username_input.strip() else 'anonymous_user'
         
-        # Get quiz questions - handle math vs regular quizzes vs science quizzes
-        if quiz_type == 'k5_math':
-            questions = get_math_quiz_questions(quiz_type, None, 10)  # Math quizzes use 10 questions
-            quiz_type_display = MATH_QUIZ_TYPE_LABEL[quiz_type]
-        else:
-            # For all other quiz types including biology and chemistry
-            questions = get_quiz_questions(quiz_type, None, NUM_OF_QUESTIONS)
-            quiz_type_display = QUIZ_TYPE_LABEL.get(quiz_type, f"{quiz_type.capitalize()} Quiz")
+        #Get Questions from DB
+        questions = get_quiz_questions(quiz_type, None, NUM_OF_QUESTIONS)
+        logging.debug("Questions fetched successfully for quiztype: %s",quiz_type)
+        quiz_type_display = QUIZ_TYPE_LABEL.get(quiz_type, f"{quiz_type.capitalize()} Quiz")
 
         # Start a new quiz session for analytics with the username
-        session_id = quiz_stats.start_quiz_session(
-            session_name=f"{quiz_type_display}", 
-            user_id=username
-        )
+        try:
+            session_id = quiz_stats.start_quiz_session(
+                session_name=f"{quiz_type_display}", 
+                user_id=username
+            )
+            logging.info("Successfully started session: %s for user: %s, quiz_type: %s", session_id, username, quiz_type)
+        except Exception as e:
+            logging.error("Error starting quiz session: %s", e)
+            logging.error("Traceback: %s", traceback.format_exc())
+            # Create a fallback session_id to prevent crashes
+            session_id = None
         
         question_data = questions[0]
         new_data = {

@@ -7,10 +7,11 @@ including daily stats, rollover functionality, and performance analytics.
 """
 
 import sqlite3
-from datetime import datetime, date, timedelta
-from typing import Dict, List, Optional, Tuple
+from datetime import date, timedelta,timezone, datetime
+from typing import Dict, List
 from dataclasses import dataclass
-import json
+import logging
+import uuid
 
 @dataclass
 class QuizStats:
@@ -29,6 +30,7 @@ class QuizStatsManager:
     """
     
     def __init__(self, db_path: str = "data/quiz_database.db"):
+        logging.debug("Setting DB path as: %s",db_path)
         self.db_path = db_path
         self.init_stats_tables()
     
@@ -149,8 +151,7 @@ class QuizStatsManager:
             session_id: Optional session identifier
             user_answer: The answer provided by the user
         """
-        # Use UTC date to be consistent with database timestamps
-        from datetime import datetime, timezone
+     
         today = datetime.now(timezone.utc).date().isoformat()
         
         with self.get_connection() as conn:
@@ -215,8 +216,6 @@ class QuizStatsManager:
             Dictionary containing daily stats
         """
         if date_str is None:
-            # Use UTC date since database stores UTC timestamps
-            from datetime import datetime, timezone
             date_str = datetime.now(timezone.utc).date().isoformat()
         
         with self.get_connection() as conn:
@@ -430,7 +429,6 @@ class QuizStatsManager:
         Returns:
             String session ID
         """
-        import uuid
         session_id = str(uuid.uuid4())
         
         with self.get_connection() as conn:
