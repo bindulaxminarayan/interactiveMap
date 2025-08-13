@@ -140,7 +140,7 @@ def register_universal_username_modal_callbacks(app):
         username = username_input.strip() if username_input and username_input.strip() else 'anonymous_user'
         
         #Get Questions from DB
-        questions = get_quiz_questions(quiz_type, None, NUM_OF_QUESTIONS)
+        questions = get_quiz_questions(quiz_type, NUM_OF_QUESTIONS)
         logging.debug("Questions fetched successfully for quiztype: %s",quiz_type)
         quiz_type_display = QUIZ_TYPE_LABEL.get(quiz_type, f"{quiz_type.capitalize()} Quiz")
 
