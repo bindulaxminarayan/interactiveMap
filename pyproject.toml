@@ -7,3 +7,12 @@ dependencies = [
     "pandas",
     "plotly"
 ]
+[tool.pytest.ini_options]
+# Look for tests in the 'tests' directory
+testpaths = ["tests"]
+
+# Tell pytest where to find your app's source code
+pythonpath = ["."]
+
+# Add common options, e.g., show a short summary for test results
+addopts = "-ra"

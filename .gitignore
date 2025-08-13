@@ -10,3 +10,6 @@ pages/mathematics/__pycache__/
 pages/science/__pycache__/
 pages/sports/__pycache__/
 utils/__pycache__/
+components/__pycache__/
+tests/__pycache__/
+tests/unit/utils/__pycache__

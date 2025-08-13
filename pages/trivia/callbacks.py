@@ -50,10 +50,10 @@ def register_trivia_callbacks(app):
         #     quiz_type_display = MATH_QUIZ_TYPE_LABEL[quiz_type]
         # elif 
         if quiz_type in QUIZ_TYPE_LABEL:
-            questions = get_quiz_questions(quiz_type, None, NUM_OF_QUESTIONS)
+            questions = get_quiz_questions(quiz_type, NUM_OF_QUESTIONS)
             quiz_type_display = QUIZ_TYPE_LABEL[quiz_type]
         else:
-            questions = get_quiz_questions(quiz_type, None, NUM_OF_QUESTIONS)
+            questions = get_quiz_questions(quiz_type, NUM_OF_QUESTIONS)
             quiz_type_display = f"{quiz_type.capitalize()} Quiz" # Fallback just in case
         
         # Use stored username
