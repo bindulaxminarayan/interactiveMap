@@ -16,7 +16,8 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 COPY . /app
 
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen --no-dev
+    uv sync --frozen --no-dev && \
+    uv pip install gunicorn
 
 FROM python:3.13-slim
 COPY --from=builder /app /app
@@ -25,4 +26,4 @@ ENV PATH="/app/.venv/bin:$PATH"
 ENV PYTHONPATH=/app
 ENV PYTHONUNBUFFERED=1
 EXPOSE 8050
-CMD ["python", "app.py"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8050", "app:server"]
