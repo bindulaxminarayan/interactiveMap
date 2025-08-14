@@ -23,7 +23,7 @@ Complete geography challenges with 8 quiz types:
 - **India State Capitals**: Match Indian states with capitals
 - **US State Capitals**: Match US states with capitals
 #### History Quizzes
-- **Famous**: Famous leaders, influencers
+- **Leaders**: Famous leaders, influencers
 #### Science Quizzes
 - **Biology**: Life sciences and living organisms
 - **Chemistry**: Elements and Chemical Reactions
