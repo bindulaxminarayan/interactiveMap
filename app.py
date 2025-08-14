@@ -6,7 +6,7 @@ import logging
 from urllib.parse import parse_qs
 import dash
 from dash import html, dcc, Input, Output
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.ERROR)
 
 # Import page modules
 from pages.explore import get_explore_layout, register_explore_callbacks

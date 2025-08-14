@@ -518,7 +518,8 @@ class QuizStatsManager:
                 SELECT * FROM session_stats WHERE session_id = ?
             """, (session_id,))
             
-            session_stats = dict(cursor.fetchone()) if cursor.fetchone() else None
+            result = cursor.fetchone()
+            session_stats = dict(result) if result else None
             
             conn.commit()
             
