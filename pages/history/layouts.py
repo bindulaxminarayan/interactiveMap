@@ -7,7 +7,7 @@ from pages.trivia.ui_components import create_quiz_layout_structure
 # History quiz cards
 HISTORY_QUIZ_CARDS = [
     {
-        "title": "Famous",
+        "title": "Leaders",
         "emoji": "👑",
         "description": "Historical leaders and rulers, influencers",
         "button_id": "start-leaders-quiz"

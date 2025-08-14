@@ -4,7 +4,7 @@ Dash callbacks for the trivia module.
 import time
 import logging
 import traceback
-from dash import Input, Output, State, callback_context
+from dash import html, Input, Output, State, callback_context
 import dash.exceptions
 from utils.quiz_generators import get_quiz_questions,QUIZ_TYPE_LABEL
 from utils.quiz_stats import quiz_stats
@@ -156,19 +156,29 @@ def register_trivia_callbacks(app):
                     logging.error("Error recording quiz answer: %s", e)
                     logging.error("Traceback: %s", traceback.format_exc())
 
-            # Create feedback
-            fun_fact = question_data.get('fun_fact', '')
-            feedback = create_feedback_message(
-                is_correct,
-                question_data['options'][question_data['correct']],
-                fun_fact
-            )
-
-            # Create layout with visual feedback
+            # Create layout with visual feedback (fun fact is built into layout, but we need feedback below)
             layout = create_question_layout(question_data, current_index, len(questions),
                                           selected_answer=clicked_index, is_answered=True)
 
-            # Find and update the feedback div
+            # Create the correct/incorrect feedback for below the options
+            is_correct = clicked_index == question_data['correct']
+            correct_answer = question_data['options'][question_data['correct']]
+            
+            feedback_content = []
+            if is_correct:
+                feedback_content.append(
+                    html.P("✅ Correct!", style={'fontWeight': 'bold', 'color': '#28a745', 'fontSize': '24px', 'textAlign': 'center', 'margin': '0 0 10px 0'})
+                )
+            else:
+                feedback_content.extend([
+                    html.P("❌ Incorrect!", style={'fontWeight': 'bold', 'color': '#dc3545', 'fontSize': '24px', 'textAlign': 'center', 'margin': '0 0 5px 0'}),
+                    html.P(f"The correct answer is: {correct_answer}", 
+                           style={'fontWeight': 'bold', 'color': '#007bff', 'fontSize': '18px', 'textAlign': 'center', 'margin': '0 0 10px 0'})
+                ])
+            
+            feedback = html.Div(feedback_content)
+            
+            # Find and update the feedback div below the options
             for i, child in enumerate(layout.children):
                 if hasattr(child, 'id') and child.id == 'question-feedback':
                     layout.children[i] = feedback

@@ -82,7 +82,6 @@ def create_progress_bar(current_question, total_questions, show_next_button=Fals
         'padding': '15px',
         'backgroundColor': '#f8f9fa',
         'borderRadius': '8px',
-        'marginBottom': '15px',
         'border': '1px solid #dee2e6'
     })
 
@@ -262,6 +261,25 @@ def create_question_layout(question_data, question_index, total_questions, selec
     # Check for generic image (for future extensibility)
     if 'image' in question_data and question_data['image'] and not image_added:
         content.append(create_question_image(question_data['image'], 'default'))
+    
+    # Add fun fact if available (above options, after user answers)
+    fun_fact = question_data.get('fun_fact', '')
+    if fun_fact and fun_fact.strip() and is_answered:
+        content.append(html.Div([
+            html.P(f"💡 Fun Fact: {fun_fact}", 
+                  style={
+                      'color': '#6f42c1', 
+                      'fontSize': '16px', 
+                      'fontStyle': 'italic',
+                      'textAlign': 'left',
+                      'backgroundColor': '#f8f9fa',
+                      'padding': '12px',
+                      'borderRadius': '6px',
+                      'border': '1px solid #dee2e6',
+                      'marginBottom': '15px',
+                      'lineHeight': '1.4'
+                  })
+        ]))
     
     # Add answer buttons
     content.append(html.Div(answer_buttons))

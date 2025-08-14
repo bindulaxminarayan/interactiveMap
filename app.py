@@ -109,7 +109,7 @@ app.clientside_callback(
                         'us_capital': 'US States',
                         'biology': 'Biology',
                         'chemistry': 'Chemistry',
-                        'famous_people':'Famous'
+                        'famous_people':'Leaders'
                     };
                     
                     var subcategory = quiz_type_mapping[quiz_type] || quiz_type.charAt(0).toUpperCase() + quiz_type.slice(1);
