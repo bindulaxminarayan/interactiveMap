@@ -149,3 +149,60 @@ The application includes utilities for database management:
 - **Data Import**: CSV to SQLite conversion utilities
 - **Cleanup Tools**: Remove old data and optimize performance
 - **Statistics Rollover**: Weekly aggregation for long-term analysis
+
+## Testing
+
+QuizVerse includes comprehensive testing to ensure reliability and functionality.
+
+### Unit Tests
+Located in `tests/unit/`, these tests cover core functionality:
+```bash
+# Run unit tests
+pytest tests/unit/
+
+# Run with coverage
+pytest tests/unit/ --cov=utils --cov=components
+```
+
+### UI Tests (End-to-End)
+Located in `tests/uitests/`, these Playwright-based tests validate the user interface:
+
+#### Setup UI Tests
+```bash
+# Install test dependencies (try these options in order)
+pip install -e ".[test]"
+
+# If you get package discovery errors, install directly:
+pip install pytest>=7.0.0 pytest-playwright>=0.4.0 playwright>=1.40.0 pytest-asyncio>=0.21.0
+
+# Install Playwright browsers
+playwright install chromium
+```
+
+#### Run UI Tests
+```bash
+# Run all UI tests
+pytest tests/uitests/
+
+# Run with our helper script
+python tests/uitests/run_tests.py
+
+# Run with visible browser (for debugging)
+python tests/uitests/run_tests.py --headful --verbose
+
+# Run only category validation tests
+python tests/uitests/run_tests.py --category
+
+# Generate HTML report
+python tests/uitests/run_tests.py --report
+```
+
+#### UI Test Coverage
+- **Category Validation**: Quiz category presence and functionality
+- **Quiz Type Testing**: Validation of quiz types within each category  
+- **User Interaction Flow**: Complete quiz selection and start process
+- **Responsive Design**: Testing across different screen sizes
+- **Keyboard Navigation**: Accessibility and keyboard interaction
+- **Error Handling**: Graceful handling of edge cases
+
+For detailed UI testing information, see [`tests/uitests/README.md`](tests/uitests/README.md).

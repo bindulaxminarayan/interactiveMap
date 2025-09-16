@@ -13,3 +13,4 @@ utils/__pycache__/
 components/__pycache__/
 tests/__pycache__/
 tests/unit/utils/__pycache__
+tests/uitests/__pycache__
