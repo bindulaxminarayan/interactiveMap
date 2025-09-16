@@ -175,4 +175,5 @@ if __name__ == '__main__':
     logging.info("--- Starting Dash server... ---")
     app.run(host='0.0.0.0', port=8050)
 else:
-    logging.error("--- SCRIPT WAS IMPORTED, NOT RUN DIRECTLY. (__name__ is '%s') ---", __name__)
+    # When imported (e.g., for testing), just log that it was imported
+    logging.info("--- App module imported. Server not started automatically. (__name__ is '%s') ---", __name__)

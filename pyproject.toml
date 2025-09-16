@@ -7,6 +7,25 @@ dependencies = [
     "pandas",
     "plotly"
 ]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0.0",
+    "pytest-playwright>=0.4.0",
+    "playwright>=1.40.0",
+    "pytest-asyncio>=0.21.0"
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["components*", "pages*", "utils*"]
+exclude = ["tests*", "data*", "assets*", "pictures*", "db*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.html", "*.css", "*.js", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.svg"]
 [tool.pytest.ini_options]
 # Look for tests in the 'tests' directory
 testpaths = ["tests"]
