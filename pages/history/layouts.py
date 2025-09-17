@@ -15,9 +15,8 @@ HISTORY_QUIZ_CARDS = [
     {
         "title": "World History",
         "emoji": "🌍",
-        "description": "Major world historical events",
-        "button_id": "start-world-history-quiz",
-        "is_disabled": True
+        "description": "World historical events",
+        "button_id": "start-world-history-quiz"
     },
     {
         "title": "Ancient Civilizations",
