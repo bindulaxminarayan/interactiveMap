@@ -35,7 +35,8 @@ def register_universal_username_modal_callbacks(app):
          Input('start-astronomy-quiz', 'n_clicks'),
          Input('start-earth-science-quiz', 'n_clicks'),
          Input('start-technology-quiz', 'n_clicks'),
-         Input('start-leaders-quiz','n_clicks')],
+         Input('start-leaders-quiz','n_clicks'),
+         Input('start-world-history-quiz','n_clicks')],
         [State('username-store', 'data'),
          State('pending-quiz-store', 'data')],
         prevent_initial_call=True,
@@ -69,7 +70,8 @@ def register_universal_username_modal_callbacks(app):
                 'start-astronomy-quiz': 'astronomy',
                 'start-earth-science-quiz': 'earth_science',
                 'start-technology-quiz': 'technology',
-                'start-leaders-quiz':'famous_people'
+                'start-leaders-quiz':'famous_people',
+                'start-world-history-quiz':'world_history'
             }
             
             quiz_type = quiz_type_mapping.get(triggered_id)

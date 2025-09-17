@@ -29,6 +29,7 @@ QUIZ_CONFIG = {
     
     # History quizzes
     'famous_people': {'category': 'history', 'subcategory': 'famous_people', 'image_folder': 'famous'},
+    'world_history':{'category': 'history', 'subcategory': 'world_history'}
 }
 
 # Display labels for quiz types
@@ -47,7 +48,8 @@ QUIZ_TYPE_LABEL = {
     "astronomy": "Astronomy",
     "earth_science": "Earth Science",
     "technology": "Technology",
-    "famous_people": "Famous People"
+    "famous_people": "Famous People",
+    "world_history": "World History"
 }
 
 
@@ -209,6 +211,7 @@ def get_quiz_questions(quiz_type: str, num_questions: int = 10, exclude_ids: Lis
     
     # Fetch questions from database, excluding specified IDs
     question_rows = _fetch_questions_from_db(category, subcategory, num_questions, exclude_ids)
+    logging.info("Fetched questions from db: %s",len(question_rows))
     
     # Format and return questions
     return _format_questions_normalized(question_rows, config)
