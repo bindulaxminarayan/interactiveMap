@@ -91,6 +91,7 @@ def create_hidden_elements():
         html.Button("Earth Science", id='start-earth-science-quiz', style={'display': 'none'}),
         html.Button("Technology", id='start-technology-quiz', style={'display': 'none'}),
         html.Button("Leaders", id='start-leaders-quiz', style={'display': 'none'}),
+        html.Button("World History", id='start-world-history-quiz', style={'display': 'none'}),
     ], id='hidden-elements-container', style={'display': 'none'})
 
 def create_quiz_button(text, button_id, style_type="primary", margin_right="0px"):
